@@ -1,2 +1,1 @@
-# v20-javascript
-OANDA v20 bindings for Javascript
+src/README.md
