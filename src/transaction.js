@@ -706,7 +706,7 @@ const ClientConfigureRejectTransaction_Properties = [
         "Reject Reason",
         "The reason that the Reject Transaction was created",
         'primitive',
-        'string'
+        'transaction.TransactionRejectReason'
     ),
 ];
 
@@ -812,21 +812,21 @@ const TransferFundsTransaction_Properties = [
         "Transfer Amount",
         "The amount to deposit/withdraw from the Account in the Account's home currency. A positive value indicates a deposit, a negative value indicates a withdrawal.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'fundingReason',
         "Reason",
         "The reason that an Account is being funded.",
         'primitive',
-        'account.FundingReason'
+        'transaction.FundingReason'
     ),
     new Property(
         'accountBalance',
         "Account Balance",
         "The Account's balance after funds are transferred.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
 ];
 
@@ -932,21 +932,21 @@ const TransferFundsRejectTransaction_Properties = [
         "Transfer Amount",
         "The amount to deposit/withdraw from the Account in the Account's home currency. A positive value indicates a deposit, a negative value indicates a withdrawal.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'fundingReason',
         "Reason",
         "The reason that an Account is being funded.",
         'primitive',
-        'account.FundingReason'
+        'transaction.FundingReason'
     ),
     new Property(
         'rejectReason',
         "Reject Reason",
         "The reason that the Reject Transaction was created",
         'primitive',
-        'string'
+        'transaction.TransactionRejectReason'
     ),
 ];
 
@@ -1057,7 +1057,7 @@ const MarketOrderTransaction_Properties = [
     new Property(
         'units',
         "Amount",
-        "The quantity requested to be filled by the Market Order.",
+        "The quantity requested to be filled by the Market Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
         'primitive',
         'primitives.DecimalNumber'
     ),
@@ -1104,9 +1104,23 @@ const MarketOrderTransaction_Properties = [
         'transaction.MarketOrderPositionCloseout'
     ),
     new Property(
+        'marginCloseout',
+        "Margin Closeout Details",
+        "Details of the Margin Closeout that this Market Order was created for",
+        'object',
+        'transaction.MarketOrderMarginCloseout'
+    ),
+    new Property(
+        'delayedTradeClose',
+        "Delayed Trade Close Details",
+        "Details of the delayed Trade close that this Market Order was created for",
+        'object',
+        'transaction.MarketOrderDelayedTradeClose'
+    ),
+    new Property(
         'reason',
         "Reason",
-        "The reason that the Market Order was initiated",
+        "The reason that the Market Order was created",
         'primitive',
         'transaction.MarketOrderReason'
     ),
@@ -1224,6 +1238,14 @@ class MarketOrderTransaction extends Definition {
             this.shortPositionCloseout = new MarketOrderPositionCloseout(data['shortPositionCloseout']);
         }
 
+        if (data['marginCloseout'] !== undefined) {
+            this.marginCloseout = new MarketOrderMarginCloseout(data['marginCloseout']);
+        }
+
+        if (data['delayedTradeClose'] !== undefined) {
+            this.delayedTradeClose = new MarketOrderDelayedTradeClose(data['delayedTradeClose']);
+        }
+
         if (data['reason'] !== undefined) {
             this.reason = data['reason'];
         }
@@ -1304,7 +1326,7 @@ const MarketOrderRejectTransaction_Properties = [
     new Property(
         'units',
         "Amount",
-        "The quantity requested to be filled by the Market Order.",
+        "The quantity requested to be filled by the Market Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
         'primitive',
         'primitives.DecimalNumber'
     ),
@@ -1351,9 +1373,23 @@ const MarketOrderRejectTransaction_Properties = [
         'transaction.MarketOrderPositionCloseout'
     ),
     new Property(
+        'marginCloseout',
+        "Margin Closeout Details",
+        "Details of the Margin Closeout that this Market Order was created for",
+        'object',
+        'transaction.MarketOrderMarginCloseout'
+    ),
+    new Property(
+        'delayedTradeClose',
+        "Delayed Trade Close Details",
+        "Details of the delayed Trade close that this Market Order was created for",
+        'object',
+        'transaction.MarketOrderDelayedTradeClose'
+    ),
+    new Property(
         'reason',
         "Reason",
-        "The reason that the Market Order was initiated",
+        "The reason that the Market Order was created",
         'primitive',
         'transaction.MarketOrderReason'
     ),
@@ -1397,7 +1433,7 @@ const MarketOrderRejectTransaction_Properties = [
         "Reject Reason",
         "The reason that the Reject Transaction was created",
         'primitive',
-        'string'
+        'transaction.TransactionRejectReason'
     ),
 ];
 
@@ -1476,6 +1512,14 @@ class MarketOrderRejectTransaction extends Definition {
 
         if (data['shortPositionCloseout'] !== undefined) {
             this.shortPositionCloseout = new MarketOrderPositionCloseout(data['shortPositionCloseout']);
+        }
+
+        if (data['marginCloseout'] !== undefined) {
+            this.marginCloseout = new MarketOrderMarginCloseout(data['marginCloseout']);
+        }
+
+        if (data['delayedTradeClose'] !== undefined) {
+            this.delayedTradeClose = new MarketOrderDelayedTradeClose(data['delayedTradeClose']);
         }
 
         if (data['reason'] !== undefined) {
@@ -1562,7 +1606,7 @@ const LimitOrderTransaction_Properties = [
     new Property(
         'units',
         "Amount",
-        "The quantity requested to be filled by the Limit Order.",
+        "The quantity requested to be filled by the Limit Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
         'primitive',
         'primitives.DecimalNumber'
     ),
@@ -1809,7 +1853,7 @@ const LimitOrderRejectTransaction_Properties = [
     new Property(
         'units',
         "Amount",
-        "The quantity requested to be filled by the Limit Order.",
+        "The quantity requested to be filled by the Limit Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
         'primitive',
         'primitives.DecimalNumber'
     ),
@@ -1895,7 +1939,7 @@ const LimitOrderRejectTransaction_Properties = [
         "Reject Reason",
         "The reason that the Reject Transaction was created",
         'primitive',
-        'string'
+        'transaction.TransactionRejectReason'
     ),
 ];
 
@@ -2056,7 +2100,7 @@ const StopOrderTransaction_Properties = [
     new Property(
         'units',
         "Amount",
-        "The quantity requested to be filled by the Stop Order.",
+        "The quantity requested to be filled by the Stop Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
         'primitive',
         'primitives.DecimalNumber'
     ),
@@ -2314,7 +2358,7 @@ const StopOrderRejectTransaction_Properties = [
     new Property(
         'units',
         "Amount",
-        "The quantity requested to be filled by the Stop Order.",
+        "The quantity requested to be filled by the Stop Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
         'primitive',
         'primitives.DecimalNumber'
     ),
@@ -2407,7 +2451,7 @@ const StopOrderRejectTransaction_Properties = [
         "Reject Reason",
         "The reason that the Reject Transaction was created",
         'primitive',
-        'string'
+        'transaction.TransactionRejectReason'
     ),
 ];
 
@@ -2572,7 +2616,7 @@ const MarketIfTouchedOrderTransaction_Properties = [
     new Property(
         'units',
         "Amount",
-        "The quantity requested to be filled by the MarketIfTouched Order.",
+        "The quantity requested to be filled by the MarketIfTouched Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
         'primitive',
         'primitives.DecimalNumber'
     ),
@@ -2841,7 +2885,7 @@ const MarketIfTouchedOrderRejectTransaction_Properties = [
     new Property(
         'units',
         "Amount",
-        "The quantity requested to be filled by the MarketIfTouched Order.",
+        "The quantity requested to be filled by the MarketIfTouched Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
         'primitive',
         'primitives.DecimalNumber'
     ),
@@ -2941,7 +2985,7 @@ const MarketIfTouchedOrderRejectTransaction_Properties = [
         "Reject Reason",
         "The reason that the Reject Transaction was created",
         'primitive',
-        'string'
+        'transaction.TransactionRejectReason'
     ),
 ];
 
@@ -3368,7 +3412,7 @@ const TakeProfitOrderRejectTransaction_Properties = [
         "Reject Reason",
         "The reason that the Reject Transaction was created",
         'primitive',
-        'string'
+        'transaction.TransactionRejectReason'
     ),
 ];
 
@@ -3768,7 +3812,7 @@ const StopLossOrderRejectTransaction_Properties = [
         "Reject Reason",
         "The reason that the Reject Transaction was created",
         'primitive',
-        'string'
+        'transaction.TransactionRejectReason'
     ),
 ];
 
@@ -4168,7 +4212,7 @@ const TrailingStopLossOrderRejectTransaction_Properties = [
         "Reject Reason",
         "The reason that the Reject Transaction was created",
         'primitive',
-        'string'
+        'transaction.TransactionRejectReason'
     ),
 ];
 
@@ -4347,21 +4391,21 @@ const OrderFillTransaction_Properties = [
         "Profit/Loss",
         "The profit or loss incurred when the Order was filled.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'financing',
         "Financing",
         "The financing paid or collected when the Order was filled.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'accountBalance',
         "Account Balance",
         "The Account's balance after the Order was filled.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'tradeOpened',
@@ -4706,7 +4750,7 @@ const OrderCancelRejectTransaction_Properties = [
         "Reject Reason",
         "The reason that the Reject Transaction was created",
         'primitive',
-        'string'
+        'transaction.TransactionRejectReason'
     ),
 ];
 
@@ -4975,7 +5019,7 @@ const OrderClientExtensionsModifyRejectTransaction_Properties = [
         "Reject Reason",
         "The reason that the Reject Transaction was created",
         'primitive',
-        'string'
+        'transaction.TransactionRejectReason'
     ),
 ];
 
@@ -5230,7 +5274,7 @@ const TradeClientExtensionsModifyRejectTransaction_Properties = [
         "Reject Reason",
         "The reason that the Reject Transaction was created",
         'primitive',
-        'string'
+        'transaction.TransactionRejectReason'
     ),
 ];
 
@@ -5564,6 +5608,101 @@ class MarginCallExitTransaction extends Definition {
     }
 }
 
+const DelayedTradeClosureTransaction_Properties = [
+    new Property(
+        'id',
+        "Transaction ID",
+        "The Transaction's Identifier.",
+        'primitive',
+        'transaction.TransactionID'
+    ),
+    new Property(
+        'time',
+        "Time",
+        "The date/time when the Transaction was created.",
+        'primitive',
+        'primitives.DateTime'
+    ),
+    new Property(
+        'userID',
+        "User ID",
+        "The ID of the user that initiated the creation of the Transaction.",
+        'primitive',
+        'integer'
+    ),
+    new Property(
+        'accountID',
+        "Account ID",
+        "The ID of the Account the Transaction was created for.",
+        'primitive',
+        'account.AccountID'
+    ),
+    new Property(
+        'batchID',
+        "Transaction Batch ID",
+        "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
+        'primitive',
+        'transaction.TransactionID'
+    ),
+    new Property(
+        'reason',
+        "Reason",
+        "The reason for the delayed trade closure",
+        'primitive',
+        'transaction.MarketOrderReason'
+    ),
+    new Property(
+        'tradeIDs',
+        "Trade ID's",
+        "List of Trade ID's identifying the open trades that will be closed when their respective instruments become tradeable",
+        'primitive',
+        'trade.TradeID'
+    ),
+];
+
+class DelayedTradeClosureTransaction extends Definition {
+    constructor(data) {
+        super();
+
+        this._summaryFormat = "Delayed Trade Closure";
+
+        this._nameFormat = "Transaction {id}";
+
+        this._properties = DelayedTradeClosureTransaction_Properties;
+
+        data = data || {};
+
+        if (data['id'] !== undefined) {
+            this.id = data['id'];
+        }
+
+        if (data['time'] !== undefined) {
+            this.time = data['time'];
+        }
+
+        if (data['userID'] !== undefined) {
+            this.userID = data['userID'];
+        }
+
+        if (data['accountID'] !== undefined) {
+            this.accountID = data['accountID'];
+        }
+
+        if (data['batchID'] !== undefined) {
+            this.batchID = data['batchID'];
+        }
+
+        if (data['reason'] !== undefined) {
+            this.reason = data['reason'];
+        }
+
+        if (data['tradeIDs'] !== undefined) {
+            this.tradeIDs = data['tradeIDs'];
+        }
+
+    }
+}
+
 const DailyFinancingTransaction_Properties = [
     new Property(
         'id',
@@ -5612,14 +5751,14 @@ const DailyFinancingTransaction_Properties = [
         "Financing",
         "The amount of financing paid/collected for the Account.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'accountBalance',
         "Account Balance",
         "The Account's balance after daily financing.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'accountFinancingMode',
@@ -6099,14 +6238,14 @@ const TradeReduce_Properties = [
         "Profit/Loss",
         "The PL realized when reducing the Trade",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'financing',
         "Financing",
         "The financing paid/collected when reducing the Trade",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
 ];
 
@@ -6187,6 +6326,86 @@ class MarketOrderTradeClose extends Definition {
 
         if (data['units'] !== undefined) {
             this.units = data['units'];
+        }
+
+    }
+}
+
+const MarketOrderMarginCloseout_Properties = [
+    new Property(
+        'reason',
+        "Reason",
+        "The reason the Market Order was created to perform a margin closeout",
+        'primitive',
+        'transaction.MarketOrderMarginCloseoutReason'
+    ),
+];
+
+class MarketOrderMarginCloseout extends Definition {
+    constructor(data) {
+        super();
+
+        this._summaryFormat = "";
+
+        this._nameFormat = "";
+
+        this._properties = MarketOrderMarginCloseout_Properties;
+
+        data = data || {};
+
+        if (data['reason'] !== undefined) {
+            this.reason = data['reason'];
+        }
+
+    }
+}
+
+const MarketOrderDelayedTradeClose_Properties = [
+    new Property(
+        'tradeID',
+        "Trade ID",
+        "The ID of the Trade being closed",
+        'primitive',
+        'trade.TradeID'
+    ),
+    new Property(
+        'clientTradeID',
+        "Client Trade ID",
+        "The Client ID of the Trade being closed",
+        'primitive',
+        'trade.TradeID'
+    ),
+    new Property(
+        'sourceTransactionID',
+        "Source Transaction ID",
+        "The Transaction ID of the DelayedTradeClosure transaction to which this Delayed Trade Close belongs to",
+        'primitive',
+        'transaction.TransactionID'
+    ),
+];
+
+class MarketOrderDelayedTradeClose extends Definition {
+    constructor(data) {
+        super();
+
+        this._summaryFormat = "";
+
+        this._nameFormat = "";
+
+        this._properties = MarketOrderDelayedTradeClose_Properties;
+
+        data = data || {};
+
+        if (data['tradeID'] !== undefined) {
+            this.tradeID = data['tradeID'];
+        }
+
+        if (data['clientTradeID'] !== undefined) {
+            this.clientTradeID = data['clientTradeID'];
+        }
+
+        if (data['sourceTransactionID'] !== undefined) {
+            this.sourceTransactionID = data['sourceTransactionID'];
         }
 
     }
@@ -6365,7 +6584,7 @@ const OpenTradeFinancing_Properties = [
         "Financing",
         "The amount of financing paid/collected for the Trade.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
 ];
 
@@ -6405,7 +6624,7 @@ const PositionFinancing_Properties = [
         "Financing",
         "The amount of financing paid/collected for the Position.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'openTradeFinancings',
@@ -6438,75 +6657,6 @@ class PositionFinancing extends Definition {
 
         if (data['openTradeFinancings'] !== undefined) {
             this.openTradeFinancings = data['openTradeFinancings'].map(x => new OpenTradeFinancing(x));
-        }
-
-    }
-}
-
-const TransactionStream_Properties = [
-    new Property(
-        'transaction',
-        "Transaction",
-        "An Account Transaction in the Transaction stream",
-        'object',
-        'transaction.Transaction'
-    ),
-    new Property(
-        'heartbeat',
-        "Heartbeat",
-        "A Heartbeat message in the Transaction stream",
-        'object',
-        'transaction.Heartbeat'
-    ),
-];
-
-class TransactionStream extends Definition {
-    constructor(data) {
-        super();
-
-        this._summaryFormat = "";
-
-        this._nameFormat = "";
-
-        this._properties = TransactionStream_Properties;
-
-        data = data || {};
-
-        if (data['transaction'] !== undefined) {
-            this.transaction = Transaction.create(data['transaction']);
-        }
-
-        if (data['heartbeat'] !== undefined) {
-            this.heartbeat = new Heartbeat(data['heartbeat']);
-        }
-
-    }
-}
-
-const Heartbeat_Properties = [
-    new Property(
-        'time',
-        "Time",
-        "The date/time when the Heartbeat was created.",
-        'primitive',
-        'primitives.DateTime'
-    ),
-];
-
-class Heartbeat extends Definition {
-    constructor(data) {
-        super();
-
-        this._summaryFormat = "";
-
-        this._nameFormat = "";
-
-        this._properties = Heartbeat_Properties;
-
-        data = data || {};
-
-        if (data['time'] !== undefined) {
-            this.time = data['time'];
         }
 
     }
@@ -6547,6 +6697,7 @@ class EntitySpec {
         this.MarginCallEnterTransaction = MarginCallEnterTransaction;
         this.MarginCallExtendTransaction = MarginCallExtendTransaction;
         this.MarginCallExitTransaction = MarginCallExitTransaction;
+        this.DelayedTradeClosureTransaction = DelayedTradeClosureTransaction;
         this.DailyFinancingTransaction = DailyFinancingTransaction;
         this.ResetResettablePLTransaction = ResetResettablePLTransaction;
         this.ClientExtensions = ClientExtensions;
@@ -6556,14 +6707,14 @@ class EntitySpec {
         this.TradeOpen = TradeOpen;
         this.TradeReduce = TradeReduce;
         this.MarketOrderTradeClose = MarketOrderTradeClose;
+        this.MarketOrderMarginCloseout = MarketOrderMarginCloseout;
+        this.MarketOrderDelayedTradeClose = MarketOrderDelayedTradeClose;
         this.MarketOrderPositionCloseout = MarketOrderPositionCloseout;
         this.VWAPReceipt = VWAPReceipt;
         this.LiquidityRegenerationSchedule = LiquidityRegenerationSchedule;
         this.LiquidityRegenerationScheduleStep = LiquidityRegenerationScheduleStep;
         this.OpenTradeFinancing = OpenTradeFinancing;
         this.PositionFinancing = PositionFinancing;
-        this.TransactionStream = TransactionStream;
-        this.Heartbeat = Heartbeat;
     }
 
     list(
@@ -6635,60 +6786,60 @@ class EntitySpec {
 
                 if (response.statusCode == 400)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 401)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 404)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 405)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 416)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
@@ -6744,36 +6895,36 @@ class EntitySpec {
 
                 if (response.statusCode == 401)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 404)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 405)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
@@ -6839,60 +6990,60 @@ class EntitySpec {
 
                 if (response.statusCode == 400)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 401)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 404)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 405)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 416)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
@@ -6952,60 +7103,60 @@ class EntitySpec {
 
                 if (response.statusCode == 400)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 401)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 404)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 405)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 416)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
@@ -7061,6 +7212,7 @@ exports.TradeClientExtensionsModifyRejectTransaction = TradeClientExtensionsModi
 exports.MarginCallEnterTransaction = MarginCallEnterTransaction;
 exports.MarginCallExtendTransaction = MarginCallExtendTransaction;
 exports.MarginCallExitTransaction = MarginCallExitTransaction;
+exports.DelayedTradeClosureTransaction = DelayedTradeClosureTransaction;
 exports.DailyFinancingTransaction = DailyFinancingTransaction;
 exports.ResetResettablePLTransaction = ResetResettablePLTransaction;
 exports.ClientExtensions = ClientExtensions;
@@ -7070,13 +7222,13 @@ exports.TrailingStopLossDetails = TrailingStopLossDetails;
 exports.TradeOpen = TradeOpen;
 exports.TradeReduce = TradeReduce;
 exports.MarketOrderTradeClose = MarketOrderTradeClose;
+exports.MarketOrderMarginCloseout = MarketOrderMarginCloseout;
+exports.MarketOrderDelayedTradeClose = MarketOrderDelayedTradeClose;
 exports.MarketOrderPositionCloseout = MarketOrderPositionCloseout;
 exports.VWAPReceipt = VWAPReceipt;
 exports.LiquidityRegenerationSchedule = LiquidityRegenerationSchedule;
 exports.LiquidityRegenerationScheduleStep = LiquidityRegenerationScheduleStep;
 exports.OpenTradeFinancing = OpenTradeFinancing;
 exports.PositionFinancing = PositionFinancing;
-exports.TransactionStream = TransactionStream;
-exports.Heartbeat = Heartbeat;
 
 exports.EntitySpec = EntitySpec;

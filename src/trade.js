@@ -66,14 +66,14 @@ const Trade_Properties = [
         "Realized Profit/Loss",
         "The total profit/loss realized on the closed portion of the Trade.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'unrealizedPL',
         "Unrealized Profit/Loss",
         "The unrealized profit/loss on the open portion of the Trade.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'closingTransactionIDs',
@@ -87,7 +87,7 @@ const Trade_Properties = [
         "Financing",
         "The financing paid/collected for this Trade.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'closeTime',
@@ -260,14 +260,14 @@ const TradeSummary_Properties = [
         "Realized Profit/Loss",
         "The total profit/loss realized on the closed portion of the Trade.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'unrealizedPL',
         "Unrealized Profit/Loss",
         "The unrealized profit/loss on the open portion of the Trade.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'closingTransactionIDs',
@@ -281,7 +281,7 @@ const TradeSummary_Properties = [
         "Financing",
         "The financing paid/collected for this Trade.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'closeTime',
@@ -412,7 +412,7 @@ const CalculatedTradeState_Properties = [
         "Trade UPL",
         "The Trade's unrealized profit/loss.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
 ];
 
@@ -499,36 +499,36 @@ class EntitySpec {
 
                 if (response.statusCode == 401)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 404)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 405)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
@@ -582,36 +582,36 @@ class EntitySpec {
 
                 if (response.statusCode == 401)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 404)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 405)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
@@ -667,36 +667,36 @@ class EntitySpec {
 
                 if (response.statusCode == 401)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 404)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 405)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
@@ -775,24 +775,24 @@ class EntitySpec {
                         response.body.orderRejectTransaction = new transaction.MarketOrderRejectTransaction(msg['orderRejectTransaction']);
                     }
 
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 401)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
@@ -803,24 +803,24 @@ class EntitySpec {
                         response.body.orderRejectTransaction = new transaction.MarketOrderRejectTransaction(msg['orderRejectTransaction']);
                     }
 
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 405)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
@@ -895,48 +895,48 @@ class EntitySpec {
                         response.body.lastTransactionID = msg['lastTransactionID'];
                     }
 
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 401)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 404)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 405)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
@@ -1077,48 +1077,48 @@ class EntitySpec {
                         response.body.lastTransactionID = msg['lastTransactionID'];
                     }
 
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 401)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 404)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 405)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }

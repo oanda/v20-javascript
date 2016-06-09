@@ -41,7 +41,7 @@ const Account_Properties = [
         "Balance",
         "The current balance of the Account. Represented in the Account's home currency.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'createdByUserID',
@@ -62,14 +62,14 @@ const Account_Properties = [
         "Profit/Loss",
         "The total profit/loss realized over the lifetime of the Account. Represented in the Account's home currency.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'resettabledPL',
         "Resettable Profit/Loss",
         "The total realized profit/loss for the Account since it was last reset by the client. Represented in the Account's home currency.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'resettabledPLTime',
@@ -139,61 +139,61 @@ const Account_Properties = [
         "Unrealized Profit/Loss",
         "The total unrealized profit/loss for all Trades currently open in the Account. Represented in the Account's home currency.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'NAV',
         "Net Asset Value",
         "The net asset value of the Account. Equal to Account balance + unrealizedPL. Represented in the Account's home currency.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'marginUsed',
         "Margin Used",
         "Margin currently used for the Account. Represented in the Account's home currency.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'marginAvailable',
         "Margin Available",
         "Margin available for Account. Represented in the Account's home currency.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'positionValue',
         "Position Value",
         "The value of the Account's open positions represented in the Account's home currency.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'marginCloseoutUnrealizedPL',
         "Closeout UPL",
         "The Account's margin closeout unrealized PL.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'marginCloseoutNAV',
         "Closeout NAV",
         "The Account's margin closeout NAV.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'marginCloseoutMarginUsed',
         "Closeout Margin Used",
         "The Account's margin closeout margin used.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'marginCloseoutPercent',
         "Margin Closeout Percentage",
-        "The Account's margin closeout closeout percentage. The range of this value is 0.0 to 1.0.",
+        "The Account's margin closeout percentage. When this value is 1.0 or above the Account is in a margin closeout situation.",
         'primitive',
         'primitives.DecimalNumber'
     ),
@@ -202,7 +202,21 @@ const Account_Properties = [
         "Withdrawal Limit",
         "The current WithdrawalLimit for the account which will be zero or a positive value indicating how much can be withdrawn from the account.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
+    ),
+    new Property(
+        'marginCallMarginUsed',
+        "Margin Call Margin Used",
+        "The Account's margin call margin used.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
+        'marginCallPercent',
+        "Margin Call Percentage",
+        "The Account's margin call percentage. When this value is 1.0 or above the Account is in a margin call situation.",
+        'primitive',
+        'primitives.DecimalNumber'
     ),
     new Property(
         'lastTransactionID',
@@ -354,6 +368,14 @@ class Account extends Definition {
             this.withdrawalLimit = data['withdrawalLimit'];
         }
 
+        if (data['marginCallMarginUsed'] !== undefined) {
+            this.marginCallMarginUsed = data['marginCallMarginUsed'];
+        }
+
+        if (data['marginCallPercent'] !== undefined) {
+            this.marginCallPercent = data['marginCallPercent'];
+        }
+
         if (data['lastTransactionID'] !== undefined) {
             this.lastTransactionID = data['lastTransactionID'];
         }
@@ -368,6 +390,189 @@ class Account extends Definition {
 
         if (data['orders'] !== undefined) {
             this.orders = data['orders'].map(x => order.Order.create(x));
+        }
+
+    }
+}
+
+const AccountState_Properties = [
+    new Property(
+        'unrealizedPL',
+        "Unrealized Profit/Loss",
+        "The total unrealized profit/loss for all Trades currently open in the Account. Represented in the Account's home currency.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
+        'NAV',
+        "Net Asset Value",
+        "The net asset value of the Account. Equal to Account balance + unrealizedPL. Represented in the Account's home currency.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
+        'marginUsed',
+        "Margin Used",
+        "Margin currently used for the Account. Represented in the Account's home currency.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
+        'marginAvailable',
+        "Margin Available",
+        "Margin available for Account. Represented in the Account's home currency.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
+        'positionValue',
+        "Position Value",
+        "The value of the Account's open positions represented in the Account's home currency.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
+        'marginCloseoutUnrealizedPL',
+        "Closeout UPL",
+        "The Account's margin closeout unrealized PL.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
+        'marginCloseoutNAV',
+        "Closeout NAV",
+        "The Account's margin closeout NAV.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
+        'marginCloseoutMarginUsed',
+        "Closeout Margin Used",
+        "The Account's margin closeout margin used.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
+        'marginCloseoutPercent',
+        "Margin Closeout Percentage",
+        "The Account's margin closeout percentage. When this value is 1.0 or above the Account is in a margin closeout situation.",
+        'primitive',
+        'primitives.DecimalNumber'
+    ),
+    new Property(
+        'withdrawalLimit',
+        "Withdrawal Limit",
+        "The current WithdrawalLimit for the account which will be zero or a positive value indicating how much can be withdrawn from the account.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
+        'marginCallMarginUsed',
+        "Margin Call Margin Used",
+        "The Account's margin call margin used.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
+        'marginCallPercent',
+        "Margin Call Percentage",
+        "The Account's margin call percentage. When this value is 1.0 or above the Account is in a margin call situation.",
+        'primitive',
+        'primitives.DecimalNumber'
+    ),
+    new Property(
+        'orders',
+        "Order States",
+        "The price-dependent state of each pending Order in the Account.",
+        'array_object',
+        'DynamicOrderState'
+    ),
+    new Property(
+        'trades',
+        "Trade States",
+        "The price-dependent state for each open Trade in the Account.",
+        'array_object',
+        'CalculatedTradeState'
+    ),
+    new Property(
+        'positions',
+        "Position States",
+        "The price-dependent state for each open Position in the Account.",
+        'array_object',
+        'CalculatedPositionState'
+    ),
+];
+
+class AccountState extends Definition {
+    constructor(data) {
+        super();
+
+        this._summaryFormat = "";
+
+        this._nameFormat = "";
+
+        this._properties = AccountState_Properties;
+
+        data = data || {};
+
+        if (data['unrealizedPL'] !== undefined) {
+            this.unrealizedPL = data['unrealizedPL'];
+        }
+
+        if (data['NAV'] !== undefined) {
+            this.NAV = data['NAV'];
+        }
+
+        if (data['marginUsed'] !== undefined) {
+            this.marginUsed = data['marginUsed'];
+        }
+
+        if (data['marginAvailable'] !== undefined) {
+            this.marginAvailable = data['marginAvailable'];
+        }
+
+        if (data['positionValue'] !== undefined) {
+            this.positionValue = data['positionValue'];
+        }
+
+        if (data['marginCloseoutUnrealizedPL'] !== undefined) {
+            this.marginCloseoutUnrealizedPL = data['marginCloseoutUnrealizedPL'];
+        }
+
+        if (data['marginCloseoutNAV'] !== undefined) {
+            this.marginCloseoutNAV = data['marginCloseoutNAV'];
+        }
+
+        if (data['marginCloseoutMarginUsed'] !== undefined) {
+            this.marginCloseoutMarginUsed = data['marginCloseoutMarginUsed'];
+        }
+
+        if (data['marginCloseoutPercent'] !== undefined) {
+            this.marginCloseoutPercent = data['marginCloseoutPercent'];
+        }
+
+        if (data['withdrawalLimit'] !== undefined) {
+            this.withdrawalLimit = data['withdrawalLimit'];
+        }
+
+        if (data['marginCallMarginUsed'] !== undefined) {
+            this.marginCallMarginUsed = data['marginCallMarginUsed'];
+        }
+
+        if (data['marginCallPercent'] !== undefined) {
+            this.marginCallPercent = data['marginCallPercent'];
+        }
+
+        if (data['orders'] !== undefined) {
+            this.orders = data['orders'].map(x => new order.DynamicOrderState(x));
+        }
+
+        if (data['trades'] !== undefined) {
+            this.trades = data['trades'].map(x => new trade.CalculatedTradeState(x));
+        }
+
+        if (data['positions'] !== undefined) {
+            this.positions = data['positions'].map(x => new position.CalculatedPositionState(x));
         }
 
     }
@@ -451,7 +656,7 @@ const AccountSummary_Properties = [
         "Balance",
         "The current balance of the Account. Represented in the Account's home currency.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'createdByUserID',
@@ -472,14 +677,14 @@ const AccountSummary_Properties = [
         "Profit/Loss",
         "The total profit/loss realized over the lifetime of the Account. Represented in the Account's home currency.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'resettabledPL',
         "Resettable Profit/Loss",
         "The total realized profit/loss for the Account since it was last reset by the client. Represented in the Account's home currency.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'resettabledPLTime',
@@ -549,61 +754,61 @@ const AccountSummary_Properties = [
         "Unrealized Profit/Loss",
         "The total unrealized profit/loss for all Trades currently open in the Account. Represented in the Account's home currency.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'NAV',
         "Net Asset Value",
         "The net asset value of the Account. Equal to Account balance + unrealizedPL. Represented in the Account's home currency.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'marginUsed',
         "Margin Used",
         "Margin currently used for the Account. Represented in the Account's home currency.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'marginAvailable',
         "Margin Available",
         "Margin available for Account. Represented in the Account's home currency.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'positionValue',
         "Position Value",
         "The value of the Account's open positions represented in the Account's home currency.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'marginCloseoutUnrealizedPL',
         "Closeout UPL",
         "The Account's margin closeout unrealized PL.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'marginCloseoutNAV',
         "Closeout NAV",
         "The Account's margin closeout NAV.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'marginCloseoutMarginUsed',
         "Closeout Margin Used",
         "The Account's margin closeout margin used.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'marginCloseoutPercent',
         "Margin Closeout Percentage",
-        "The Account's margin closeout closeout percentage. The range of this value is 0.0 to 1.0.",
+        "The Account's margin closeout percentage. When this value is 1.0 or above the Account is in a margin closeout situation.",
         'primitive',
         'primitives.DecimalNumber'
     ),
@@ -612,7 +817,21 @@ const AccountSummary_Properties = [
         "Withdrawal Limit",
         "The current WithdrawalLimit for the account which will be zero or a positive value indicating how much can be withdrawn from the account.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
+    ),
+    new Property(
+        'marginCallMarginUsed',
+        "Margin Call Margin Used",
+        "The Account's margin call margin used.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
+        'marginCallPercent',
+        "Margin Call Percentage",
+        "The Account's margin call percentage. When this value is 1.0 or above the Account is in a margin call situation.",
+        'primitive',
+        'primitives.DecimalNumber'
     ),
     new Property(
         'lastTransactionID',
@@ -743,6 +962,14 @@ class AccountSummary extends Definition {
             this.withdrawalLimit = data['withdrawalLimit'];
         }
 
+        if (data['marginCallMarginUsed'] !== undefined) {
+            this.marginCallMarginUsed = data['marginCallMarginUsed'];
+        }
+
+        if (data['marginCallPercent'] !== undefined) {
+            this.marginCallPercent = data['marginCallPercent'];
+        }
+
         if (data['lastTransactionID'] !== undefined) {
             this.lastTransactionID = data['lastTransactionID'];
         }
@@ -867,175 +1094,14 @@ class AccountChanges extends Definition {
     }
 }
 
-const AccountState_Properties = [
-    new Property(
-        'unrealizedPL',
-        "Unrealized Profit/Loss",
-        "The total unrealized profit/loss for all Trades currently open in the Account. Represented in the Account's home currency.",
-        'primitive',
-        'account.AccountUnits'
-    ),
-    new Property(
-        'NAV',
-        "Net Asset Value",
-        "The net asset value of the Account. Equal to Account balance + unrealizedPL. Represented in the Account's home currency.",
-        'primitive',
-        'account.AccountUnits'
-    ),
-    new Property(
-        'marginUsed',
-        "Margin Used",
-        "Margin currently used for the Account. Represented in the Account's home currency.",
-        'primitive',
-        'account.AccountUnits'
-    ),
-    new Property(
-        'marginAvailable',
-        "Margin Available",
-        "Margin available for Account. Represented in the Account's home currency.",
-        'primitive',
-        'account.AccountUnits'
-    ),
-    new Property(
-        'positionValue',
-        "Position Value",
-        "The value of the Account's open positions represented in the Account's home currency.",
-        'primitive',
-        'account.AccountUnits'
-    ),
-    new Property(
-        'marginCloseoutUnrealizedPL',
-        "Closeout UPL",
-        "The Account's margin closeout unrealized PL.",
-        'primitive',
-        'account.AccountUnits'
-    ),
-    new Property(
-        'marginCloseoutNAV',
-        "Closeout NAV",
-        "The Account's margin closeout NAV.",
-        'primitive',
-        'account.AccountUnits'
-    ),
-    new Property(
-        'marginCloseoutMarginUsed',
-        "Closeout Margin Used",
-        "The Account's margin closeout margin used.",
-        'primitive',
-        'account.AccountUnits'
-    ),
-    new Property(
-        'marginCloseoutPercent',
-        "Margin Closeout Percentage",
-        "The Account's margin closeout closeout percentage. The range of this value is 0.0 to 1.0.",
-        'primitive',
-        'primitives.DecimalNumber'
-    ),
-    new Property(
-        'withdrawalLimit',
-        "Withdrawal Limit",
-        "The current WithdrawalLimit for the account which will be zero or a positive value indicating how much can be withdrawn from the account.",
-        'primitive',
-        'account.AccountUnits'
-    ),
-    new Property(
-        'orders',
-        "Order States",
-        "The price-dependent state of each pending Order in the Account.",
-        'array_object',
-        'DynamicOrderState'
-    ),
-    new Property(
-        'trades',
-        "Trade States",
-        "The price-dependent state for each open Trade in the Account.",
-        'array_object',
-        'CalculatedTradeState'
-    ),
-    new Property(
-        'positions',
-        "Position States",
-        "The price-dependent state for each open Position in the Account.",
-        'array_object',
-        'CalculatedPositionState'
-    ),
-];
-
-class AccountState extends Definition {
-    constructor(data) {
-        super();
-
-        this._summaryFormat = "";
-
-        this._nameFormat = "";
-
-        this._properties = AccountState_Properties;
-
-        data = data || {};
-
-        if (data['unrealizedPL'] !== undefined) {
-            this.unrealizedPL = data['unrealizedPL'];
-        }
-
-        if (data['NAV'] !== undefined) {
-            this.NAV = data['NAV'];
-        }
-
-        if (data['marginUsed'] !== undefined) {
-            this.marginUsed = data['marginUsed'];
-        }
-
-        if (data['marginAvailable'] !== undefined) {
-            this.marginAvailable = data['marginAvailable'];
-        }
-
-        if (data['positionValue'] !== undefined) {
-            this.positionValue = data['positionValue'];
-        }
-
-        if (data['marginCloseoutUnrealizedPL'] !== undefined) {
-            this.marginCloseoutUnrealizedPL = data['marginCloseoutUnrealizedPL'];
-        }
-
-        if (data['marginCloseoutNAV'] !== undefined) {
-            this.marginCloseoutNAV = data['marginCloseoutNAV'];
-        }
-
-        if (data['marginCloseoutMarginUsed'] !== undefined) {
-            this.marginCloseoutMarginUsed = data['marginCloseoutMarginUsed'];
-        }
-
-        if (data['marginCloseoutPercent'] !== undefined) {
-            this.marginCloseoutPercent = data['marginCloseoutPercent'];
-        }
-
-        if (data['withdrawalLimit'] !== undefined) {
-            this.withdrawalLimit = data['withdrawalLimit'];
-        }
-
-        if (data['orders'] !== undefined) {
-            this.orders = data['orders'].map(x => new order.DynamicOrderState(x));
-        }
-
-        if (data['trades'] !== undefined) {
-            this.trades = data['trades'].map(x => new trade.CalculatedTradeState(x));
-        }
-
-        if (data['positions'] !== undefined) {
-            this.positions = data['positions'].map(x => new position.CalculatedPositionState(x));
-        }
-
-    }
-}
-
 class EntitySpec {
     constructor(context) {
         this.context = context;
         this.Account = Account;
+        this.AccountState = AccountState;
         this.AccountProperties = AccountProperties;
         this.AccountSummary = AccountSummary;
         this.AccountChanges = AccountChanges;
-        this.AccountState = AccountState;
     }
 
     list(
@@ -1066,24 +1132,24 @@ class EntitySpec {
 
                 if (response.statusCode == 401)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 405)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
@@ -1137,36 +1203,36 @@ class EntitySpec {
 
                 if (response.statusCode == 401)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 404)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 405)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
@@ -1220,36 +1286,36 @@ class EntitySpec {
 
                 if (response.statusCode == 401)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 404)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 405)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
@@ -1305,36 +1371,36 @@ class EntitySpec {
 
                 if (response.statusCode == 401)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 404)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 405)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
@@ -1408,48 +1474,48 @@ class EntitySpec {
                         response.body.lastTransactionID = msg['lastTransactionID'];
                     }
 
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 401)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 404)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 405)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
@@ -1513,48 +1579,48 @@ class EntitySpec {
 
                 if (response.statusCode == 401)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 404)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 405)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 416)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
@@ -1579,9 +1645,9 @@ class EntitySpec {
 }
 
 exports.Account = Account;
+exports.AccountState = AccountState;
 exports.AccountProperties = AccountProperties;
 exports.AccountSummary = AccountSummary;
 exports.AccountChanges = AccountChanges;
-exports.AccountState = AccountState;
 
 exports.EntitySpec = EntitySpec;

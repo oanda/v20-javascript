@@ -23,21 +23,21 @@ const Position_Properties = [
         'pl',
         "Profit/loss realized by the Position over the lifetime of the Account.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'unrealizedPL',
         'unrealizedPL',
         "The unrealized profit/loss of all open Trades that contribute to this Position.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'resettablePL',
         'resettablePL',
         "Profit/loss realized by the Position since the Account's resettablePL was last reset by the client.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'long',
@@ -121,21 +121,21 @@ const PositionSide_Properties = [
         'pl',
         "Profit/loss realized by the PositionSide over the lifetime of the Account.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'unrealizedPL',
         'unrealizedPL',
         "The unrealized profit/loss of all open Trades that contribute to this PositionSide.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'resettablePL',
         'resettablePL',
         "Profit/loss realized by the PositionSide since the Account's resettablePL was last reset by the client.",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
 ];
 
@@ -191,21 +191,21 @@ const CalculatedPositionState_Properties = [
         'netUnrealizedPL',
         "The Position's net unrealized profit/loss",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'longUnrealizedPL',
         'longUnrealizedPL',
         "The unrealized profit/loss of the Position's long open Trades",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
     new Property(
         'shortUnrealizedPL',
         'shortUnrealizedPL',
         "The unrealized profit/loss of the Position's short open Trades",
         'primitive',
-        'account.AccountUnits'
+        'primitives.AccountUnits'
     ),
 ];
 
@@ -248,89 +248,6 @@ class EntitySpec {
         this.CalculatedPositionState = CalculatedPositionState;
     }
 
-    listOpen(
-        accountID,
-        responseHandler
-    )
-    {
-        let path = '/v3/accounts/{accountID}/openPositions';
-
-
-        path = path.replace('{' + 'accountID' + '}', accountID);
-
-
-        let body = {};
-
-        function handleResponse(response) {
-            if (response.contentType.startsWith("application/json"))
-            {
-                let msg = JSON.parse(response.rawBody);
-
-                response.body = {};
-
-                if (response.statusCode == 200)
-                {
-                    if (msg['positions'] !== undefined) {
-                        response.body.positions = msg['positions'].map(x => new Position(x));
-                    }
-
-                    if (msg['lastTransactionID'] !== undefined) {
-                        response.body.lastTransactionID = msg['lastTransactionID'];
-                    }
-
-                }
-
-                if (response.statusCode == 401)
-                {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
-                    if (msg['errorCode'] !== undefined) {
-                        response.body.errorCode = msg['errorCode'];
-                    }
-
-                }
-
-                if (response.statusCode == 404)
-                {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
-                    if (msg['errorCode'] !== undefined) {
-                        response.body.errorCode = msg['errorCode'];
-                    }
-
-                }
-
-                if (response.statusCode == 405)
-                {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
-                    if (msg['errorCode'] !== undefined) {
-                        response.body.errorCode = msg['errorCode'];
-                    }
-
-                }
-            }
-
-            if (responseHandler)
-            {
-                responseHandler(response);
-            }
-        }
-
-        this.context.request(
-            'GET',
-            path,
-            body,
-            handleResponse
-        );
-    }
-
     list(
         accountID,
         responseHandler
@@ -365,36 +282,119 @@ class EntitySpec {
 
                 if (response.statusCode == 401)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 404)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 405)
                 {
+                    if (msg['errorCode'] !== undefined) {
+                        response.body.errorCode = msg['errorCode'];
+                    }
+
                     if (msg['errorMessage'] !== undefined) {
                         response.body.errorMessage = msg['errorMessage'];
                     }
 
+                }
+            }
+
+            if (responseHandler)
+            {
+                responseHandler(response);
+            }
+        }
+
+        this.context.request(
+            'GET',
+            path,
+            body,
+            handleResponse
+        );
+    }
+
+    listOpen(
+        accountID,
+        responseHandler
+    )
+    {
+        let path = '/v3/accounts/{accountID}/openPositions';
+
+
+        path = path.replace('{' + 'accountID' + '}', accountID);
+
+
+        let body = {};
+
+        function handleResponse(response) {
+            if (response.contentType.startsWith("application/json"))
+            {
+                let msg = JSON.parse(response.rawBody);
+
+                response.body = {};
+
+                if (response.statusCode == 200)
+                {
+                    if (msg['positions'] !== undefined) {
+                        response.body.positions = msg['positions'].map(x => new Position(x));
+                    }
+
+                    if (msg['lastTransactionID'] !== undefined) {
+                        response.body.lastTransactionID = msg['lastTransactionID'];
+                    }
+
+                }
+
+                if (response.statusCode == 401)
+                {
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
+                    }
+
+                }
+
+                if (response.statusCode == 404)
+                {
+                    if (msg['errorCode'] !== undefined) {
+                        response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
+                    }
+
+                }
+
+                if (response.statusCode == 405)
+                {
+                    if (msg['errorCode'] !== undefined) {
+                        response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
@@ -450,36 +450,36 @@ class EntitySpec {
 
                 if (response.statusCode == 401)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 404)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 405)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
@@ -597,48 +597,48 @@ class EntitySpec {
                         response.body.lastTransactionID = msg['lastTransactionID'];
                     }
 
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 401)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 404)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 405)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }

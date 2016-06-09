@@ -166,46 +166,6 @@ class PriceBucket extends Definition {
     }
 }
 
-const QuoteHomeConversionFactors_Properties = [
-    new Property(
-        'positiveUnits',
-        'positiveUnits',
-        "The factor used to convert a positive amount of the Price's Instrument's quote currency into a positive amount of the Account's home currency.  Conversion is performed by multiplying the quote units by the conversion factor.",
-        'primitive',
-        'primitives.DecimalNumber'
-    ),
-    new Property(
-        'negativeUnits',
-        'negativeUnits',
-        "The factor used to convert a negative amount of the Price's Instrument's quote currency into a negative amount of the Account's home currency.  Conversion is performed by multiplying the quote units by the conversion factor.",
-        'primitive',
-        'primitives.DecimalNumber'
-    ),
-];
-
-class QuoteHomeConversionFactors extends Definition {
-    constructor(data) {
-        super();
-
-        this._summaryFormat = "";
-
-        this._nameFormat = "";
-
-        this._properties = QuoteHomeConversionFactors_Properties;
-
-        data = data || {};
-
-        if (data['positiveUnits'] !== undefined) {
-            this.positiveUnits = data['positiveUnits'];
-        }
-
-        if (data['negativeUnits'] !== undefined) {
-            this.negativeUnits = data['negativeUnits'];
-        }
-
-    }
-}
-
 const UnitsAvailable_Properties = [
     new Property(
         'long',
@@ -308,14 +268,54 @@ class UnitsAvailableDetails extends Definition {
     }
 }
 
+const QuoteHomeConversionFactors_Properties = [
+    new Property(
+        'positiveUnits',
+        'positiveUnits',
+        "The factor used to convert a positive amount of the Price's Instrument's quote currency into a positive amount of the Account's home currency.  Conversion is performed by multiplying the quote units by the conversion factor.",
+        'primitive',
+        'primitives.DecimalNumber'
+    ),
+    new Property(
+        'negativeUnits',
+        'negativeUnits',
+        "The factor used to convert a negative amount of the Price's Instrument's quote currency into a negative amount of the Account's home currency.  Conversion is performed by multiplying the quote units by the conversion factor.",
+        'primitive',
+        'primitives.DecimalNumber'
+    ),
+];
+
+class QuoteHomeConversionFactors extends Definition {
+    constructor(data) {
+        super();
+
+        this._summaryFormat = "";
+
+        this._nameFormat = "";
+
+        this._properties = QuoteHomeConversionFactors_Properties;
+
+        data = data || {};
+
+        if (data['positiveUnits'] !== undefined) {
+            this.positiveUnits = data['positiveUnits'];
+        }
+
+        if (data['negativeUnits'] !== undefined) {
+            this.negativeUnits = data['negativeUnits'];
+        }
+
+    }
+}
+
 class EntitySpec {
     constructor(context) {
         this.context = context;
         this.Price = Price;
         this.PriceBucket = PriceBucket;
-        this.QuoteHomeConversionFactors = QuoteHomeConversionFactors;
         this.UnitsAvailable = UnitsAvailable;
         this.UnitsAvailableDetails = UnitsAvailableDetails;
+        this.QuoteHomeConversionFactors = QuoteHomeConversionFactors;
     }
 
     get(
@@ -357,48 +357,48 @@ class EntitySpec {
 
                 if (response.statusCode == 400)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 401)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 404)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
 
                 if (response.statusCode == 405)
                 {
-                    if (msg['errorMessage'] !== undefined) {
-                        response.body.errorMessage = msg['errorMessage'];
-                    }
-
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
                     }
 
                 }
@@ -424,8 +424,8 @@ class EntitySpec {
 
 exports.Price = Price;
 exports.PriceBucket = PriceBucket;
-exports.QuoteHomeConversionFactors = QuoteHomeConversionFactors;
 exports.UnitsAvailable = UnitsAvailable;
 exports.UnitsAvailableDetails = UnitsAvailableDetails;
+exports.QuoteHomeConversionFactors = QuoteHomeConversionFactors;
 
 exports.EntitySpec = EntitySpec;
