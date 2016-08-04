@@ -1165,7 +1165,7 @@ class MarketOrderTransaction extends Definition {
     constructor(data) {
         super();
 
-        this._summaryFormat = "Create Market Order {id} ({units} of {instrument})";
+        this._summaryFormat = "Create Market Order {id} ({reason}): {units} of {instrument}";
 
         this._nameFormat = "Transaction {id}";
 
@@ -1441,7 +1441,7 @@ class MarketOrderRejectTransaction extends Definition {
     constructor(data) {
         super();
 
-        this._summaryFormat = "Reject Market Order ({units} of {instrument})";
+        this._summaryFormat = "Reject Market Order ({reason}): {units} of {instrument}";
 
         this._nameFormat = "Transaction {id}";
 
@@ -1700,7 +1700,7 @@ class LimitOrderTransaction extends Definition {
     constructor(data) {
         super();
 
-        this._summaryFormat = "Create Limit Order {id} ({units} of {instrument} @ {price})";
+        this._summaryFormat = "Create Limit Order {id} ({reason}): {units} of {instrument} @ {price}";
 
         this._nameFormat = "Transaction {id}";
 
@@ -1947,7 +1947,7 @@ class LimitOrderRejectTransaction extends Definition {
     constructor(data) {
         super();
 
-        this._summaryFormat = "Reject Limit Order ({units} of {instrument} @ {price})";
+        this._summaryFormat = "Reject Limit Order ({reason}): {units} of {instrument} @ {price}";
 
         this._nameFormat = "Transaction {id}";
 
@@ -2201,7 +2201,7 @@ class StopOrderTransaction extends Definition {
     constructor(data) {
         super();
 
-        this._summaryFormat = "Create Stop Order {id} ({units} of {instrument} @ {price})";
+        this._summaryFormat = "Create Stop Order {id} ({reason}): {units} of {instrument} @ {price}";
 
         this._nameFormat = "Transaction {id}";
 
@@ -2459,7 +2459,7 @@ class StopOrderRejectTransaction extends Definition {
     constructor(data) {
         super();
 
-        this._summaryFormat = "Reject Stop Order ({units} of {instrument} @ {price})";
+        this._summaryFormat = "Reject Stop Order ({reason}): {units} of {instrument} @ {price}";
 
         this._nameFormat = "Transaction {id}";
 
@@ -2628,13 +2628,6 @@ const MarketIfTouchedOrderTransaction_Properties = [
         'pricing.PriceValue'
     ),
     new Property(
-        'initialMarketPrice',
-        "Initial Market Price",
-        "The Market price at the time when the MarketIfTouched Order was created.",
-        'primitive',
-        'pricing.PriceValue'
-    ),
-    new Property(
         'priceBound',
         "Price Value",
         "The worst market price that may be used to fill this MarketIfTouched Order.",
@@ -2724,7 +2717,7 @@ class MarketIfTouchedOrderTransaction extends Definition {
     constructor(data) {
         super();
 
-        this._summaryFormat = "Create Market-if-touched Order {id} ({units} of {instrument} @ {price})";
+        this._summaryFormat = "Create MIT Order {id} ({reason}): {units} of {instrument} @ {price}";
 
         this._nameFormat = "Transaction {id}";
 
@@ -2769,10 +2762,6 @@ class MarketIfTouchedOrderTransaction extends Definition {
 
         if (data['price'] !== undefined) {
             this.price = data['price'];
-        }
-
-        if (data['initialMarketPrice'] !== undefined) {
-            this.initialMarketPrice = data['initialMarketPrice'];
         }
 
         if (data['priceBound'] !== undefined) {
@@ -2897,13 +2886,6 @@ const MarketIfTouchedOrderRejectTransaction_Properties = [
         'pricing.PriceValue'
     ),
     new Property(
-        'initialMarketPrice',
-        "Initial Market Price",
-        "The Market price at the time when the MarketIfTouched Order was created.",
-        'primitive',
-        'pricing.PriceValue'
-    ),
-    new Property(
         'priceBound',
         "Price Value",
         "The worst market price that may be used to fill this MarketIfTouched Order.",
@@ -2993,7 +2975,7 @@ class MarketIfTouchedOrderRejectTransaction extends Definition {
     constructor(data) {
         super();
 
-        this._summaryFormat = "Reject Market-if-touched Order ({units} of {instrument} @ {price})";
+        this._summaryFormat = "Reject MIT Order ({reason}): {units} of {instrument} @ {price}";
 
         this._nameFormat = "Transaction {id}";
 
@@ -3038,10 +3020,6 @@ class MarketIfTouchedOrderRejectTransaction extends Definition {
 
         if (data['price'] !== undefined) {
             this.price = data['price'];
-        }
-
-        if (data['initialMarketPrice'] !== undefined) {
-            this.initialMarketPrice = data['initialMarketPrice'];
         }
 
         if (data['priceBound'] !== undefined) {
@@ -3220,7 +3198,7 @@ class TakeProfitOrderTransaction extends Definition {
     constructor(data) {
         super();
 
-        this._summaryFormat = "Create Take Profit Order {id} (Close Trade {tradeID} @ {price})";
+        this._summaryFormat = "Create Take Profit Order {id} ({reason}): Close Trade {tradeID} @ {price}";
 
         this._nameFormat = "Transaction {id}";
 
@@ -3420,7 +3398,7 @@ class TakeProfitOrderRejectTransaction extends Definition {
     constructor(data) {
         super();
 
-        this._summaryFormat = "Reject Take Profit Order (Close Trade {tradeID} @ {price})";
+        this._summaryFormat = "Reject Take Profit Order ({reason}): Close Trade {tradeID} @ {price}";
 
         this._nameFormat = "Transaction {id}";
 
@@ -3620,7 +3598,7 @@ class StopLossOrderTransaction extends Definition {
     constructor(data) {
         super();
 
-        this._summaryFormat = "Create Stop Loss Order {id} (Close Trade {tradeID} @ {price})";
+        this._summaryFormat = "Create Stop Loss Order {id} ({reason}): Close Trade {tradeID} @ {price}";
 
         this._nameFormat = "Transaction {id}";
 
@@ -3820,7 +3798,7 @@ class StopLossOrderRejectTransaction extends Definition {
     constructor(data) {
         super();
 
-        this._summaryFormat = "Reject Stop Loss Order (Close Trade {tradeID} @ {price})";
+        this._summaryFormat = "Reject Stop Loss Order ({reason}): Close Trade {tradeID} @ {price}";
 
         this._nameFormat = "Transaction {id}";
 
@@ -4020,7 +3998,7 @@ class TrailingStopLossOrderTransaction extends Definition {
     constructor(data) {
         super();
 
-        this._summaryFormat = "Create Trailing Stop Loss Order {id} (Close Trade {tradeID})";
+        this._summaryFormat = "Create Trailing Stop Loss Order {id} ({reason}): Close Trade {tradeID}";
 
         this._nameFormat = "Transaction {id}";
 
@@ -4220,7 +4198,7 @@ class TrailingStopLossOrderRejectTransaction extends Definition {
     constructor(data) {
         super();
 
-        this._summaryFormat = "Reject Trailing Stop Loss Order (Close Trade {tradeID})";
+        this._summaryFormat = "Reject Trailing Stop Loss Order ({reason}): Close Trade {tradeID}";
 
         this._nameFormat = "Transaction {id}";
 
@@ -4455,7 +4433,7 @@ class OrderFillTransaction extends Definition {
     constructor(data) {
         super();
 
-        this._summaryFormat = "Fill Order {orderID} ({units} of {instrument} @ {price})";
+        this._summaryFormat = "Fill Order {orderID} ({reason}): {units} of {instrument} @ {price}";
 
         this._nameFormat = "Transaction {id}";
 

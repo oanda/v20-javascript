@@ -4,7 +4,6 @@
 
 var account = require("./account");
 var transaction = require("./transaction");
-var authorization = require("./authorization");
 var trade = require("./trade");
 var pricing = require("./pricing");
 var primitives = require("./primitives");
@@ -63,7 +62,7 @@ class Context {
 
         this.headers = {
             "Content-Type": "application/json",
-            "User-Agent" : "OANDA/3.0.1 (client; javascript)"
+            "User-Agent" : "OANDA/3.0.2 (client; javascript)"
         };
 
         this.token = "";
@@ -79,7 +78,6 @@ class Context {
 
         this.account = new account.EntitySpec(this);
         this.transaction = new transaction.EntitySpec(this);
-        this.authorization = new authorization.EntitySpec(this);
         this.trade = new trade.EntitySpec(this);
         this.pricing = new pricing.EntitySpec(this);
         this.primitives = new primitives.EntitySpec(this);

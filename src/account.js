@@ -234,8 +234,8 @@ const Account_Properties = [
     ),
     new Property(
         'positions',
-        "Open Positions",
-        "The details of all Positions currently open in the Account.",
+        "Positions",
+        "The details all Account Positions.",
         'array_object',
         'Position'
     ),

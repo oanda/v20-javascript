@@ -1175,13 +1175,6 @@ const MarketIfTouchedOrder_Properties = [
         'pricing.PriceValue'
     ),
     new Property(
-        'initialMarketPrice',
-        "Initial Market Price",
-        "The Market price at the time when the MarketIfTouched Order was created.",
-        'primitive',
-        'pricing.PriceValue'
-    ),
-    new Property(
         'priceBound',
         "Price Value",
         "The worst market price that may be used to fill this MarketIfTouched Order.",
@@ -1208,6 +1201,13 @@ const MarketIfTouchedOrder_Properties = [
         "Specification of how Positions in the Account are modified when the Order is filled.",
         'primitive',
         'order.OrderPositionFill'
+    ),
+    new Property(
+        'initialMarketPrice',
+        "Initial Market Price",
+        "The Market price at the time when the MarketIfTouched Order was created.",
+        'primitive',
+        'pricing.PriceValue'
     ),
     new Property(
         'takeProfitOnFill',
@@ -1349,10 +1349,6 @@ class MarketIfTouchedOrder extends Definition {
             this.price = data['price'];
         }
 
-        if (data['initialMarketPrice'] !== undefined) {
-            this.initialMarketPrice = data['initialMarketPrice'];
-        }
-
         if (data['priceBound'] !== undefined) {
             this.priceBound = data['priceBound'];
         }
@@ -1373,6 +1369,10 @@ class MarketIfTouchedOrder extends Definition {
         }
         else {
             this.positionFill = "DEFAULT";
+        }
+
+        if (data['initialMarketPrice'] !== undefined) {
+            this.initialMarketPrice = data['initialMarketPrice'];
         }
 
         if (data['takeProfitOnFill'] !== undefined) {
@@ -2665,13 +2665,6 @@ const MarketIfTouchedOrderRequest_Properties = [
         'pricing.PriceValue'
     ),
     new Property(
-        'initialMarketPrice',
-        "Initial Market Price",
-        "The Market price at the time when the MarketIfTouched Order was created.",
-        'primitive',
-        'pricing.PriceValue'
-    ),
-    new Property(
         'priceBound',
         "Price Value",
         "The worst market price that may be used to fill this MarketIfTouched Order.",
@@ -2765,10 +2758,6 @@ class MarketIfTouchedOrderRequest extends Definition {
 
         if (data['price'] !== undefined) {
             this.price = data['price'];
-        }
-
-        if (data['initialMarketPrice'] !== undefined) {
-            this.initialMarketPrice = data['initialMarketPrice'];
         }
 
         if (data['priceBound'] !== undefined) {
