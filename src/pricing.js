@@ -308,6 +308,49 @@ class QuoteHomeConversionFactors extends Definition {
     }
 }
 
+const Heartbeat_Properties = [
+    new Property(
+        'type',
+        'type',
+        "The string \"HEARTBEAT\"",
+        'primitive',
+        'string'
+    ),
+    new Property(
+        'time',
+        'time',
+        "The date/time when the Heartbeat was created.",
+        'primitive',
+        'primitives.DateTime'
+    ),
+];
+
+class Heartbeat extends Definition {
+    constructor(data) {
+        super();
+
+        this._summaryFormat = "Pricing Heartbeat {time}";
+
+        this._nameFormat = "";
+
+        this._properties = Heartbeat_Properties;
+
+        data = data || {};
+
+        if (data['type'] !== undefined) {
+            this.type = data['type'];
+        }
+        else {
+            this.type = "HEARTBEAT";
+        }
+
+        if (data['time'] !== undefined) {
+            this.time = data['time'];
+        }
+
+    }
+}
+
 class EntitySpec {
     constructor(context) {
         this.context = context;
@@ -316,6 +359,7 @@ class EntitySpec {
         this.UnitsAvailable = UnitsAvailable;
         this.UnitsAvailableDetails = UnitsAvailableDetails;
         this.QuoteHomeConversionFactors = QuoteHomeConversionFactors;
+        this.Heartbeat = Heartbeat;
     }
 
     get(
@@ -336,6 +380,9 @@ class EntitySpec {
         }
         if (typeof queryParams['since'] !== 'undefined') {
             path = path + "since=" + queryParams['since'] + "&";
+        }
+        if (typeof queryParams['includeUnitsAvailable'] !== 'undefined') {
+            path = path + "includeUnitsAvailable=" + queryParams['includeUnitsAvailable'] + "&";
         }
 
         let body = {};
@@ -418,6 +465,94 @@ class EntitySpec {
         );
     }
 
+    stream(
+        accountID,
+        queryParams,
+        responseHandler
+    )
+    {
+        let path = '/v3/accounts/{accountID}/pricing/stream';
+
+        queryParams = queryParams || {};
+
+        path = path.replace('{' + 'accountID' + '}', accountID);
+
+        path = path + "?";
+        if (typeof queryParams['instruments'] !== 'undefined') {
+            path = path + "instruments=" + queryParams['instruments'] + "&";
+        }
+        if (typeof queryParams['snapshot'] !== 'undefined') {
+            path = path + "snapshot=" + queryParams['snapshot'] + "&";
+        }
+
+        let body = {};
+
+        function handleResponse(response) {
+            if (response.contentType.startsWith("application/json"))
+            {
+                let msg = JSON.parse(response.rawBody);
+
+                response.body = {};
+
+                if (response.statusCode == 200)
+                {
+                    if (msg['price'] !== undefined) {
+                        response.body.price = new Price(msg['price']);
+                    }
+
+                    if (msg['heartbeat'] !== undefined) {
+                        response.body.heartbeat = new Heartbeat(msg['heartbeat']);
+                    }
+
+                }
+
+                if (response.statusCode == 400)
+                {
+                    if (msg['errorCode'] !== undefined) {
+                        response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
+                    }
+
+                }
+
+                if (response.statusCode == 401)
+                {
+                }
+
+                if (response.statusCode == 403)
+                {
+                }
+
+                if (response.statusCode == 405)
+                {
+                    if (msg['errorCode'] !== undefined) {
+                        response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
+                    }
+
+                }
+            }
+
+            if (responseHandler)
+            {
+                responseHandler(response);
+            }
+        }
+
+        this.context.request(
+            'GET',
+            path,
+            body,
+            handleResponse
+        );
+    }
+
 
 
 }
@@ -427,5 +562,6 @@ exports.PriceBucket = PriceBucket;
 exports.UnitsAvailable = UnitsAvailable;
 exports.UnitsAvailableDetails = UnitsAvailableDetails;
 exports.QuoteHomeConversionFactors = QuoteHomeConversionFactors;
+exports.Heartbeat = Heartbeat;
 
 exports.EntitySpec = EntitySpec;

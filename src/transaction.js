@@ -176,6 +176,10 @@ class Transaction extends Definition {
         }
         else if (transaction["type"] == "ORDER_CANCEL")
         {
+            return new OrderCancelTransaction(transaction);
+        }
+        else if (transaction["type"] == "ORDER_CANCEL_REJECT")
+        {
             return new OrderCancelRejectTransaction(transaction);
         }
         else if (transaction["type"] == "ORDER_CLIENT_EXTENSIONS_MODIFY")
@@ -1155,7 +1159,7 @@ const MarketOrderTransaction_Properties = [
     new Property(
         'tradeClientExtensions',
         "Trade Client Extensions",
-        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
+        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4.",
         'object',
         'transaction.ClientExtensions'
     ),
@@ -1424,7 +1428,7 @@ const MarketOrderRejectTransaction_Properties = [
     new Property(
         'tradeClientExtensions',
         "Trade Client Extensions",
-        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
+        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4.",
         'object',
         'transaction.ClientExtensions'
     ),
@@ -1676,7 +1680,7 @@ const LimitOrderTransaction_Properties = [
     new Property(
         'tradeClientExtensions',
         "Trade Client Extensions",
-        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
+        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4.",
         'object',
         'transaction.ClientExtensions'
     ),
@@ -1923,7 +1927,7 @@ const LimitOrderRejectTransaction_Properties = [
     new Property(
         'tradeClientExtensions',
         "Trade Client Extensions",
-        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
+        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4.",
         'object',
         'transaction.ClientExtensions'
     ),
@@ -2177,7 +2181,7 @@ const StopOrderTransaction_Properties = [
     new Property(
         'tradeClientExtensions',
         "Trade Client Extensions",
-        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
+        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4.",
         'object',
         'transaction.ClientExtensions'
     ),
@@ -2435,7 +2439,7 @@ const StopOrderRejectTransaction_Properties = [
     new Property(
         'tradeClientExtensions',
         "Trade Client Extensions",
-        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
+        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4.",
         'object',
         'transaction.ClientExtensions'
     ),
@@ -2693,7 +2697,7 @@ const MarketIfTouchedOrderTransaction_Properties = [
     new Property(
         'tradeClientExtensions',
         "Trade Client Extensions",
-        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
+        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4.",
         'object',
         'transaction.ClientExtensions'
     ),
@@ -2951,7 +2955,7 @@ const MarketIfTouchedOrderRejectTransaction_Properties = [
     new Property(
         'tradeClientExtensions',
         "Trade Client Extensions",
-        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
+        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4.",
         'object',
         'transaction.ClientExtensions'
     ),
@@ -4388,7 +4392,7 @@ const OrderFillTransaction_Properties = [
     new Property(
         'tradeOpened',
         "Trade Opened",
-        "The Trade that was opened when the Order was filled (only  provided if filling the Order resulted in a new Trade).",
+        "The Trade that was opened when the Order was filled (only provided if filling the Order resulted in a new Trade).",
         'object',
         'transaction.TradeOpen'
     ),
@@ -4405,27 +4409,6 @@ const OrderFillTransaction_Properties = [
         "The Trade that was reduced when the Order was filled (only provided if filling the Order resulted in reducing an open Trade).",
         'object',
         'transaction.TradeReduce'
-    ),
-    new Property(
-        'vwapReceipt',
-        "VWAP Receipt",
-        "The receipts of filled units with their prices that contributed to the volume-weighted average price that the entire Order was filled at.",
-        'array_object',
-        'VWAPReceipt'
-    ),
-    new Property(
-        'accountFinancingMode',
-        "Account Financing Mode",
-        "The account financing mode at the time of the Order fill.",
-        'primitive',
-        'account.AccountFinancingMode'
-    ),
-    new Property(
-        'liquidityRegenerationSchedule',
-        "Liquidity Regeneration Schedule",
-        "The liquidity regeneration schedule to in effect for this Account and instrument immediately following the OrderFill",
-        'object',
-        'transaction.LiquidityRegenerationSchedule'
     ),
 ];
 
@@ -4514,18 +4497,6 @@ class OrderFillTransaction extends Definition {
 
         if (data['tradeReduced'] !== undefined) {
             this.tradeReduced = new TradeReduce(data['tradeReduced']);
-        }
-
-        if (data['vwapReceipt'] !== undefined) {
-            this.vwapReceipt = data['vwapReceipt'].map(x => new VWAPReceipt(x));
-        }
-
-        if (data['accountFinancingMode'] !== undefined) {
-            this.accountFinancingMode = data['accountFinancingMode'];
-        }
-
-        if (data['liquidityRegenerationSchedule'] !== undefined) {
-            this.liquidityRegenerationSchedule = new LiquidityRegenerationSchedule(data['liquidityRegenerationSchedule']);
         }
 
     }
@@ -4638,6 +4609,9 @@ class OrderCancelTransaction extends Definition {
 
         if (data['type'] !== undefined) {
             this.type = data['type'];
+        }
+        else {
+            this.type = "ORDER_CANCEL";
         }
 
         if (data['orderID'] !== undefined) {
@@ -4768,7 +4742,7 @@ class OrderCancelRejectTransaction extends Definition {
             this.type = data['type'];
         }
         else {
-            this.type = "ORDER_CANCEL";
+            this.type = "ORDER_CANCEL_REJECT";
         }
 
         if (data['orderID'] !== undefined) {
@@ -6640,6 +6614,60 @@ class PositionFinancing extends Definition {
     }
 }
 
+const Heartbeat_Properties = [
+    new Property(
+        'type',
+        'type',
+        "The string \"HEARTBEAT\"",
+        'primitive',
+        'string'
+    ),
+    new Property(
+        'lastTransactionID',
+        'lastTransactionID',
+        "The ID of the most recent Transaction created for the Account",
+        'primitive',
+        'transaction.TransactionID'
+    ),
+    new Property(
+        'time',
+        'time',
+        "The date/time when the Heartbeat was created.",
+        'primitive',
+        'primitives.DateTime'
+    ),
+];
+
+class Heartbeat extends Definition {
+    constructor(data) {
+        super();
+
+        this._summaryFormat = "Transaction Heartbeat {time}";
+
+        this._nameFormat = "";
+
+        this._properties = Heartbeat_Properties;
+
+        data = data || {};
+
+        if (data['type'] !== undefined) {
+            this.type = data['type'];
+        }
+        else {
+            this.type = "HEARTBEAT";
+        }
+
+        if (data['lastTransactionID'] !== undefined) {
+            this.lastTransactionID = data['lastTransactionID'];
+        }
+
+        if (data['time'] !== undefined) {
+            this.time = data['time'];
+        }
+
+    }
+}
+
 class EntitySpec {
     constructor(context) {
         this.context = context;
@@ -6693,6 +6721,7 @@ class EntitySpec {
         this.LiquidityRegenerationScheduleStep = LiquidityRegenerationScheduleStep;
         this.OpenTradeFinancing = OpenTradeFinancing;
         this.PositionFinancing = PositionFinancing;
+        this.Heartbeat = Heartbeat;
     }
 
     list(
@@ -7154,6 +7183,85 @@ class EntitySpec {
         );
     }
 
+    stream(
+        accountID,
+        responseHandler
+    )
+    {
+        let path = '/v3/accounts/{accountID}/transactions/stream';
+
+
+        path = path.replace('{' + 'accountID' + '}', accountID);
+
+
+        let body = {};
+
+        function handleResponse(response) {
+            if (response.contentType.startsWith("application/json"))
+            {
+                let msg = JSON.parse(response.rawBody);
+
+                response.body = {};
+
+                if (response.statusCode == 200)
+                {
+                    if (msg['transaction'] !== undefined) {
+                        response.body.transaction = Transaction.create(msg['transaction']);
+                    }
+
+                    if (msg['heartbeat'] !== undefined) {
+                        response.body.heartbeat = new Heartbeat(msg['heartbeat']);
+                    }
+
+                }
+
+                if (response.statusCode == 400)
+                {
+                    if (msg['errorCode'] !== undefined) {
+                        response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
+                    }
+
+                }
+
+                if (response.statusCode == 401)
+                {
+                }
+
+                if (response.statusCode == 403)
+                {
+                }
+
+                if (response.statusCode == 405)
+                {
+                    if (msg['errorCode'] !== undefined) {
+                        response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
+                    }
+
+                }
+            }
+
+            if (responseHandler)
+            {
+                responseHandler(response);
+            }
+        }
+
+        this.context.request(
+            'GET',
+            path,
+            body,
+            handleResponse
+        );
+    }
+
 
 
 }
@@ -7208,5 +7316,6 @@ exports.LiquidityRegenerationSchedule = LiquidityRegenerationSchedule;
 exports.LiquidityRegenerationScheduleStep = LiquidityRegenerationScheduleStep;
 exports.OpenTradeFinancing = OpenTradeFinancing;
 exports.PositionFinancing = PositionFinancing;
+exports.Heartbeat = Heartbeat;
 
 exports.EntitySpec = EntitySpec;

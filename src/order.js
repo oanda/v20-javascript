@@ -137,7 +137,7 @@ const Order_Properties = [
     new Property(
         'clientExtensions',
         "Client Extensions",
-        "The client extensions of the Order.",
+        "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
         'object',
         'transaction.ClientExtensions'
     ),
@@ -236,7 +236,7 @@ const MarketOrder_Properties = [
     new Property(
         'clientExtensions',
         "Client Extensions",
-        "The client extensions of the Order.",
+        "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
         'object',
         'transaction.ClientExtensions'
     ),
@@ -341,7 +341,7 @@ const MarketOrder_Properties = [
     new Property(
         'tradeClientExtensions',
         "Trade Client Extensions",
-        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
+        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
         'object',
         'transaction.ClientExtensions'
     ),
@@ -549,7 +549,7 @@ const LimitOrder_Properties = [
     new Property(
         'clientExtensions',
         "Client Extensions",
-        "The client extensions of the Order.",
+        "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
         'object',
         'transaction.ClientExtensions'
     ),
@@ -626,7 +626,7 @@ const LimitOrder_Properties = [
     new Property(
         'tradeClientExtensions',
         "Trade Client Extensions",
-        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
+        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
         'object',
         'transaction.ClientExtensions'
     ),
@@ -840,7 +840,7 @@ const StopOrder_Properties = [
     new Property(
         'clientExtensions',
         "Client Extensions",
-        "The client extensions of the Order.",
+        "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
         'object',
         'transaction.ClientExtensions'
     ),
@@ -924,7 +924,7 @@ const StopOrder_Properties = [
     new Property(
         'tradeClientExtensions',
         "Trade Client Extensions",
-        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
+        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
         'object',
         'transaction.ClientExtensions'
     ),
@@ -1142,7 +1142,7 @@ const MarketIfTouchedOrder_Properties = [
     new Property(
         'clientExtensions',
         "Client Extensions",
-        "The client extensions of the Order.",
+        "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
         'object',
         'transaction.ClientExtensions'
     ),
@@ -1233,7 +1233,7 @@ const MarketIfTouchedOrder_Properties = [
     new Property(
         'tradeClientExtensions',
         "Trade Client Extensions",
-        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
+        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
         'object',
         'transaction.ClientExtensions'
     ),
@@ -1455,7 +1455,7 @@ const TakeProfitOrder_Properties = [
     new Property(
         'clientExtensions',
         "Client Extensions",
-        "The client extensions of the Order.",
+        "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
         'object',
         'transaction.ClientExtensions'
     ),
@@ -1688,7 +1688,7 @@ const StopLossOrder_Properties = [
     new Property(
         'clientExtensions',
         "Client Extensions",
-        "The client extensions of the Order.",
+        "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
         'object',
         'transaction.ClientExtensions'
     ),
@@ -1921,7 +1921,7 @@ const TrailingStopLossOrder_Properties = [
     new Property(
         'clientExtensions',
         "Client Extensions",
-        "The client extensions of the Order.",
+        "The client extensions of the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
         'object',
         'transaction.ClientExtensions'
     ),
@@ -1970,7 +1970,7 @@ const TrailingStopLossOrder_Properties = [
     new Property(
         'trailingStopValue',
         "Trailing Stop Loss Value",
-        "The current trailing stop value for the Trailing Stop Loss Order. The trailingStopValue at the time of the Order's creation is created by combining the Order's distance with its initialTriggerComparePrice.",
+        "The trigger price for the Trailing Stop Loss Order. The trailing stop value will trail (follow) the market price by the TSL order's configured \"distance\" as the market price moves in the winning direction. If the market price moves to a level that is equal to or worse than the trailing stop value, the order will be filled and the Trade will be closed.",
         'primitive',
         'pricing.PriceValue'
     ),
@@ -2204,7 +2204,7 @@ const MarketOrderRequest_Properties = [
     new Property(
         'clientExtensions',
         "Client Extensions",
-        "The client extensions to add to the Order.",
+        "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
         'object',
         'transaction.ClientExtensions'
     ),
@@ -2232,7 +2232,7 @@ const MarketOrderRequest_Properties = [
     new Property(
         'tradeClientExtensions',
         "Trade Client Extensions",
-        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
+        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
         'object',
         'transaction.ClientExtensions'
     ),
@@ -2359,7 +2359,7 @@ const LimitOrderRequest_Properties = [
     new Property(
         'clientExtensions',
         "Client Extensions",
-        "The client extensions to add to the Order.",
+        "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
         'object',
         'transaction.ClientExtensions'
     ),
@@ -2387,7 +2387,7 @@ const LimitOrderRequest_Properties = [
     new Property(
         'tradeClientExtensions',
         "Trade Client Extensions",
-        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
+        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
         'object',
         'transaction.ClientExtensions'
     ),
@@ -2525,7 +2525,7 @@ const StopOrderRequest_Properties = [
     new Property(
         'clientExtensions',
         "Client Extensions",
-        "The client extensions to add to the Order.",
+        "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
         'object',
         'transaction.ClientExtensions'
     ),
@@ -2553,7 +2553,7 @@ const StopOrderRequest_Properties = [
     new Property(
         'tradeClientExtensions',
         "Trade Client Extensions",
-        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
+        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
         'object',
         'transaction.ClientExtensions'
     ),
@@ -2695,7 +2695,7 @@ const MarketIfTouchedOrderRequest_Properties = [
     new Property(
         'clientExtensions',
         "Client Extensions",
-        "The client extensions to add to the Order.",
+        "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
         'object',
         'transaction.ClientExtensions'
     ),
@@ -2723,7 +2723,7 @@ const MarketIfTouchedOrderRequest_Properties = [
     new Property(
         'tradeClientExtensions',
         "Trade Client Extensions",
-        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).",
+        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created). Do not set, modify, or delete tradeClientExtensions if your account is associated with MT4.",
         'object',
         'transaction.ClientExtensions'
     ),
@@ -2851,7 +2851,7 @@ const TakeProfitOrderRequest_Properties = [
     new Property(
         'clientExtensions',
         "Client Extensions",
-        "The client extensions to add to the Order.",
+        "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
         'object',
         'transaction.ClientExtensions'
     ),
@@ -2952,7 +2952,7 @@ const StopLossOrderRequest_Properties = [
     new Property(
         'clientExtensions',
         "Client Extensions",
-        "The client extensions to add to the Order.",
+        "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
         'object',
         'transaction.ClientExtensions'
     ),
@@ -3053,7 +3053,7 @@ const TrailingStopLossOrderRequest_Properties = [
     new Property(
         'clientExtensions',
         "Client Extensions",
-        "The client extensions to add to the Order.",
+        "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
         'object',
         'transaction.ClientExtensions'
     ),

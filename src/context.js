@@ -4,6 +4,7 @@
 
 var account = require("./account");
 var transaction = require("./transaction");
+var user = require("./user");
 var trade = require("./trade");
 var pricing = require("./pricing");
 var primitives = require("./primitives");
@@ -53,7 +54,11 @@ class Response {
 }
 
 class Context {
-    constructor(hostname, port, ssl) {
+    constructor(hostname, port, ssl, application) {
+        application = application || "";
+
+        console.log(application);
+
         this.username = "";
 
         this.hostname = hostname;
@@ -62,7 +67,7 @@ class Context {
 
         this.headers = {
             "Content-Type": "application/json",
-            "User-Agent" : "OANDA/3.0.2 (client; javascript)"
+            "OANDA-Agent" : `v20-javascript/3.0.3 (${application})`
         };
 
         this.token = "";
@@ -78,6 +83,7 @@ class Context {
 
         this.account = new account.EntitySpec(this);
         this.transaction = new transaction.EntitySpec(this);
+        this.user = new user.EntitySpec(this);
         this.trade = new trade.EntitySpec(this);
         this.pricing = new pricing.EntitySpec(this);
         this.primitives = new primitives.EntitySpec(this);
@@ -88,28 +94,6 @@ class Context {
     setToken(token) {
         this.token = token;
         this.headers['Authorization'] = "Bearer " + this.token;
-    }
-
-    authenticate(username, password, success, error) {
-        this.login.login(
-            {
-                username: username,
-                password: password
-            },
-            (response) => {
-                if (response.statusCode != "200")
-                {
-                    error(
-                        `Could not authenticate user ${username}: ${message}`
-                    );
-                    return;
-                }
-
-                this.setToken(response.body.token);
-
-                success();
-            }
-        );
     }
 
     request(method, path, body, responseHandler) {
