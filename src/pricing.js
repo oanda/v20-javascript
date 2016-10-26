@@ -11,6 +11,13 @@ var Field = require('./base').Field;
 
 const Price_Properties = [
     new Property(
+        'type',
+        "Type",
+        "The string \"PRICE\". Used to identify the a Price object when found in a stream.",
+        'primitive',
+        'string'
+    ),
+    new Property(
         'instrument',
         'instrument',
         "The Price's Instrument.",
@@ -86,6 +93,13 @@ class Price extends Definition {
         this._properties = Price_Properties;
 
         data = data || {};
+
+        if (data['type'] !== undefined) {
+            this.type = data['type'];
+        }
+        else {
+            this.type = "PRICE";
+        }
 
         if (data['instrument'] !== undefined) {
             this.instrument = data['instrument'];
