@@ -4,13 +4,13 @@
 
 var account = require("./account");
 var transaction = require("./transaction");
-var user = require("./user");
 var trade = require("./trade");
 var instrument = require("./instrument");
 var pricing = require("./pricing");
 var primitives = require("./primitives");
 var position = require("./position");
 var order = require("./order");
+var user = require("./user");
 
 
 class Response {
@@ -68,7 +68,7 @@ class Context {
 
         this.headers = {
             "Content-Type": "application/json",
-            "OANDA-Agent" : `v20-javascript/3.0.5 (${application})`
+            "OANDA-Agent" : `v20-javascript/3.0.6 (${application})`
         };
 
         this.token = "";
@@ -84,13 +84,13 @@ class Context {
 
         this.account = new account.EntitySpec(this);
         this.transaction = new transaction.EntitySpec(this);
-        this.user = new user.EntitySpec(this);
         this.trade = new trade.EntitySpec(this);
         this.instrument = new instrument.EntitySpec(this);
         this.pricing = new pricing.EntitySpec(this);
         this.primitives = new primitives.EntitySpec(this);
         this.position = new position.EntitySpec(this);
         this.order = new order.EntitySpec(this);
+        this.user = new user.EntitySpec(this);
     }
 
     setToken(token) {
