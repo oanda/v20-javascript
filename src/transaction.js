@@ -210,6 +210,10 @@ class Transaction extends Definition {
         {
             return new MarginCallExitTransaction(transaction);
         }
+        else if (transaction["type"] == "DELAYED_TRADE_CLOSURE")
+        {
+            return new DelayedTradeClosureTransaction(transaction);
+        }
         else if (transaction["type"] == "DAILY_FINANCING")
         {
             return new DailyFinancingTransaction(transaction);
@@ -5597,6 +5601,13 @@ const DelayedTradeClosureTransaction_Properties = [
         'transaction.TransactionID'
     ),
     new Property(
+        'type',
+        "Type",
+        "The Type of the Transaction. Always set to \"DELAYED_TRADE_CLOSURE\" for an DelayedTradeClosureTransaction.",
+        'primitive',
+        'transaction.TransactionType'
+    ),
+    new Property(
         'reason',
         "Reason",
         "The reason for the delayed trade closure",
@@ -5642,6 +5653,13 @@ class DelayedTradeClosureTransaction extends Definition {
 
         if (data['batchID'] !== undefined) {
             this.batchID = data['batchID'];
+        }
+
+        if (data['type'] !== undefined) {
+            this.type = data['type'];
+        }
+        else {
+            this.type = "DELAYED_TRADE_CLOSURE";
         }
 
         if (data['reason'] !== undefined) {
