@@ -77,7 +77,7 @@ const DynamicOrderState_Properties = [
         "Trigger Distance Is Exact",
         "True if an exact trigger distance could be calculated. If false, it means the provided trigger distance is a best estimate. If the distance could not be determined, this value will not be set.",
         'primitive',
-        'bool'
+        'boolean'
     ),
 ];
 
@@ -178,6 +178,18 @@ class Order extends Definition {
         {
             return new Order(order);
         }
+        else if (order["type"] == "TAKE_PROFIT")
+        {
+            return new TakeProfitOrder(order);
+        }
+        else if (order["type"] == "STOP_LOSS")
+        {
+            return new StopLossOrder(order);
+        }
+        else if (order["type"] == "TRAILING_STOP_LOSS")
+        {
+            return new TrailingStopLossOrder(order);
+        }
         else if (order["type"] == "MARKET")
         {
             return new MarketOrder(order);
@@ -193,18 +205,6 @@ class Order extends Definition {
         else if (order["type"] == "MARKET_IF_TOUCHED")
         {
             return new MarketIfTouchedOrder(order);
-        }
-        else if (order["type"] == "TAKE_PROFIT")
-        {
-            return new TakeProfitOrder(order);
-        }
-        else if (order["type"] == "STOP_LOSS")
-        {
-            return new StopLossOrder(order);
-        }
-        else if (order["type"] == "TRAILING_STOP_LOSS")
-        {
-            return new TrailingStopLossOrder(order);
         }
 
         return new Order(order);
@@ -3212,6 +3212,15 @@ class EntitySpec {
                     }
 
                 }
+                else if (response.statusCode == 401)
+                {
+                }
+                else if (response.statusCode == 404)
+                {
+                }
+                else if (response.statusCode == 405)
+                {
+                }
                 //
                 // Assume standard error response with errorCode and errorMessage
                 //
@@ -3290,6 +3299,15 @@ class EntitySpec {
                     }
 
                 }
+                else if (response.statusCode == 400)
+                {
+                }
+                else if (response.statusCode == 404)
+                {
+                }
+                else if (response.statusCode == 405)
+                {
+                }
                 //
                 // Assume standard error response with errorCode and errorMessage
                 //
@@ -3350,6 +3368,15 @@ class EntitySpec {
                     }
 
                 }
+                else if (response.statusCode == 401)
+                {
+                }
+                else if (response.statusCode == 404)
+                {
+                }
+                else if (response.statusCode == 405)
+                {
+                }
                 //
                 // Assume standard error response with errorCode and errorMessage
                 //
@@ -3381,15 +3408,15 @@ class EntitySpec {
 
     get(
         accountID,
-        orderID,
+        orderSpecifier,
         responseHandler
     )
     {
-        let path = '/v3/accounts/{accountID}/orders/{orderID}';
+        let path = '/v3/accounts/{accountID}/orders/{orderSpecifier}';
 
 
         path = path.replace('{' + 'accountID' + '}', accountID);
-        path = path.replace('{' + 'orderID' + '}', orderID);
+        path = path.replace('{' + 'orderSpecifier' + '}', orderSpecifier);
 
 
         let body = {};
@@ -3411,6 +3438,15 @@ class EntitySpec {
                         response.body.lastTransactionID = msg['lastTransactionID'];
                     }
 
+                }
+                else if (response.statusCode == 401)
+                {
+                }
+                else if (response.statusCode == 404)
+                {
+                }
+                else if (response.statusCode == 405)
+                {
                 }
                 //
                 // Assume standard error response with errorCode and errorMessage
@@ -3448,7 +3484,7 @@ class EntitySpec {
         responseHandler
     )
     {
-        let path = '/v3/accounts/{accountID}/orders/{orderID}';
+        let path = '/v3/accounts/{accountID}/orders/{orderSpecifier}';
 
         bodyParams = bodyParams || {};
 
@@ -3528,6 +3564,15 @@ class EntitySpec {
                     }
 
                 }
+                else if (response.statusCode == 401)
+                {
+                }
+                else if (response.statusCode == 404)
+                {
+                }
+                else if (response.statusCode == 405)
+                {
+                }
                 //
                 // Assume standard error response with errorCode and errorMessage
                 //
@@ -3559,15 +3604,15 @@ class EntitySpec {
 
     cancel(
         accountID,
-        orderID,
+        orderSpecifier,
         responseHandler
     )
     {
-        let path = '/v3/accounts/{accountID}/orders/{orderID}/cancel';
+        let path = '/v3/accounts/{accountID}/orders/{orderSpecifier}/cancel';
 
 
         path = path.replace('{' + 'accountID' + '}', accountID);
-        path = path.replace('{' + 'orderID' + '}', orderID);
+        path = path.replace('{' + 'orderSpecifier' + '}', orderSpecifier);
 
 
         let body = {};
@@ -3594,6 +3639,9 @@ class EntitySpec {
                     }
 
                 }
+                else if (response.statusCode == 401)
+                {
+                }
                 else if (response.statusCode == 404)
                 {
                     if (msg['orderCancelRejectTransaction'] !== undefined) {
@@ -3616,6 +3664,9 @@ class EntitySpec {
                         response.body.errorMessage = msg['errorMessage'];
                     }
 
+                }
+                else if (response.statusCode == 405)
+                {
                 }
                 //
                 // Assume standard error response with errorCode and errorMessage
@@ -3648,17 +3699,17 @@ class EntitySpec {
 
     setClientExtensions(
         accountID,
-        orderID,
+        orderSpecifier,
         bodyParams,
         responseHandler
     )
     {
-        let path = '/v3/accounts/{accountID}/orders/{orderID}/clientExtensions';
+        let path = '/v3/accounts/{accountID}/orders/{orderSpecifier}/clientExtensions';
 
         bodyParams = bodyParams || {};
 
         path = path.replace('{' + 'accountID' + '}', accountID);
-        path = path.replace('{' + 'orderID' + '}', orderID);
+        path = path.replace('{' + 'orderSpecifier' + '}', orderSpecifier);
 
 
         let body = {};
@@ -3709,6 +3760,15 @@ class EntitySpec {
                         response.body.errorMessage = msg['errorMessage'];
                     }
 
+                }
+                else if (response.statusCode == 401)
+                {
+                }
+                else if (response.statusCode == 404)
+                {
+                }
+                else if (response.statusCode == 405)
+                {
                 }
                 //
                 // Assume standard error response with errorCode and errorMessage

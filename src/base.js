@@ -129,7 +129,7 @@ class Definition {
         this._properties.forEach(prop => {
             let value = this[prop.name];
 
-            if (value)
+            if (typeof value != 'undefined')
             {
                 ret.push(new Field(prop, value));
             }

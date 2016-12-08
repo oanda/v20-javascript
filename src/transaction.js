@@ -6632,7 +6632,7 @@ class PositionFinancing extends Definition {
     }
 }
 
-const Heartbeat_Properties = [
+const TransactionHeartbeat_Properties = [
     new Property(
         'type',
         'type',
@@ -6650,13 +6650,13 @@ const Heartbeat_Properties = [
     new Property(
         'time',
         'time',
-        "The date/time when the Heartbeat was created.",
+        "The date/time when the TransactionHeartbeat was created.",
         'primitive',
         'primitives.DateTime'
     ),
 ];
 
-class Heartbeat extends Definition {
+class TransactionHeartbeat extends Definition {
     constructor(data) {
         super();
 
@@ -6664,7 +6664,7 @@ class Heartbeat extends Definition {
 
         this._nameFormat = "";
 
-        this._properties = Heartbeat_Properties;
+        this._properties = TransactionHeartbeat_Properties;
 
         data = data || {};
 
@@ -6739,7 +6739,7 @@ class EntitySpec {
         this.LiquidityRegenerationScheduleStep = LiquidityRegenerationScheduleStep;
         this.OpenTradeFinancing = OpenTradeFinancing;
         this.PositionFinancing = PositionFinancing;
-        this.Heartbeat = Heartbeat;
+        this.TransactionHeartbeat = TransactionHeartbeat;
     }
 
     list(
@@ -6808,6 +6808,24 @@ class EntitySpec {
                     }
 
                 }
+                else if (response.statusCode == 400)
+                {
+                }
+                else if (response.statusCode == 401)
+                {
+                }
+                else if (response.statusCode == 403)
+                {
+                }
+                else if (response.statusCode == 404)
+                {
+                }
+                else if (response.statusCode == 405)
+                {
+                }
+                else if (response.statusCode == 416)
+                {
+                }
                 //
                 // Assume standard error response with errorCode and errorMessage
                 //
@@ -6869,6 +6887,15 @@ class EntitySpec {
                         response.body.lastTransactionID = msg['lastTransactionID'];
                     }
 
+                }
+                else if (response.statusCode == 401)
+                {
+                }
+                else if (response.statusCode == 404)
+                {
+                }
+                else if (response.statusCode == 405)
+                {
                 }
                 //
                 // Assume standard error response with errorCode and errorMessage
@@ -6942,6 +6969,21 @@ class EntitySpec {
                     }
 
                 }
+                else if (response.statusCode == 400)
+                {
+                }
+                else if (response.statusCode == 401)
+                {
+                }
+                else if (response.statusCode == 404)
+                {
+                }
+                else if (response.statusCode == 405)
+                {
+                }
+                else if (response.statusCode == 416)
+                {
+                }
                 //
                 // Assume standard error response with errorCode and errorMessage
                 //
@@ -7008,6 +7050,21 @@ class EntitySpec {
                     }
 
                 }
+                else if (response.statusCode == 400)
+                {
+                }
+                else if (response.statusCode == 401)
+                {
+                }
+                else if (response.statusCode == 404)
+                {
+                }
+                else if (response.statusCode == 405)
+                {
+                }
+                else if (response.statusCode == 416)
+                {
+                }
                 //
                 // Assume standard error response with errorCode and errorMessage
                 //
@@ -7064,9 +7121,21 @@ class EntitySpec {
                     }
 
                     if (msg['heartbeat'] !== undefined) {
-                        response.body.heartbeat = new Heartbeat(msg['heartbeat']);
+                        response.body.heartbeat = new TransactionHeartbeat(msg['heartbeat']);
                     }
 
+                }
+                else if (response.statusCode == 400)
+                {
+                }
+                else if (response.statusCode == 401)
+                {
+                }
+                else if (response.statusCode == 404)
+                {
+                }
+                else if (response.statusCode == 405)
+                {
                 }
                 //
                 // Assume standard error response with errorCode and errorMessage
@@ -7151,6 +7220,6 @@ exports.LiquidityRegenerationSchedule = LiquidityRegenerationSchedule;
 exports.LiquidityRegenerationScheduleStep = LiquidityRegenerationScheduleStep;
 exports.OpenTradeFinancing = OpenTradeFinancing;
 exports.PositionFinancing = PositionFinancing;
-exports.Heartbeat = Heartbeat;
+exports.TransactionHeartbeat = TransactionHeartbeat;
 
 exports.EntitySpec = EntitySpec;

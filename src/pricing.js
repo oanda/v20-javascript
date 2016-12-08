@@ -322,7 +322,7 @@ class QuoteHomeConversionFactors extends Definition {
     }
 }
 
-const Heartbeat_Properties = [
+const PricingHeartbeat_Properties = [
     new Property(
         'type',
         'type',
@@ -339,7 +339,7 @@ const Heartbeat_Properties = [
     ),
 ];
 
-class Heartbeat extends Definition {
+class PricingHeartbeat extends Definition {
     constructor(data) {
         super();
 
@@ -347,7 +347,7 @@ class Heartbeat extends Definition {
 
         this._nameFormat = "";
 
-        this._properties = Heartbeat_Properties;
+        this._properties = PricingHeartbeat_Properties;
 
         data = data || {};
 
@@ -373,7 +373,7 @@ class EntitySpec {
         this.UnitsAvailable = UnitsAvailable;
         this.UnitsAvailableDetails = UnitsAvailableDetails;
         this.QuoteHomeConversionFactors = QuoteHomeConversionFactors;
-        this.Heartbeat = Heartbeat;
+        this.PricingHeartbeat = PricingHeartbeat;
     }
 
     get(
@@ -414,6 +414,18 @@ class EntitySpec {
                         response.body.prices = msg['prices'].map(x => new Price(x));
                     }
 
+                }
+                else if (response.statusCode == 400)
+                {
+                }
+                else if (response.statusCode == 401)
+                {
+                }
+                else if (response.statusCode == 404)
+                {
+                }
+                else if (response.statusCode == 405)
+                {
                 }
                 //
                 // Assume standard error response with errorCode and errorMessage
@@ -480,9 +492,21 @@ class EntitySpec {
                     }
 
                     if (msg['heartbeat'] !== undefined) {
-                        response.body.heartbeat = new Heartbeat(msg['heartbeat']);
+                        response.body.heartbeat = new PricingHeartbeat(msg['heartbeat']);
                     }
 
+                }
+                else if (response.statusCode == 400)
+                {
+                }
+                else if (response.statusCode == 401)
+                {
+                }
+                else if (response.statusCode == 404)
+                {
+                }
+                else if (response.statusCode == 405)
+                {
                 }
                 //
                 // Assume standard error response with errorCode and errorMessage
@@ -522,6 +546,6 @@ exports.PriceBucket = PriceBucket;
 exports.UnitsAvailable = UnitsAvailable;
 exports.UnitsAvailableDetails = UnitsAvailableDetails;
 exports.QuoteHomeConversionFactors = QuoteHomeConversionFactors;
-exports.Heartbeat = Heartbeat;
+exports.PricingHeartbeat = PricingHeartbeat;
 
 exports.EntitySpec = EntitySpec;

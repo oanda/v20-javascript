@@ -1129,6 +1129,12 @@ class EntitySpec {
                     }
 
                 }
+                else if (response.statusCode == 401)
+                {
+                }
+                else if (response.statusCode == 405)
+                {
+                }
                 //
                 // Assume standard error response with errorCode and errorMessage
                 //
@@ -1189,6 +1195,15 @@ class EntitySpec {
                     }
 
                 }
+                else if (response.statusCode == 400)
+                {
+                }
+                else if (response.statusCode == 401)
+                {
+                }
+                else if (response.statusCode == 405)
+                {
+                }
                 //
                 // Assume standard error response with errorCode and errorMessage
                 //
@@ -1248,6 +1263,15 @@ class EntitySpec {
                         response.body.lastTransactionID = msg['lastTransactionID'];
                     }
 
+                }
+                else if (response.statusCode == 400)
+                {
+                }
+                else if (response.statusCode == 401)
+                {
+                }
+                else if (response.statusCode == 405)
+                {
                 }
                 //
                 // Assume standard error response with errorCode and errorMessage
@@ -1310,6 +1334,15 @@ class EntitySpec {
                         response.body.instruments = msg['instruments'].map(x => new primitives.Instrument(x));
                     }
 
+                }
+                else if (response.statusCode == 400)
+                {
+                }
+                else if (response.statusCode == 401)
+                {
+                }
+                else if (response.statusCode == 405)
+                {
                 }
                 //
                 // Assume standard error response with errorCode and errorMessage
@@ -1402,6 +1435,15 @@ class EntitySpec {
                     }
 
                 }
+                else if (response.statusCode == 401)
+                {
+                }
+                else if (response.statusCode == 404)
+                {
+                }
+                else if (response.statusCode == 405)
+                {
+                }
                 //
                 // Assume standard error response with errorCode and errorMessage
                 //
@@ -1471,6 +1513,18 @@ class EntitySpec {
                         response.body.lastTransactionID = msg['lastTransactionID'];
                     }
 
+                }
+                else if (response.statusCode == 401)
+                {
+                }
+                else if (response.statusCode == 404)
+                {
+                }
+                else if (response.statusCode == 405)
+                {
+                }
+                else if (response.statusCode == 416)
+                {
                 }
                 //
                 // Assume standard error response with errorCode and errorMessage

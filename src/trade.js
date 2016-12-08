@@ -130,7 +130,7 @@ class Trade extends Definition {
     constructor(data) {
         super();
 
-        this._summaryFormat = "{initialUnits} of {instrument} @ {price}";
+        this._summaryFormat = "{currentUnits} ({initialUnits}) of {instrument} @ {price}";
 
         this._nameFormat = "Trade {id}";
 
@@ -324,7 +324,7 @@ class TradeSummary extends Definition {
     constructor(data) {
         super();
 
-        this._summaryFormat = "{initialUnits} of {instrument} @ {price}";
+        this._summaryFormat = "{currentUnits} ({initialUnits}) of {instrument} @ {price}";
 
         this._nameFormat = "Trade {id}";
 
@@ -496,6 +496,15 @@ class EntitySpec {
                     }
 
                 }
+                else if (response.statusCode == 401)
+                {
+                }
+                else if (response.statusCode == 404)
+                {
+                }
+                else if (response.statusCode == 405)
+                {
+                }
                 //
                 // Assume standard error response with errorCode and errorMessage
                 //
@@ -556,6 +565,15 @@ class EntitySpec {
                     }
 
                 }
+                else if (response.statusCode == 401)
+                {
+                }
+                else if (response.statusCode == 404)
+                {
+                }
+                else if (response.statusCode == 405)
+                {
+                }
                 //
                 // Assume standard error response with errorCode and errorMessage
                 //
@@ -587,15 +605,15 @@ class EntitySpec {
 
     get(
         accountID,
-        tradeID,
+        tradeSpecifier,
         responseHandler
     )
     {
-        let path = '/v3/accounts/{accountID}/trades/{tradeID}';
+        let path = '/v3/accounts/{accountID}/trades/{tradeSpecifier}';
 
 
         path = path.replace('{' + 'accountID' + '}', accountID);
-        path = path.replace('{' + 'tradeID' + '}', tradeID);
+        path = path.replace('{' + 'tradeSpecifier' + '}', tradeSpecifier);
 
 
         let body = {};
@@ -617,6 +635,15 @@ class EntitySpec {
                         response.body.lastTransactionID = msg['lastTransactionID'];
                     }
 
+                }
+                else if (response.statusCode == 401)
+                {
+                }
+                else if (response.statusCode == 404)
+                {
+                }
+                else if (response.statusCode == 405)
+                {
                 }
                 //
                 // Assume standard error response with errorCode and errorMessage
@@ -649,17 +676,17 @@ class EntitySpec {
 
     close(
         accountID,
-        tradeID,
+        tradeSpecifier,
         bodyParams,
         responseHandler
     )
     {
-        let path = '/v3/accounts/{accountID}/trades/{tradeID}/close';
+        let path = '/v3/accounts/{accountID}/trades/{tradeSpecifier}/close';
 
         bodyParams = bodyParams || {};
 
         path = path.replace('{' + 'accountID' + '}', accountID);
-        path = path.replace('{' + 'tradeID' + '}', tradeID);
+        path = path.replace('{' + 'tradeSpecifier' + '}', tradeSpecifier);
 
 
         let body = {};
@@ -714,6 +741,9 @@ class EntitySpec {
                     }
 
                 }
+                else if (response.statusCode == 401)
+                {
+                }
                 else if (response.statusCode == 404)
                 {
                     if (msg['orderRejectTransaction'] !== undefined) {
@@ -728,6 +758,9 @@ class EntitySpec {
                         response.body.errorMessage = msg['errorMessage'];
                     }
 
+                }
+                else if (response.statusCode == 405)
+                {
                 }
                 //
                 // Assume standard error response with errorCode and errorMessage
@@ -760,17 +793,17 @@ class EntitySpec {
 
     setClientExtensions(
         accountID,
-        tradeID,
+        tradeSpecifier,
         bodyParams,
         responseHandler
     )
     {
-        let path = '/v3/accounts/{accountID}/trades/{tradeID}/clientExtensions';
+        let path = '/v3/accounts/{accountID}/trades/{tradeSpecifier}/clientExtensions';
 
         bodyParams = bodyParams || {};
 
         path = path.replace('{' + 'accountID' + '}', accountID);
-        path = path.replace('{' + 'tradeID' + '}', tradeID);
+        path = path.replace('{' + 'tradeSpecifier' + '}', tradeSpecifier);
 
 
         let body = {};
@@ -821,6 +854,15 @@ class EntitySpec {
                     }
 
                 }
+                else if (response.statusCode == 401)
+                {
+                }
+                else if (response.statusCode == 404)
+                {
+                }
+                else if (response.statusCode == 405)
+                {
+                }
                 //
                 // Assume standard error response with errorCode and errorMessage
                 //
@@ -852,17 +894,17 @@ class EntitySpec {
 
     setDependentOrders(
         accountID,
-        tradeID,
+        tradeSpecifier,
         bodyParams,
         responseHandler
     )
     {
-        let path = '/v3/accounts/{accountID}/trades/{tradeID}/orders';
+        let path = '/v3/accounts/{accountID}/trades/{tradeSpecifier}/orders';
 
         bodyParams = bodyParams || {};
 
         path = path.replace('{' + 'accountID' + '}', accountID);
-        path = path.replace('{' + 'tradeID' + '}', tradeID);
+        path = path.replace('{' + 'tradeSpecifier' + '}', tradeSpecifier);
 
 
         let body = {};
@@ -978,6 +1020,15 @@ class EntitySpec {
                         response.body.errorMessage = msg['errorMessage'];
                     }
 
+                }
+                else if (response.statusCode == 401)
+                {
+                }
+                else if (response.statusCode == 404)
+                {
+                }
+                else if (response.statusCode == 405)
+                {
                 }
                 //
                 // Assume standard error response with errorCode and errorMessage

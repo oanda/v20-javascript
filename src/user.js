@@ -129,7 +129,7 @@ class EntitySpec {
         this.UserInfoExternal = UserInfoExternal;
     }
 
-    get(
+    getInfo(
         userSpecifier,
         responseHandler
     )
@@ -155,6 +155,15 @@ class EntitySpec {
                         response.body.userInfo = new UserInfo(msg['userInfo']);
                     }
 
+                }
+                else if (response.statusCode == 401)
+                {
+                }
+                else if (response.statusCode == 403)
+                {
+                }
+                else if (response.statusCode == 405)
+                {
                 }
                 //
                 // Assume standard error response with errorCode and errorMessage
@@ -185,7 +194,7 @@ class EntitySpec {
         );
     }
 
-    getExternal(
+    getExternalInfo(
         userSpecifier,
         responseHandler
     )
@@ -211,6 +220,15 @@ class EntitySpec {
                         response.body.userInfo = new UserInfoExternal(msg['userInfo']);
                     }
 
+                }
+                else if (response.statusCode == 401)
+                {
+                }
+                else if (response.statusCode == 403)
+                {
+                }
+                else if (response.statusCode == 405)
+                {
                 }
                 //
                 // Assume standard error response with errorCode and errorMessage
