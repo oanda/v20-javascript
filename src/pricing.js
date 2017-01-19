@@ -19,63 +19,63 @@ const Price_Properties = [
     ),
     new Property(
         'instrument',
-        'instrument',
+        "Instrument",
         "The Price's Instrument.",
         'primitive',
         'primitives.InstrumentName'
     ),
     new Property(
         'time',
-        'time',
+        "Time",
         "The date/time when the Price was created",
         'primitive',
         'primitives.DateTime'
     ),
     new Property(
         'status',
-        'status',
+        "Status",
         "The status of the Price.",
         'primitive',
         'pricing.PriceStatus'
     ),
     new Property(
         'bids',
-        'bids',
+        "Bids",
         "The list of prices and liquidity available on the Instrument's bid side. It is possible for this list to be empty if there is no bid liquidity currently available for the Instrument in the Account.",
         'array_object',
         'PriceBucket'
     ),
     new Property(
         'asks',
-        'asks',
+        "Asks",
         "The list of prices and liquidity available on the Instrument's ask side. It is possible for this list to be empty if there is no ask liquidity currently available for the Instrument in the Account.",
         'array_object',
         'PriceBucket'
     ),
     new Property(
         'closeoutBid',
-        'closeoutBid',
+        "Closeout Bid",
         "The closeout bid Price. This Price is used when a bid is required to closeout a Position (margin closeout or manual) yet there is no bid liquidity. The closeout bid is never used to open a new position.",
         'primitive',
         'pricing.PriceValue'
     ),
     new Property(
         'closeoutAsk',
-        'closeoutAsk',
+        "Closeout Ask",
         "The closeout ask Price. This Price is used when a ask is required to closeout a Position (margin closeout or manual) yet there is no ask liquidity. The closeout ask is never used to open a new position.",
         'primitive',
         'pricing.PriceValue'
     ),
     new Property(
         'quoteHomeConversionFactors',
-        'quoteHomeConversionFactors',
+        "Quote Home Conversions",
         "The factors used to convert quantities of this price's Instrument's quote currency into a quantity of the Account's home currency.",
         'object',
         'pricing.QuoteHomeConversionFactors'
     ),
     new Property(
         'unitsAvailable',
-        'unitsAvailable',
+        "Units Available",
         "Representation of many units of an Instrument are available to be traded for both long and short Orders.",
         'object',
         'pricing.UnitsAvailable'
@@ -143,14 +143,14 @@ class Price extends Definition {
 const PriceBucket_Properties = [
     new Property(
         'price',
-        'price',
+        "Price",
         "The Price offered by the PriceBucket",
         'primitive',
         'pricing.PriceValue'
     ),
     new Property(
         'liquidity',
-        'liquidity',
+        "Liquidity",
         "The amount of liquidity offered by the PriceBucket",
         'primitive',
         'integer'
@@ -183,14 +183,14 @@ class PriceBucket extends Definition {
 const UnitsAvailable_Properties = [
     new Property(
         'long',
-        'long',
+        "Long",
         "The units available breakdown for long Orders.",
         'object',
         'pricing.UnitsAvailableDetails'
     ),
     new Property(
         'short',
-        'short',
+        "Short",
         "The units available breakdown for short Orders.",
         'object',
         'pricing.UnitsAvailableDetails'
@@ -223,28 +223,28 @@ class UnitsAvailable extends Definition {
 const UnitsAvailableDetails_Properties = [
     new Property(
         'default',
-        'default',
+        "Default",
         "The number of units that are available to be traded using an Order with a positionFill option of \"DEFAULT\". For an Account with hedging enabled, this value will be the same as the \"OPEN_ONLY\" value. For an Account without hedging enabled, this value will be the same as the \"REDUCE_FIRST\" value.",
         'primitive',
         'primitives.DecimalNumber'
     ),
     new Property(
         'reduceFirst',
-        'reduceFirst',
+        "Reduce First",
         "The number of units that may are available to be traded with an Order with a positionFill option of \"REDUCE_FIRST\".",
         'primitive',
         'primitives.DecimalNumber'
     ),
     new Property(
         'reduceOnly',
-        'reduceOnly',
+        "Reduce Only",
         "The number of units that may are available to be traded with an Order with a positionFill option of \"REDUCE_ONLY\".",
         'primitive',
         'primitives.DecimalNumber'
     ),
     new Property(
         'openOnly',
-        'openOnly',
+        "Open Only",
         "The number of units that may are available to be traded with an Order with a positionFill option of \"OPEN_ONLY\".",
         'primitive',
         'primitives.DecimalNumber'
@@ -285,14 +285,14 @@ class UnitsAvailableDetails extends Definition {
 const QuoteHomeConversionFactors_Properties = [
     new Property(
         'positiveUnits',
-        'positiveUnits',
+        "Positive Units",
         "The factor used to convert a positive amount of the Price's Instrument's quote currency into a positive amount of the Account's home currency.  Conversion is performed by multiplying the quote units by the conversion factor.",
         'primitive',
         'primitives.DecimalNumber'
     ),
     new Property(
         'negativeUnits',
-        'negativeUnits',
+        "Negative Units",
         "The factor used to convert a negative amount of the Price's Instrument's quote currency into a negative amount of the Account's home currency.  Conversion is performed by multiplying the quote units by the conversion factor.",
         'primitive',
         'primitives.DecimalNumber'
@@ -325,14 +325,14 @@ class QuoteHomeConversionFactors extends Definition {
 const PricingHeartbeat_Properties = [
     new Property(
         'type',
-        'type',
+        "Type",
         "The string \"HEARTBEAT\"",
         'primitive',
         'string'
     ),
     new Property(
         'time',
-        'time',
+        "Time",
         "The date/time when the Heartbeat was created.",
         'primitive',
         'primitives.DateTime'

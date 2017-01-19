@@ -13,42 +13,42 @@ var transaction = require('./transaction');
 const Position_Properties = [
     new Property(
         'instrument',
-        'instrument',
+        "Instrument",
         "The Position's Instrument.",
         'primitive',
         'primitives.InstrumentName'
     ),
     new Property(
         'pl',
-        'pl',
+        "Profit/Loss",
         "Profit/loss realized by the Position over the lifetime of the Account.",
         'primitive',
         'primitives.AccountUnits'
     ),
     new Property(
         'unrealizedPL',
-        'unrealizedPL',
+        "Unrealized Profit/Loss",
         "The unrealized profit/loss of all open Trades that contribute to this Position.",
         'primitive',
         'primitives.AccountUnits'
     ),
     new Property(
         'resettablePL',
-        'resettablePL',
+        "Resettable Profit/Loss",
         "Profit/loss realized by the Position since the Account's resettablePL was last reset by the client.",
         'primitive',
         'primitives.AccountUnits'
     ),
     new Property(
         'long',
-        'long',
+        "Long Side",
         "The details of the long side of the Position.",
         'object',
         'position.PositionSide'
     ),
     new Property(
         'short',
-        'short',
+        "Short Side",
         "The details of the short side of the Position.",
         'object',
         'position.PositionSide'
@@ -97,42 +97,42 @@ class Position extends Definition {
 const PositionSide_Properties = [
     new Property(
         'units',
-        'units',
+        "Units",
         "Number of units in the position (negative value indicates short position, positive indicates long position).",
         'primitive',
         'primitives.DecimalNumber'
     ),
     new Property(
         'averagePrice',
-        'averagePrice',
+        "Average Price",
         "Volume-weighted average of the underlying Trade open prices for the Position.",
         'primitive',
         'pricing.PriceValue'
     ),
     new Property(
         'tradeIDs',
-        'tradeIDs',
+        "Trade IDs",
         "List of the open Trade IDs which contribute to the open Position.",
         'array_primitive',
         'TradeID'
     ),
     new Property(
         'pl',
-        'pl',
+        "Profit/Loss",
         "Profit/loss realized by the PositionSide over the lifetime of the Account.",
         'primitive',
         'primitives.AccountUnits'
     ),
     new Property(
         'unrealizedPL',
-        'unrealizedPL',
+        "Unrealized Profit/Loss",
         "The unrealized profit/loss of all open Trades that contribute to this PositionSide.",
         'primitive',
         'primitives.AccountUnits'
     ),
     new Property(
         'resettablePL',
-        'resettablePL',
+        "Resettable Profit/Loss",
         "Profit/loss realized by the PositionSide since the Account's resettablePL was last reset by the client.",
         'primitive',
         'primitives.AccountUnits'
@@ -181,28 +181,28 @@ class PositionSide extends Definition {
 const CalculatedPositionState_Properties = [
     new Property(
         'instrument',
-        'instrument',
+        "Instrument",
         "The Position's Instrument.",
         'primitive',
         'primitives.InstrumentName'
     ),
     new Property(
         'netUnrealizedPL',
-        'netUnrealizedPL',
+        "Net Unrealized Profit/Loss",
         "The Position's net unrealized profit/loss",
         'primitive',
         'primitives.AccountUnits'
     ),
     new Property(
         'longUnrealizedPL',
-        'longUnrealizedPL',
+        "Long Unrealized Profit/Loss",
         "The unrealized profit/loss of the Position's long open Trades",
         'primitive',
         'primitives.AccountUnits'
     ),
     new Property(
         'shortUnrealizedPL',
-        'shortUnrealizedPL',
+        "Short Unrealized Profit/Loss",
         "The unrealized profit/loss of the Position's short open Trades",
         'primitive',
         'primitives.AccountUnits'

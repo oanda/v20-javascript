@@ -66,7 +66,7 @@ class Context {
 
         this.headers = {
             "Content-Type": "application/json",
-            "OANDA-Agent" : `v20-javascript/3.0.13 (${application})`
+            "OANDA-Agent" : `v20-javascript/3.0.14 (${application})`
         };
 
         this.token = "";
