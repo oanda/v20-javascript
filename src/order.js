@@ -178,18 +178,6 @@ class Order extends Definition {
         {
             return new Order(order);
         }
-        else if (order["type"] == "TAKE_PROFIT")
-        {
-            return new TakeProfitOrder(order);
-        }
-        else if (order["type"] == "STOP_LOSS")
-        {
-            return new StopLossOrder(order);
-        }
-        else if (order["type"] == "TRAILING_STOP_LOSS")
-        {
-            return new TrailingStopLossOrder(order);
-        }
         else if (order["type"] == "MARKET")
         {
             return new MarketOrder(order);
@@ -205,6 +193,18 @@ class Order extends Definition {
         else if (order["type"] == "MARKET_IF_TOUCHED")
         {
             return new MarketIfTouchedOrder(order);
+        }
+        else if (order["type"] == "TAKE_PROFIT")
+        {
+            return new TakeProfitOrder(order);
+        }
+        else if (order["type"] == "STOP_LOSS")
+        {
+            return new StopLossOrder(order);
+        }
+        else if (order["type"] == "TRAILING_STOP_LOSS")
+        {
+            return new TrailingStopLossOrder(order);
         }
 
         return new Order(order);
@@ -603,6 +603,13 @@ const LimitOrder_Properties = [
         'order.OrderPositionFill'
     ),
     new Property(
+        'triggerCondition',
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        'primitive',
+        'order.OrderTriggerCondition'
+    ),
+    new Property(
         'takeProfitOnFill',
         "Take Profit On Fill",
         "TakeProfitDetails specifies the details of a Take Profit Order to be created on behalf of a client. This may happen when an Order is filled that opens a Trade requiring a Take Profit, or when a Trade's dependent Take Profit Order is modified directly through the Trade.",
@@ -760,6 +767,13 @@ class LimitOrder extends Definition {
             this.positionFill = "DEFAULT";
         }
 
+        if (data['triggerCondition'] !== undefined) {
+            this.triggerCondition = data['triggerCondition'];
+        }
+        else {
+            this.triggerCondition = "DEFAULT";
+        }
+
         if (data['takeProfitOnFill'] !== undefined) {
             this.takeProfitOnFill = new transaction.TakeProfitDetails(data['takeProfitOnFill']);
         }
@@ -899,6 +913,13 @@ const StopOrder_Properties = [
         "Specification of how Positions in the Account are modified when the Order is filled.",
         'primitive',
         'order.OrderPositionFill'
+    ),
+    new Property(
+        'triggerCondition',
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        'primitive',
+        'order.OrderTriggerCondition'
     ),
     new Property(
         'takeProfitOnFill',
@@ -1062,6 +1083,13 @@ class StopOrder extends Definition {
             this.positionFill = "DEFAULT";
         }
 
+        if (data['triggerCondition'] !== undefined) {
+            this.triggerCondition = data['triggerCondition'];
+        }
+        else {
+            this.triggerCondition = "DEFAULT";
+        }
+
         if (data['takeProfitOnFill'] !== undefined) {
             this.takeProfitOnFill = new transaction.TakeProfitDetails(data['takeProfitOnFill']);
         }
@@ -1201,6 +1229,13 @@ const MarketIfTouchedOrder_Properties = [
         "Specification of how Positions in the Account are modified when the Order is filled.",
         'primitive',
         'order.OrderPositionFill'
+    ),
+    new Property(
+        'triggerCondition',
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        'primitive',
+        'order.OrderTriggerCondition'
     ),
     new Property(
         'initialMarketPrice',
@@ -1371,6 +1406,13 @@ class MarketIfTouchedOrder extends Definition {
             this.positionFill = "DEFAULT";
         }
 
+        if (data['triggerCondition'] !== undefined) {
+            this.triggerCondition = data['triggerCondition'];
+        }
+        else {
+            this.triggerCondition = "DEFAULT";
+        }
+
         if (data['initialMarketPrice'] !== undefined) {
             this.initialMarketPrice = data['initialMarketPrice'];
         }
@@ -1502,6 +1544,13 @@ const TakeProfitOrder_Properties = [
         'primitives.DateTime'
     ),
     new Property(
+        'triggerCondition',
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        'primitive',
+        'order.OrderTriggerCondition'
+    ),
+    new Property(
         'fillingTransactionID',
         "Filling Transaction ID",
         "ID of the Transaction that filled this Order (only provided when the Order's state is FILLED)",
@@ -1624,6 +1673,13 @@ class TakeProfitOrder extends Definition {
             this.gtdTime = data['gtdTime'];
         }
 
+        if (data['triggerCondition'] !== undefined) {
+            this.triggerCondition = data['triggerCondition'];
+        }
+        else {
+            this.triggerCondition = "DEFAULT";
+        }
+
         if (data['fillingTransactionID'] !== undefined) {
             this.fillingTransactionID = data['fillingTransactionID'];
         }
@@ -1733,6 +1789,13 @@ const StopLossOrder_Properties = [
         "The date/time when the StopLoss Order will be cancelled if its timeInForce is \"GTD\".",
         'primitive',
         'primitives.DateTime'
+    ),
+    new Property(
+        'triggerCondition',
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        'primitive',
+        'order.OrderTriggerCondition'
     ),
     new Property(
         'fillingTransactionID',
@@ -1857,6 +1920,13 @@ class StopLossOrder extends Definition {
             this.gtdTime = data['gtdTime'];
         }
 
+        if (data['triggerCondition'] !== undefined) {
+            this.triggerCondition = data['triggerCondition'];
+        }
+        else {
+            this.triggerCondition = "DEFAULT";
+        }
+
         if (data['fillingTransactionID'] !== undefined) {
             this.fillingTransactionID = data['fillingTransactionID'];
         }
@@ -1966,6 +2036,13 @@ const TrailingStopLossOrder_Properties = [
         "The date/time when the StopLoss Order will be cancelled if its timeInForce is \"GTD\".",
         'primitive',
         'primitives.DateTime'
+    ),
+    new Property(
+        'triggerCondition',
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        'primitive',
+        'order.OrderTriggerCondition'
     ),
     new Property(
         'trailingStopValue',
@@ -2095,6 +2172,13 @@ class TrailingStopLossOrder extends Definition {
 
         if (data['gtdTime'] !== undefined) {
             this.gtdTime = data['gtdTime'];
+        }
+
+        if (data['triggerCondition'] !== undefined) {
+            this.triggerCondition = data['triggerCondition'];
+        }
+        else {
+            this.triggerCondition = "DEFAULT";
         }
 
         if (data['trailingStopValue'] !== undefined) {
@@ -2357,6 +2441,13 @@ const LimitOrderRequest_Properties = [
         'order.OrderPositionFill'
     ),
     new Property(
+        'triggerCondition',
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        'primitive',
+        'order.OrderTriggerCondition'
+    ),
+    new Property(
         'clientExtensions',
         "Client Extensions",
         "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
@@ -2442,6 +2533,13 @@ class LimitOrderRequest extends Definition {
             this.positionFill = "DEFAULT";
         }
 
+        if (data['triggerCondition'] !== undefined) {
+            this.triggerCondition = data['triggerCondition'];
+        }
+        else {
+            this.triggerCondition = "DEFAULT";
+        }
+
         if (data['clientExtensions'] !== undefined) {
             this.clientExtensions = new transaction.ClientExtensions(data['clientExtensions']);
         }
@@ -2521,6 +2619,13 @@ const StopOrderRequest_Properties = [
         "Specification of how Positions in the Account are modified when the Order is filled.",
         'primitive',
         'order.OrderPositionFill'
+    ),
+    new Property(
+        'triggerCondition',
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        'primitive',
+        'order.OrderTriggerCondition'
     ),
     new Property(
         'clientExtensions',
@@ -2612,6 +2717,13 @@ class StopOrderRequest extends Definition {
             this.positionFill = "DEFAULT";
         }
 
+        if (data['triggerCondition'] !== undefined) {
+            this.triggerCondition = data['triggerCondition'];
+        }
+        else {
+            this.triggerCondition = "DEFAULT";
+        }
+
         if (data['clientExtensions'] !== undefined) {
             this.clientExtensions = new transaction.ClientExtensions(data['clientExtensions']);
         }
@@ -2691,6 +2803,13 @@ const MarketIfTouchedOrderRequest_Properties = [
         "Specification of how Positions in the Account are modified when the Order is filled.",
         'primitive',
         'order.OrderPositionFill'
+    ),
+    new Property(
+        'triggerCondition',
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        'primitive',
+        'order.OrderTriggerCondition'
     ),
     new Property(
         'clientExtensions',
@@ -2782,6 +2901,13 @@ class MarketIfTouchedOrderRequest extends Definition {
             this.positionFill = "DEFAULT";
         }
 
+        if (data['triggerCondition'] !== undefined) {
+            this.triggerCondition = data['triggerCondition'];
+        }
+        else {
+            this.triggerCondition = "DEFAULT";
+        }
+
         if (data['clientExtensions'] !== undefined) {
             this.clientExtensions = new transaction.ClientExtensions(data['clientExtensions']);
         }
@@ -2849,6 +2975,13 @@ const TakeProfitOrderRequest_Properties = [
         'primitives.DateTime'
     ),
     new Property(
+        'triggerCondition',
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        'primitive',
+        'order.OrderTriggerCondition'
+    ),
+    new Property(
         'clientExtensions',
         "Client Extensions",
         "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
@@ -2897,6 +3030,13 @@ class TakeProfitOrderRequest extends Definition {
 
         if (data['gtdTime'] !== undefined) {
             this.gtdTime = data['gtdTime'];
+        }
+
+        if (data['triggerCondition'] !== undefined) {
+            this.triggerCondition = data['triggerCondition'];
+        }
+        else {
+            this.triggerCondition = "DEFAULT";
         }
 
         if (data['clientExtensions'] !== undefined) {
@@ -2950,6 +3090,13 @@ const StopLossOrderRequest_Properties = [
         'primitives.DateTime'
     ),
     new Property(
+        'triggerCondition',
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        'primitive',
+        'order.OrderTriggerCondition'
+    ),
+    new Property(
         'clientExtensions',
         "Client Extensions",
         "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
@@ -2998,6 +3145,13 @@ class StopLossOrderRequest extends Definition {
 
         if (data['gtdTime'] !== undefined) {
             this.gtdTime = data['gtdTime'];
+        }
+
+        if (data['triggerCondition'] !== undefined) {
+            this.triggerCondition = data['triggerCondition'];
+        }
+        else {
+            this.triggerCondition = "DEFAULT";
         }
 
         if (data['clientExtensions'] !== undefined) {
@@ -3051,6 +3205,13 @@ const TrailingStopLossOrderRequest_Properties = [
         'primitives.DateTime'
     ),
     new Property(
+        'triggerCondition',
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        'primitive',
+        'order.OrderTriggerCondition'
+    ),
+    new Property(
         'clientExtensions',
         "Client Extensions",
         "The client extensions to add to the Order. Do not set, modify, or delete clientExtensions if your account is associated with MT4.",
@@ -3099,6 +3260,13 @@ class TrailingStopLossOrderRequest extends Definition {
 
         if (data['gtdTime'] !== undefined) {
             this.gtdTime = data['gtdTime'];
+        }
+
+        if (data['triggerCondition'] !== undefined) {
+            this.triggerCondition = data['triggerCondition'];
+        }
+        else {
+            this.triggerCondition = "DEFAULT";
         }
 
         if (data['clientExtensions'] !== undefined) {
@@ -3215,8 +3383,31 @@ class EntitySpec {
                 else if (response.statusCode == 401)
                 {
                 }
+                else if (response.statusCode == 403)
+                {
+                }
                 else if (response.statusCode == 404)
                 {
+                    if (msg['orderRejectTransaction'] !== undefined) {
+                        response.body.orderRejectTransaction = transaction.Transaction.create(msg['orderRejectTransaction']);
+                    }
+
+                    if (msg['relatedTransactionIDs'] !== undefined) {
+                        response.body.relatedTransactionIDs = msg['relatedTransactionIDs'];
+                    }
+
+                    if (msg['lastTransactionID'] !== undefined) {
+                        response.body.lastTransactionID = msg['lastTransactionID'];
+                    }
+
+                    if (msg['errorCode'] !== undefined) {
+                        response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
+                    }
+
                 }
                 else if (response.statusCode == 405)
                 {
@@ -3479,7 +3670,7 @@ class EntitySpec {
 
     replace(
         accountID,
-        orderID,
+        orderSpecifier,
         bodyParams,
         responseHandler
     )
@@ -3489,7 +3680,7 @@ class EntitySpec {
         bodyParams = bodyParams || {};
 
         path = path.replace('{' + 'accountID' + '}', accountID);
-        path = path.replace('{' + 'orderID' + '}', orderID);
+        path = path.replace('{' + 'orderSpecifier' + '}', orderSpecifier);
 
 
         let body = {};
@@ -3569,6 +3760,26 @@ class EntitySpec {
                 }
                 else if (response.statusCode == 404)
                 {
+                    if (msg['orderCancelRejectTransaction'] !== undefined) {
+                        response.body.orderCancelRejectTransaction = transaction.Transaction.create(msg['orderCancelRejectTransaction']);
+                    }
+
+                    if (msg['relatedTransactionIDs'] !== undefined) {
+                        response.body.relatedTransactionIDs = msg['relatedTransactionIDs'];
+                    }
+
+                    if (msg['lastTransactionID'] !== undefined) {
+                        response.body.lastTransactionID = msg['lastTransactionID'];
+                    }
+
+                    if (msg['errorCode'] !== undefined) {
+                        response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
+                    }
+
                 }
                 else if (response.statusCode == 405)
                 {
@@ -3741,6 +3952,10 @@ class EntitySpec {
                         response.body.lastTransactionID = msg['lastTransactionID'];
                     }
 
+                    if (msg['relatedTransactionIDs'] !== undefined) {
+                        response.body.relatedTransactionIDs = msg['relatedTransactionIDs'];
+                    }
+
                 }
                 else if (response.statusCode == 400)
                 {
@@ -3750,6 +3965,10 @@ class EntitySpec {
 
                     if (msg['lastTransactionID'] !== undefined) {
                         response.body.lastTransactionID = msg['lastTransactionID'];
+                    }
+
+                    if (msg['relatedTransactionIDs'] !== undefined) {
+                        response.body.relatedTransactionIDs = msg['relatedTransactionIDs'];
                     }
 
                     if (msg['errorCode'] !== undefined) {
@@ -3766,6 +3985,26 @@ class EntitySpec {
                 }
                 else if (response.statusCode == 404)
                 {
+                    if (msg['orderClientExtensionsModifyRejectTransaction'] !== undefined) {
+                        response.body.orderClientExtensionsModifyRejectTransaction = new transaction.OrderClientExtensionsModifyRejectTransaction(msg['orderClientExtensionsModifyRejectTransaction']);
+                    }
+
+                    if (msg['lastTransactionID'] !== undefined) {
+                        response.body.lastTransactionID = msg['lastTransactionID'];
+                    }
+
+                    if (msg['relatedTransactionIDs'] !== undefined) {
+                        response.body.relatedTransactionIDs = msg['relatedTransactionIDs'];
+                    }
+
+                    if (msg['errorCode'] !== undefined) {
+                        response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
+                    }
+
                 }
                 else if (response.statusCode == 405)
                 {

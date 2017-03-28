@@ -65,7 +65,7 @@ const Account_Properties = [
         'primitives.AccountUnits'
     ),
     new Property(
-        'resettabledPL',
+        'resettablePL',
         "Resettable Profit/Loss",
         "The total realized profit/loss for the Account since it was last reset by the client. Represented in the Account's home currency.",
         'primitive',
@@ -198,6 +198,13 @@ const Account_Properties = [
         'primitives.DecimalNumber'
     ),
     new Property(
+        'marginCloseoutPositionValue',
+        "Margin Closeout Position Value",
+        "The value of the Account's open positions as used for margin closeout calculations represented in the Account's home currency.",
+        'primitive',
+        'primitives.DecimalNumber'
+    ),
+    new Property(
         'withdrawalLimit',
         "Withdrawal Limit",
         "The current WithdrawalLimit for the account which will be zero or a positive value indicating how much can be withdrawn from the account.",
@@ -288,8 +295,8 @@ class Account extends Definition {
             this.pl = data['pl'];
         }
 
-        if (data['resettabledPL'] !== undefined) {
-            this.resettabledPL = data['resettabledPL'];
+        if (data['resettablePL'] !== undefined) {
+            this.resettablePL = data['resettablePL'];
         }
 
         if (data['resettabledPLTime'] !== undefined) {
@@ -364,6 +371,10 @@ class Account extends Definition {
             this.marginCloseoutPercent = data['marginCloseoutPercent'];
         }
 
+        if (data['marginCloseoutPositionValue'] !== undefined) {
+            this.marginCloseoutPositionValue = data['marginCloseoutPositionValue'];
+        }
+
         if (data['withdrawalLimit'] !== undefined) {
             this.withdrawalLimit = data['withdrawalLimit'];
         }
@@ -395,7 +406,7 @@ class Account extends Definition {
     }
 }
 
-const AccountState_Properties = [
+const AccountChangesState_Properties = [
     new Property(
         'unrealizedPL',
         "Unrealized Profit/Loss",
@@ -460,6 +471,13 @@ const AccountState_Properties = [
         'primitives.DecimalNumber'
     ),
     new Property(
+        'marginCloseoutPositionValue',
+        "Margin Closeout Position Value",
+        "The value of the Account's open positions as used for margin closeout calculations represented in the Account's home currency.",
+        'primitive',
+        'primitives.DecimalNumber'
+    ),
+    new Property(
         'withdrawalLimit',
         "Withdrawal Limit",
         "The current WithdrawalLimit for the account which will be zero or a positive value indicating how much can be withdrawn from the account.",
@@ -503,7 +521,7 @@ const AccountState_Properties = [
     ),
 ];
 
-class AccountState extends Definition {
+class AccountChangesState extends Definition {
     constructor(data) {
         super();
 
@@ -511,7 +529,7 @@ class AccountState extends Definition {
 
         this._nameFormat = "";
 
-        this._properties = AccountState_Properties;
+        this._properties = AccountChangesState_Properties;
 
         data = data || {};
 
@@ -549,6 +567,10 @@ class AccountState extends Definition {
 
         if (data['marginCloseoutPercent'] !== undefined) {
             this.marginCloseoutPercent = data['marginCloseoutPercent'];
+        }
+
+        if (data['marginCloseoutPositionValue'] !== undefined) {
+            this.marginCloseoutPositionValue = data['marginCloseoutPositionValue'];
         }
 
         if (data['withdrawalLimit'] !== undefined) {
@@ -680,7 +702,7 @@ const AccountSummary_Properties = [
         'primitives.AccountUnits'
     ),
     new Property(
-        'resettabledPL',
+        'resettablePL',
         "Resettable Profit/Loss",
         "The total realized profit/loss for the Account since it was last reset by the client. Represented in the Account's home currency.",
         'primitive',
@@ -813,6 +835,13 @@ const AccountSummary_Properties = [
         'primitives.DecimalNumber'
     ),
     new Property(
+        'marginCloseoutPositionValue',
+        "Margin Closeout Position Value",
+        "The value of the Account's open positions as used for margin closeout calculations represented in the Account's home currency.",
+        'primitive',
+        'primitives.DecimalNumber'
+    ),
+    new Property(
         'withdrawalLimit',
         "Withdrawal Limit",
         "The current WithdrawalLimit for the account which will be zero or a positive value indicating how much can be withdrawn from the account.",
@@ -882,8 +911,8 @@ class AccountSummary extends Definition {
             this.pl = data['pl'];
         }
 
-        if (data['resettabledPL'] !== undefined) {
-            this.resettabledPL = data['resettabledPL'];
+        if (data['resettablePL'] !== undefined) {
+            this.resettablePL = data['resettablePL'];
         }
 
         if (data['resettabledPLTime'] !== undefined) {
@@ -958,6 +987,10 @@ class AccountSummary extends Definition {
             this.marginCloseoutPercent = data['marginCloseoutPercent'];
         }
 
+        if (data['marginCloseoutPositionValue'] !== undefined) {
+            this.marginCloseoutPositionValue = data['marginCloseoutPositionValue'];
+        }
+
         if (data['withdrawalLimit'] !== undefined) {
             this.withdrawalLimit = data['withdrawalLimit'];
         }
@@ -1011,21 +1044,21 @@ const AccountChanges_Properties = [
         "Trades Opened",
         "The Trades opened.",
         'array_object',
-        'Trade'
+        'TradeSummary'
     ),
     new Property(
         'tradesReduced',
         "Trades Reduced",
         "The Trades reduced.",
         'array_object',
-        'Trade'
+        'TradeSummary'
     ),
     new Property(
         'tradesClosed',
         "Trades Closed",
         "The Trades closed.",
         'array_object',
-        'Trade'
+        'TradeSummary'
     ),
     new Property(
         'positions',
@@ -1072,15 +1105,15 @@ class AccountChanges extends Definition {
         }
 
         if (data['tradesOpened'] !== undefined) {
-            this.tradesOpened = data['tradesOpened'].map(x => new trade.Trade(x));
+            this.tradesOpened = data['tradesOpened'].map(x => new trade.TradeSummary(x));
         }
 
         if (data['tradesReduced'] !== undefined) {
-            this.tradesReduced = data['tradesReduced'].map(x => new trade.Trade(x));
+            this.tradesReduced = data['tradesReduced'].map(x => new trade.TradeSummary(x));
         }
 
         if (data['tradesClosed'] !== undefined) {
-            this.tradesClosed = data['tradesClosed'].map(x => new trade.Trade(x));
+            this.tradesClosed = data['tradesClosed'].map(x => new trade.TradeSummary(x));
         }
 
         if (data['positions'] !== undefined) {
@@ -1098,7 +1131,7 @@ class EntitySpec {
     constructor(context) {
         this.context = context;
         this.Account = Account;
-        this.AccountState = AccountState;
+        this.AccountChangesState = AccountChangesState;
         this.AccountProperties = AccountProperties;
         this.AccountSummary = AccountSummary;
         this.AccountChanges = AccountChanges;
@@ -1334,6 +1367,10 @@ class EntitySpec {
                         response.body.instruments = msg['instruments'].map(x => new primitives.Instrument(x));
                     }
 
+                    if (msg['lastTransactionID'] !== undefined) {
+                        response.body.lastTransactionID = msg['lastTransactionID'];
+                    }
+
                 }
                 else if (response.statusCode == 400)
                 {
@@ -1407,8 +1444,8 @@ class EntitySpec {
 
                 if (response.statusCode == 200)
                 {
-                    if (msg['configureTransaction'] !== undefined) {
-                        response.body.configureTransaction = new transaction.ClientConfigureTransaction(msg['configureTransaction']);
+                    if (msg['clientConfigureTransaction'] !== undefined) {
+                        response.body.clientConfigureTransaction = new transaction.ClientConfigureTransaction(msg['clientConfigureTransaction']);
                     }
 
                     if (msg['lastTransactionID'] !== undefined) {
@@ -1418,8 +1455,27 @@ class EntitySpec {
                 }
                 else if (response.statusCode == 400)
                 {
-                    if (msg['configureRejectTransaction'] !== undefined) {
-                        response.body.configureRejectTransaction = new transaction.ClientConfigureRejectTransaction(msg['configureRejectTransaction']);
+                    if (msg['clientConfigureRejectTransaction'] !== undefined) {
+                        response.body.clientConfigureRejectTransaction = new transaction.ClientConfigureRejectTransaction(msg['clientConfigureRejectTransaction']);
+                    }
+
+                    if (msg['lastTransactionID'] !== undefined) {
+                        response.body.lastTransactionID = msg['lastTransactionID'];
+                    }
+
+                    if (msg['errorCode'] !== undefined) {
+                        response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
+                    }
+
+                }
+                else if (response.statusCode == 403)
+                {
+                    if (msg['clientConfigureRejectTransaction'] !== undefined) {
+                        response.body.clientConfigureRejectTransaction = new transaction.ClientConfigureRejectTransaction(msg['clientConfigureRejectTransaction']);
                     }
 
                     if (msg['lastTransactionID'] !== undefined) {
@@ -1506,7 +1562,7 @@ class EntitySpec {
                     }
 
                     if (msg['state'] !== undefined) {
-                        response.body.state = new AccountState(msg['state']);
+                        response.body.state = new AccountChangesState(msg['state']);
                     }
 
                     if (msg['lastTransactionID'] !== undefined) {
@@ -1560,7 +1616,7 @@ class EntitySpec {
 }
 
 exports.Account = Account;
-exports.AccountState = AccountState;
+exports.AccountChangesState = AccountChangesState;
 exports.AccountProperties = AccountProperties;
 exports.AccountSummary = AccountSummary;
 exports.AccountChanges = AccountChanges;

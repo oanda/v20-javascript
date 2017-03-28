@@ -39,6 +39,13 @@ const Price_Properties = [
         'pricing.PriceStatus'
     ),
     new Property(
+        'tradeable',
+        "Is Tradeable",
+        "Flag indicating if the Price is tradeable or not",
+        'primitive',
+        'boolean'
+    ),
+    new Property(
         'bids',
         "Bids",
         "The list of prices and liquidity available on the Instrument's bid side. It is possible for this list to be empty if there is no bid liquidity currently available for the Instrument in the Account.",
@@ -76,7 +83,7 @@ const Price_Properties = [
     new Property(
         'unitsAvailable',
         "Units Available",
-        "Representation of many units of an Instrument are available to be traded for both long and short Orders.",
+        "Representation of how many units of an Instrument are available to be traded by an Order depending on its postionFill option.",
         'object',
         'pricing.UnitsAvailable'
     ),
@@ -111,6 +118,10 @@ class Price extends Definition {
 
         if (data['status'] !== undefined) {
             this.status = data['status'];
+        }
+
+        if (data['tradeable'] !== undefined) {
+            this.tradeable = data['tradeable'];
         }
 
         if (data['bids'] !== undefined) {
@@ -180,72 +191,18 @@ class PriceBucket extends Definition {
     }
 }
 
-const UnitsAvailable_Properties = [
+const UnitsAvailableDetails_Properties = [
     new Property(
         'long',
         "Long",
-        "The units available breakdown for long Orders.",
-        'object',
-        'pricing.UnitsAvailableDetails'
+        "The units available for long Orders.",
+        'primitive',
+        'primitives.DecimalNumber'
     ),
     new Property(
         'short',
         "Short",
-        "The units available breakdown for short Orders.",
-        'object',
-        'pricing.UnitsAvailableDetails'
-    ),
-];
-
-class UnitsAvailable extends Definition {
-    constructor(data) {
-        super();
-
-        this._summaryFormat = "";
-
-        this._nameFormat = "";
-
-        this._properties = UnitsAvailable_Properties;
-
-        data = data || {};
-
-        if (data['long'] !== undefined) {
-            this.long = new UnitsAvailableDetails(data['long']);
-        }
-
-        if (data['short'] !== undefined) {
-            this.short = new UnitsAvailableDetails(data['short']);
-        }
-
-    }
-}
-
-const UnitsAvailableDetails_Properties = [
-    new Property(
-        'default',
-        "Default",
-        "The number of units that are available to be traded using an Order with a positionFill option of \"DEFAULT\". For an Account with hedging enabled, this value will be the same as the \"OPEN_ONLY\" value. For an Account without hedging enabled, this value will be the same as the \"REDUCE_FIRST\" value.",
-        'primitive',
-        'primitives.DecimalNumber'
-    ),
-    new Property(
-        'reduceFirst',
-        "Reduce First",
-        "The number of units that may are available to be traded with an Order with a positionFill option of \"REDUCE_FIRST\".",
-        'primitive',
-        'primitives.DecimalNumber'
-    ),
-    new Property(
-        'reduceOnly',
-        "Reduce Only",
-        "The number of units that may are available to be traded with an Order with a positionFill option of \"REDUCE_ONLY\".",
-        'primitive',
-        'primitives.DecimalNumber'
-    ),
-    new Property(
-        'openOnly',
-        "Open Only",
-        "The number of units that may are available to be traded with an Order with a positionFill option of \"OPEN_ONLY\".",
+        "The units available for short Orders.",
         'primitive',
         'primitives.DecimalNumber'
     ),
@@ -263,20 +220,74 @@ class UnitsAvailableDetails extends Definition {
 
         data = data || {};
 
+        if (data['long'] !== undefined) {
+            this.long = data['long'];
+        }
+
+        if (data['short'] !== undefined) {
+            this.short = data['short'];
+        }
+
+    }
+}
+
+const UnitsAvailable_Properties = [
+    new Property(
+        'default',
+        "Default",
+        "The number of units that are available to be traded using an Order with a positionFill option of \"DEFAULT\". For an Account with hedging enabled, this value will be the same as the \"OPEN_ONLY\" value. For an Account without hedging enabled, this value will be the same as the \"REDUCE_FIRST\" value.",
+        'object',
+        'pricing.UnitsAvailableDetails'
+    ),
+    new Property(
+        'reduceFirst',
+        "Reduce First",
+        "The number of units that may are available to be traded with an Order with a positionFill option of \"REDUCE_FIRST\".",
+        'object',
+        'pricing.UnitsAvailableDetails'
+    ),
+    new Property(
+        'reduceOnly',
+        "Reduce Only",
+        "The number of units that may are available to be traded with an Order with a positionFill option of \"REDUCE_ONLY\".",
+        'object',
+        'pricing.UnitsAvailableDetails'
+    ),
+    new Property(
+        'openOnly',
+        "Open Only",
+        "The number of units that may are available to be traded with an Order with a positionFill option of \"OPEN_ONLY\".",
+        'object',
+        'pricing.UnitsAvailableDetails'
+    ),
+];
+
+class UnitsAvailable extends Definition {
+    constructor(data) {
+        super();
+
+        this._summaryFormat = "";
+
+        this._nameFormat = "";
+
+        this._properties = UnitsAvailable_Properties;
+
+        data = data || {};
+
         if (data['default'] !== undefined) {
-            this.default = data['default'];
+            this.default = new UnitsAvailableDetails(data['default']);
         }
 
         if (data['reduceFirst'] !== undefined) {
-            this.reduceFirst = data['reduceFirst'];
+            this.reduceFirst = new UnitsAvailableDetails(data['reduceFirst']);
         }
 
         if (data['reduceOnly'] !== undefined) {
-            this.reduceOnly = data['reduceOnly'];
+            this.reduceOnly = new UnitsAvailableDetails(data['reduceOnly']);
         }
 
         if (data['openOnly'] !== undefined) {
-            this.openOnly = data['openOnly'];
+            this.openOnly = new UnitsAvailableDetails(data['openOnly']);
         }
 
     }
@@ -370,8 +381,8 @@ class EntitySpec {
         this.context = context;
         this.Price = Price;
         this.PriceBucket = PriceBucket;
-        this.UnitsAvailable = UnitsAvailable;
         this.UnitsAvailableDetails = UnitsAvailableDetails;
+        this.UnitsAvailable = UnitsAvailable;
         this.QuoteHomeConversionFactors = QuoteHomeConversionFactors;
         this.PricingHeartbeat = PricingHeartbeat;
     }
@@ -543,8 +554,8 @@ class EntitySpec {
 
 exports.Price = Price;
 exports.PriceBucket = PriceBucket;
-exports.UnitsAvailable = UnitsAvailable;
 exports.UnitsAvailableDetails = UnitsAvailableDetails;
+exports.UnitsAvailable = UnitsAvailable;
 exports.QuoteHomeConversionFactors = QuoteHomeConversionFactors;
 exports.PricingHeartbeat = PricingHeartbeat;
 

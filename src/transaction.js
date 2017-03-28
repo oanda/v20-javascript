@@ -45,6 +45,13 @@ const Transaction_Properties = [
         'primitive',
         'transaction.TransactionID'
     ),
+    new Property(
+        'requestID',
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        'primitive',
+        'transaction.RequestID'
+    ),
 ];
 
 class Transaction extends Definition {
@@ -77,6 +84,10 @@ class Transaction extends Definition {
 
         if (data['batchID'] !== undefined) {
             this.batchID = data['batchID'];
+        }
+
+        if (data['requestID'] !== undefined) {
+            this.requestID = data['requestID'];
         }
 
     }
@@ -264,6 +275,13 @@ const CreateTransaction_Properties = [
         'transaction.TransactionID'
     ),
     new Property(
+        'requestID',
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        'primitive',
+        'transaction.RequestID'
+    ),
+    new Property(
         'type',
         "Type",
         "The Type of the Transaction. Always set to \"CREATE\" in a CreateTransaction.",
@@ -339,6 +357,10 @@ class CreateTransaction extends Definition {
             this.batchID = data['batchID'];
         }
 
+        if (data['requestID'] !== undefined) {
+            this.requestID = data['requestID'];
+        }
+
         if (data['type'] !== undefined) {
             this.type = data['type'];
         }
@@ -406,6 +428,13 @@ const CloseTransaction_Properties = [
         'transaction.TransactionID'
     ),
     new Property(
+        'requestID',
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        'primitive',
+        'transaction.RequestID'
+    ),
+    new Property(
         'type',
         "Type",
         "The Type of the Transaction. Always set to \"CLOSE\" in a CloseTransaction.",
@@ -444,6 +473,10 @@ class CloseTransaction extends Definition {
 
         if (data['batchID'] !== undefined) {
             this.batchID = data['batchID'];
+        }
+
+        if (data['requestID'] !== undefined) {
+            this.requestID = data['requestID'];
         }
 
         if (data['type'] !== undefined) {
@@ -493,6 +526,13 @@ const ReopenTransaction_Properties = [
         'transaction.TransactionID'
     ),
     new Property(
+        'requestID',
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        'primitive',
+        'transaction.RequestID'
+    ),
+    new Property(
         'type',
         "Type",
         "The Type of the Transaction. Always set to \"REOPEN\" in a ReopenTransaction.",
@@ -531,6 +571,10 @@ class ReopenTransaction extends Definition {
 
         if (data['batchID'] !== undefined) {
             this.batchID = data['batchID'];
+        }
+
+        if (data['requestID'] !== undefined) {
+            this.requestID = data['requestID'];
         }
 
         if (data['type'] !== undefined) {
@@ -578,6 +622,13 @@ const ClientConfigureTransaction_Properties = [
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         'primitive',
         'transaction.TransactionID'
+    ),
+    new Property(
+        'requestID',
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        'primitive',
+        'transaction.RequestID'
     ),
     new Property(
         'type',
@@ -634,6 +685,10 @@ class ClientConfigureTransaction extends Definition {
             this.batchID = data['batchID'];
         }
 
+        if (data['requestID'] !== undefined) {
+            this.requestID = data['requestID'];
+        }
+
         if (data['type'] !== undefined) {
             this.type = data['type'];
         }
@@ -687,6 +742,13 @@ const ClientConfigureRejectTransaction_Properties = [
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         'primitive',
         'transaction.TransactionID'
+    ),
+    new Property(
+        'requestID',
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        'primitive',
+        'transaction.RequestID'
     ),
     new Property(
         'type',
@@ -750,6 +812,10 @@ class ClientConfigureRejectTransaction extends Definition {
             this.batchID = data['batchID'];
         }
 
+        if (data['requestID'] !== undefined) {
+            this.requestID = data['requestID'];
+        }
+
         if (data['type'] !== undefined) {
             this.type = data['type'];
         }
@@ -809,6 +875,13 @@ const TransferFundsTransaction_Properties = [
         'transaction.TransactionID'
     ),
     new Property(
+        'requestID',
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        'primitive',
+        'transaction.RequestID'
+    ),
+    new Property(
         'type',
         "Type",
         "The Type of the Transaction. Always set to \"TRANSFER_FUNDS\" in a TransferFundsTransaction.",
@@ -828,6 +901,13 @@ const TransferFundsTransaction_Properties = [
         "The reason that an Account is being funded.",
         'primitive',
         'transaction.FundingReason'
+    ),
+    new Property(
+        'comment',
+        "Comment",
+        "An optional comment that may be attached to a fund transfer for audit purposes",
+        'primitive',
+        'string'
     ),
     new Property(
         'accountBalance',
@@ -870,6 +950,10 @@ class TransferFundsTransaction extends Definition {
             this.batchID = data['batchID'];
         }
 
+        if (data['requestID'] !== undefined) {
+            this.requestID = data['requestID'];
+        }
+
         if (data['type'] !== undefined) {
             this.type = data['type'];
         }
@@ -883,6 +967,10 @@ class TransferFundsTransaction extends Definition {
 
         if (data['fundingReason'] !== undefined) {
             this.fundingReason = data['fundingReason'];
+        }
+
+        if (data['comment'] !== undefined) {
+            this.comment = data['comment'];
         }
 
         if (data['accountBalance'] !== undefined) {
@@ -929,6 +1017,13 @@ const TransferFundsRejectTransaction_Properties = [
         'transaction.TransactionID'
     ),
     new Property(
+        'requestID',
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        'primitive',
+        'transaction.RequestID'
+    ),
+    new Property(
         'type',
         "Type",
         "The Type of the Transaction. Always set to \"TRANSFER_FUNDS_REJECT\" in a TransferFundsRejectTransaction.",
@@ -948,6 +1043,13 @@ const TransferFundsRejectTransaction_Properties = [
         "The reason that an Account is being funded.",
         'primitive',
         'transaction.FundingReason'
+    ),
+    new Property(
+        'comment',
+        "Comment",
+        "An optional comment that may be attached to a fund transfer for audit purposes",
+        'primitive',
+        'string'
     ),
     new Property(
         'rejectReason',
@@ -990,6 +1092,10 @@ class TransferFundsRejectTransaction extends Definition {
             this.batchID = data['batchID'];
         }
 
+        if (data['requestID'] !== undefined) {
+            this.requestID = data['requestID'];
+        }
+
         if (data['type'] !== undefined) {
             this.type = data['type'];
         }
@@ -1003,6 +1109,10 @@ class TransferFundsRejectTransaction extends Definition {
 
         if (data['fundingReason'] !== undefined) {
             this.fundingReason = data['fundingReason'];
+        }
+
+        if (data['comment'] !== undefined) {
+            this.comment = data['comment'];
         }
 
         if (data['rejectReason'] !== undefined) {
@@ -1047,6 +1157,13 @@ const MarketOrderTransaction_Properties = [
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         'primitive',
         'transaction.TransactionID'
+    ),
+    new Property(
+        'requestID',
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        'primitive',
+        'transaction.RequestID'
     ),
     new Property(
         'type',
@@ -1201,6 +1318,10 @@ class MarketOrderTransaction extends Definition {
             this.batchID = data['batchID'];
         }
 
+        if (data['requestID'] !== undefined) {
+            this.requestID = data['requestID'];
+        }
+
         if (data['type'] !== undefined) {
             this.type = data['type'];
         }
@@ -1316,6 +1437,13 @@ const MarketOrderRejectTransaction_Properties = [
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         'primitive',
         'transaction.TransactionID'
+    ),
+    new Property(
+        'requestID',
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        'primitive',
+        'transaction.RequestID'
     ),
     new Property(
         'type',
@@ -1477,6 +1605,10 @@ class MarketOrderRejectTransaction extends Definition {
             this.batchID = data['batchID'];
         }
 
+        if (data['requestID'] !== undefined) {
+            this.requestID = data['requestID'];
+        }
+
         if (data['type'] !== undefined) {
             this.type = data['type'];
         }
@@ -1598,6 +1730,13 @@ const LimitOrderTransaction_Properties = [
         'transaction.TransactionID'
     ),
     new Property(
+        'requestID',
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        'primitive',
+        'transaction.RequestID'
+    ),
+    new Property(
         'type',
         "Type",
         "The Type of the Transaction. Always set to \"LIMIT_ORDER\" in a LimitOrderTransaction.",
@@ -1645,6 +1784,13 @@ const LimitOrderTransaction_Properties = [
         "Specification of how Positions in the Account are modified when the Order is filled.",
         'primitive',
         'order.OrderPositionFill'
+    ),
+    new Property(
+        'triggerCondition',
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        'primitive',
+        'order.OrderTriggerCondition'
     ),
     new Property(
         'reason',
@@ -1696,7 +1842,7 @@ const LimitOrderTransaction_Properties = [
         'order.OrderID'
     ),
     new Property(
-        'replacedOrderCancelTransactionID',
+        'cancellingTransactionID',
         "Replaces Order Cancel Transaction ID",
         "The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order).",
         'primitive',
@@ -1736,6 +1882,10 @@ class LimitOrderTransaction extends Definition {
             this.batchID = data['batchID'];
         }
 
+        if (data['requestID'] !== undefined) {
+            this.requestID = data['requestID'];
+        }
+
         if (data['type'] !== undefined) {
             this.type = data['type'];
         }
@@ -1773,6 +1923,13 @@ class LimitOrderTransaction extends Definition {
             this.positionFill = "DEFAULT";
         }
 
+        if (data['triggerCondition'] !== undefined) {
+            this.triggerCondition = data['triggerCondition'];
+        }
+        else {
+            this.triggerCondition = "DEFAULT";
+        }
+
         if (data['reason'] !== undefined) {
             this.reason = data['reason'];
         }
@@ -1801,8 +1958,8 @@ class LimitOrderTransaction extends Definition {
             this.replacesOrderID = data['replacesOrderID'];
         }
 
-        if (data['replacedOrderCancelTransactionID'] !== undefined) {
-            this.replacedOrderCancelTransactionID = data['replacedOrderCancelTransactionID'];
+        if (data['cancellingTransactionID'] !== undefined) {
+            this.cancellingTransactionID = data['cancellingTransactionID'];
         }
 
     }
@@ -1843,6 +2000,13 @@ const LimitOrderRejectTransaction_Properties = [
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         'primitive',
         'transaction.TransactionID'
+    ),
+    new Property(
+        'requestID',
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        'primitive',
+        'transaction.RequestID'
     ),
     new Property(
         'type',
@@ -1892,6 +2056,13 @@ const LimitOrderRejectTransaction_Properties = [
         "Specification of how Positions in the Account are modified when the Order is filled.",
         'primitive',
         'order.OrderPositionFill'
+    ),
+    new Property(
+        'triggerCondition',
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        'primitive',
+        'order.OrderTriggerCondition'
     ),
     new Property(
         'reason',
@@ -1983,6 +2154,10 @@ class LimitOrderRejectTransaction extends Definition {
             this.batchID = data['batchID'];
         }
 
+        if (data['requestID'] !== undefined) {
+            this.requestID = data['requestID'];
+        }
+
         if (data['type'] !== undefined) {
             this.type = data['type'];
         }
@@ -2018,6 +2193,13 @@ class LimitOrderRejectTransaction extends Definition {
         }
         else {
             this.positionFill = "DEFAULT";
+        }
+
+        if (data['triggerCondition'] !== undefined) {
+            this.triggerCondition = data['triggerCondition'];
+        }
+        else {
+            this.triggerCondition = "DEFAULT";
         }
 
         if (data['reason'] !== undefined) {
@@ -2092,6 +2274,13 @@ const StopOrderTransaction_Properties = [
         'transaction.TransactionID'
     ),
     new Property(
+        'requestID',
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        'primitive',
+        'transaction.RequestID'
+    ),
+    new Property(
         'type',
         "Type",
         "The Type of the Transaction. Always set to \"STOP_ORDER\" in a StopOrderTransaction.",
@@ -2148,6 +2337,13 @@ const StopOrderTransaction_Properties = [
         'order.OrderPositionFill'
     ),
     new Property(
+        'triggerCondition',
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        'primitive',
+        'order.OrderTriggerCondition'
+    ),
+    new Property(
         'reason',
         "Reason",
         "The reason that the Stop Order was initiated",
@@ -2197,7 +2393,7 @@ const StopOrderTransaction_Properties = [
         'order.OrderID'
     ),
     new Property(
-        'replacedOrderCancelTransactionID',
+        'cancellingTransactionID',
         "Replaces Order Cancel Transaction ID",
         "The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order).",
         'primitive',
@@ -2235,6 +2431,10 @@ class StopOrderTransaction extends Definition {
 
         if (data['batchID'] !== undefined) {
             this.batchID = data['batchID'];
+        }
+
+        if (data['requestID'] !== undefined) {
+            this.requestID = data['requestID'];
         }
 
         if (data['type'] !== undefined) {
@@ -2278,6 +2478,13 @@ class StopOrderTransaction extends Definition {
             this.positionFill = "DEFAULT";
         }
 
+        if (data['triggerCondition'] !== undefined) {
+            this.triggerCondition = data['triggerCondition'];
+        }
+        else {
+            this.triggerCondition = "DEFAULT";
+        }
+
         if (data['reason'] !== undefined) {
             this.reason = data['reason'];
         }
@@ -2306,8 +2513,8 @@ class StopOrderTransaction extends Definition {
             this.replacesOrderID = data['replacesOrderID'];
         }
 
-        if (data['replacedOrderCancelTransactionID'] !== undefined) {
-            this.replacedOrderCancelTransactionID = data['replacedOrderCancelTransactionID'];
+        if (data['cancellingTransactionID'] !== undefined) {
+            this.cancellingTransactionID = data['cancellingTransactionID'];
         }
 
     }
@@ -2348,6 +2555,13 @@ const StopOrderRejectTransaction_Properties = [
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         'primitive',
         'transaction.TransactionID'
+    ),
+    new Property(
+        'requestID',
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        'primitive',
+        'transaction.RequestID'
     ),
     new Property(
         'type',
@@ -2404,6 +2618,13 @@ const StopOrderRejectTransaction_Properties = [
         "Specification of how Positions in the Account are modified when the Order is filled.",
         'primitive',
         'order.OrderPositionFill'
+    ),
+    new Property(
+        'triggerCondition',
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        'primitive',
+        'order.OrderTriggerCondition'
     ),
     new Property(
         'reason',
@@ -2495,6 +2716,10 @@ class StopOrderRejectTransaction extends Definition {
             this.batchID = data['batchID'];
         }
 
+        if (data['requestID'] !== undefined) {
+            this.requestID = data['requestID'];
+        }
+
         if (data['type'] !== undefined) {
             this.type = data['type'];
         }
@@ -2534,6 +2759,13 @@ class StopOrderRejectTransaction extends Definition {
         }
         else {
             this.positionFill = "DEFAULT";
+        }
+
+        if (data['triggerCondition'] !== undefined) {
+            this.triggerCondition = data['triggerCondition'];
+        }
+        else {
+            this.triggerCondition = "DEFAULT";
         }
 
         if (data['reason'] !== undefined) {
@@ -2608,6 +2840,13 @@ const MarketIfTouchedOrderTransaction_Properties = [
         'transaction.TransactionID'
     ),
     new Property(
+        'requestID',
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        'primitive',
+        'transaction.RequestID'
+    ),
+    new Property(
         'type',
         "Type",
         "The Type of the Transaction. Always set to \"MARKET_IF_TOUCHED_ORDER\" in a MarketIfTouchedOrderTransaction.",
@@ -2664,6 +2903,13 @@ const MarketIfTouchedOrderTransaction_Properties = [
         'order.OrderPositionFill'
     ),
     new Property(
+        'triggerCondition',
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        'primitive',
+        'order.OrderTriggerCondition'
+    ),
+    new Property(
         'reason',
         "Reason",
         "The reason that the Market-if-touched Order was initiated",
@@ -2713,7 +2959,7 @@ const MarketIfTouchedOrderTransaction_Properties = [
         'order.OrderID'
     ),
     new Property(
-        'replacedOrderCancelTransactionID',
+        'cancellingTransactionID',
         "Replaces Order Cancel Transaction ID",
         "The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order).",
         'primitive',
@@ -2751,6 +2997,10 @@ class MarketIfTouchedOrderTransaction extends Definition {
 
         if (data['batchID'] !== undefined) {
             this.batchID = data['batchID'];
+        }
+
+        if (data['requestID'] !== undefined) {
+            this.requestID = data['requestID'];
         }
 
         if (data['type'] !== undefined) {
@@ -2794,6 +3044,13 @@ class MarketIfTouchedOrderTransaction extends Definition {
             this.positionFill = "DEFAULT";
         }
 
+        if (data['triggerCondition'] !== undefined) {
+            this.triggerCondition = data['triggerCondition'];
+        }
+        else {
+            this.triggerCondition = "DEFAULT";
+        }
+
         if (data['reason'] !== undefined) {
             this.reason = data['reason'];
         }
@@ -2822,8 +3079,8 @@ class MarketIfTouchedOrderTransaction extends Definition {
             this.replacesOrderID = data['replacesOrderID'];
         }
 
-        if (data['replacedOrderCancelTransactionID'] !== undefined) {
-            this.replacedOrderCancelTransactionID = data['replacedOrderCancelTransactionID'];
+        if (data['cancellingTransactionID'] !== undefined) {
+            this.cancellingTransactionID = data['cancellingTransactionID'];
         }
 
     }
@@ -2864,6 +3121,13 @@ const MarketIfTouchedOrderRejectTransaction_Properties = [
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         'primitive',
         'transaction.TransactionID'
+    ),
+    new Property(
+        'requestID',
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        'primitive',
+        'transaction.RequestID'
     ),
     new Property(
         'type',
@@ -2920,6 +3184,13 @@ const MarketIfTouchedOrderRejectTransaction_Properties = [
         "Specification of how Positions in the Account are modified when the Order is filled.",
         'primitive',
         'order.OrderPositionFill'
+    ),
+    new Property(
+        'triggerCondition',
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        'primitive',
+        'order.OrderTriggerCondition'
     ),
     new Property(
         'reason',
@@ -3011,6 +3282,10 @@ class MarketIfTouchedOrderRejectTransaction extends Definition {
             this.batchID = data['batchID'];
         }
 
+        if (data['requestID'] !== undefined) {
+            this.requestID = data['requestID'];
+        }
+
         if (data['type'] !== undefined) {
             this.type = data['type'];
         }
@@ -3050,6 +3325,13 @@ class MarketIfTouchedOrderRejectTransaction extends Definition {
         }
         else {
             this.positionFill = "DEFAULT";
+        }
+
+        if (data['triggerCondition'] !== undefined) {
+            this.triggerCondition = data['triggerCondition'];
+        }
+        else {
+            this.triggerCondition = "DEFAULT";
         }
 
         if (data['reason'] !== undefined) {
@@ -3124,6 +3406,13 @@ const TakeProfitOrderTransaction_Properties = [
         'transaction.TransactionID'
     ),
     new Property(
+        'requestID',
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        'primitive',
+        'transaction.RequestID'
+    ),
+    new Property(
         'type',
         "Type",
         "The Type of the Transaction. Always set to \"TAKE_PROFIT_ORDER\" in a TakeProfitOrderTransaction.",
@@ -3166,6 +3455,13 @@ const TakeProfitOrderTransaction_Properties = [
         'primitives.DateTime'
     ),
     new Property(
+        'triggerCondition',
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        'primitive',
+        'order.OrderTriggerCondition'
+    ),
+    new Property(
         'reason',
         "Reason",
         "The reason that the Take Profit Order was initiated",
@@ -3194,7 +3490,7 @@ const TakeProfitOrderTransaction_Properties = [
         'order.OrderID'
     ),
     new Property(
-        'replacedOrderCancelTransactionID',
+        'cancellingTransactionID',
         "Replaces Order Cancel Transaction ID",
         "The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order).",
         'primitive',
@@ -3234,6 +3530,10 @@ class TakeProfitOrderTransaction extends Definition {
             this.batchID = data['batchID'];
         }
 
+        if (data['requestID'] !== undefined) {
+            this.requestID = data['requestID'];
+        }
+
         if (data['type'] !== undefined) {
             this.type = data['type'];
         }
@@ -3264,6 +3564,13 @@ class TakeProfitOrderTransaction extends Definition {
             this.gtdTime = data['gtdTime'];
         }
 
+        if (data['triggerCondition'] !== undefined) {
+            this.triggerCondition = data['triggerCondition'];
+        }
+        else {
+            this.triggerCondition = "DEFAULT";
+        }
+
         if (data['reason'] !== undefined) {
             this.reason = data['reason'];
         }
@@ -3280,8 +3587,8 @@ class TakeProfitOrderTransaction extends Definition {
             this.replacesOrderID = data['replacesOrderID'];
         }
 
-        if (data['replacedOrderCancelTransactionID'] !== undefined) {
-            this.replacedOrderCancelTransactionID = data['replacedOrderCancelTransactionID'];
+        if (data['cancellingTransactionID'] !== undefined) {
+            this.cancellingTransactionID = data['cancellingTransactionID'];
         }
 
     }
@@ -3324,6 +3631,13 @@ const TakeProfitOrderRejectTransaction_Properties = [
         'transaction.TransactionID'
     ),
     new Property(
+        'requestID',
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        'primitive',
+        'transaction.RequestID'
+    ),
+    new Property(
         'type',
         "Type",
         "The Type of the Transaction. Always set to \"TAKE_PROFIT_ORDER_REJECT\" in a TakeProfitOrderRejectTransaction.",
@@ -3364,6 +3678,13 @@ const TakeProfitOrderRejectTransaction_Properties = [
         "The date/time when the TakeProfit Order will be cancelled if its timeInForce is \"GTD\".",
         'primitive',
         'primitives.DateTime'
+    ),
+    new Property(
+        'triggerCondition',
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        'primitive',
+        'order.OrderTriggerCondition'
     ),
     new Property(
         'reason',
@@ -3434,6 +3755,10 @@ class TakeProfitOrderRejectTransaction extends Definition {
             this.batchID = data['batchID'];
         }
 
+        if (data['requestID'] !== undefined) {
+            this.requestID = data['requestID'];
+        }
+
         if (data['type'] !== undefined) {
             this.type = data['type'];
         }
@@ -3462,6 +3787,13 @@ class TakeProfitOrderRejectTransaction extends Definition {
 
         if (data['gtdTime'] !== undefined) {
             this.gtdTime = data['gtdTime'];
+        }
+
+        if (data['triggerCondition'] !== undefined) {
+            this.triggerCondition = data['triggerCondition'];
+        }
+        else {
+            this.triggerCondition = "DEFAULT";
         }
 
         if (data['reason'] !== undefined) {
@@ -3524,6 +3856,13 @@ const StopLossOrderTransaction_Properties = [
         'transaction.TransactionID'
     ),
     new Property(
+        'requestID',
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        'primitive',
+        'transaction.RequestID'
+    ),
+    new Property(
         'type',
         "Type",
         "The Type of the Transaction. Always set to \"STOP_LOSS_ORDER\" in a StopLossOrderTransaction.",
@@ -3566,6 +3905,13 @@ const StopLossOrderTransaction_Properties = [
         'primitives.DateTime'
     ),
     new Property(
+        'triggerCondition',
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        'primitive',
+        'order.OrderTriggerCondition'
+    ),
+    new Property(
         'reason',
         "Reason",
         "The reason that the Stop Loss Order was initiated",
@@ -3594,7 +3940,7 @@ const StopLossOrderTransaction_Properties = [
         'order.OrderID'
     ),
     new Property(
-        'replacedOrderCancelTransactionID',
+        'cancellingTransactionID',
         "Replaces Order Cancel Transaction ID",
         "The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order).",
         'primitive',
@@ -3634,6 +3980,10 @@ class StopLossOrderTransaction extends Definition {
             this.batchID = data['batchID'];
         }
 
+        if (data['requestID'] !== undefined) {
+            this.requestID = data['requestID'];
+        }
+
         if (data['type'] !== undefined) {
             this.type = data['type'];
         }
@@ -3664,6 +4014,13 @@ class StopLossOrderTransaction extends Definition {
             this.gtdTime = data['gtdTime'];
         }
 
+        if (data['triggerCondition'] !== undefined) {
+            this.triggerCondition = data['triggerCondition'];
+        }
+        else {
+            this.triggerCondition = "DEFAULT";
+        }
+
         if (data['reason'] !== undefined) {
             this.reason = data['reason'];
         }
@@ -3680,8 +4037,8 @@ class StopLossOrderTransaction extends Definition {
             this.replacesOrderID = data['replacesOrderID'];
         }
 
-        if (data['replacedOrderCancelTransactionID'] !== undefined) {
-            this.replacedOrderCancelTransactionID = data['replacedOrderCancelTransactionID'];
+        if (data['cancellingTransactionID'] !== undefined) {
+            this.cancellingTransactionID = data['cancellingTransactionID'];
         }
 
     }
@@ -3724,6 +4081,13 @@ const StopLossOrderRejectTransaction_Properties = [
         'transaction.TransactionID'
     ),
     new Property(
+        'requestID',
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        'primitive',
+        'transaction.RequestID'
+    ),
+    new Property(
         'type',
         "Type",
         "The Type of the Transaction. Always set to \"STOP_LOSS_ORDER_REJECT\" in a StopLossOrderRejectTransaction.",
@@ -3764,6 +4128,13 @@ const StopLossOrderRejectTransaction_Properties = [
         "The date/time when the StopLoss Order will be cancelled if its timeInForce is \"GTD\".",
         'primitive',
         'primitives.DateTime'
+    ),
+    new Property(
+        'triggerCondition',
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        'primitive',
+        'order.OrderTriggerCondition'
     ),
     new Property(
         'reason',
@@ -3834,6 +4205,10 @@ class StopLossOrderRejectTransaction extends Definition {
             this.batchID = data['batchID'];
         }
 
+        if (data['requestID'] !== undefined) {
+            this.requestID = data['requestID'];
+        }
+
         if (data['type'] !== undefined) {
             this.type = data['type'];
         }
@@ -3862,6 +4237,13 @@ class StopLossOrderRejectTransaction extends Definition {
 
         if (data['gtdTime'] !== undefined) {
             this.gtdTime = data['gtdTime'];
+        }
+
+        if (data['triggerCondition'] !== undefined) {
+            this.triggerCondition = data['triggerCondition'];
+        }
+        else {
+            this.triggerCondition = "DEFAULT";
         }
 
         if (data['reason'] !== undefined) {
@@ -3924,6 +4306,13 @@ const TrailingStopLossOrderTransaction_Properties = [
         'transaction.TransactionID'
     ),
     new Property(
+        'requestID',
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        'primitive',
+        'transaction.RequestID'
+    ),
+    new Property(
         'type',
         "Type",
         "The Type of the Transaction. Always set to \"TRAILING_STOP_LOSS_ORDER\" in a TrailingStopLossOrderTransaction.",
@@ -3966,6 +4355,13 @@ const TrailingStopLossOrderTransaction_Properties = [
         'primitives.DateTime'
     ),
     new Property(
+        'triggerCondition',
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        'primitive',
+        'order.OrderTriggerCondition'
+    ),
+    new Property(
         'reason',
         "Reason",
         "The reason that the Trailing Stop Loss Order was initiated",
@@ -3994,7 +4390,7 @@ const TrailingStopLossOrderTransaction_Properties = [
         'order.OrderID'
     ),
     new Property(
-        'replacedOrderCancelTransactionID',
+        'cancellingTransactionID',
         "Replaces Order Cancel Transaction ID",
         "The ID of the Transaction that cancels the replaced Order (only provided if this Order replaces an existing Order).",
         'primitive',
@@ -4034,6 +4430,10 @@ class TrailingStopLossOrderTransaction extends Definition {
             this.batchID = data['batchID'];
         }
 
+        if (data['requestID'] !== undefined) {
+            this.requestID = data['requestID'];
+        }
+
         if (data['type'] !== undefined) {
             this.type = data['type'];
         }
@@ -4064,6 +4464,13 @@ class TrailingStopLossOrderTransaction extends Definition {
             this.gtdTime = data['gtdTime'];
         }
 
+        if (data['triggerCondition'] !== undefined) {
+            this.triggerCondition = data['triggerCondition'];
+        }
+        else {
+            this.triggerCondition = "DEFAULT";
+        }
+
         if (data['reason'] !== undefined) {
             this.reason = data['reason'];
         }
@@ -4080,8 +4487,8 @@ class TrailingStopLossOrderTransaction extends Definition {
             this.replacesOrderID = data['replacesOrderID'];
         }
 
-        if (data['replacedOrderCancelTransactionID'] !== undefined) {
-            this.replacedOrderCancelTransactionID = data['replacedOrderCancelTransactionID'];
+        if (data['cancellingTransactionID'] !== undefined) {
+            this.cancellingTransactionID = data['cancellingTransactionID'];
         }
 
     }
@@ -4124,6 +4531,13 @@ const TrailingStopLossOrderRejectTransaction_Properties = [
         'transaction.TransactionID'
     ),
     new Property(
+        'requestID',
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        'primitive',
+        'transaction.RequestID'
+    ),
+    new Property(
         'type',
         "Type",
         "The Type of the Transaction. Always set to \"TRAILING_STOP_LOSS_ORDER_REJECT\" in a TrailingStopLossOrderRejectTransaction.",
@@ -4164,6 +4578,13 @@ const TrailingStopLossOrderRejectTransaction_Properties = [
         "The date/time when the StopLoss Order will be cancelled if its timeInForce is \"GTD\".",
         'primitive',
         'primitives.DateTime'
+    ),
+    new Property(
+        'triggerCondition',
+        "Trigger Condition",
+        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        'primitive',
+        'order.OrderTriggerCondition'
     ),
     new Property(
         'reason',
@@ -4234,6 +4655,10 @@ class TrailingStopLossOrderRejectTransaction extends Definition {
             this.batchID = data['batchID'];
         }
 
+        if (data['requestID'] !== undefined) {
+            this.requestID = data['requestID'];
+        }
+
         if (data['type'] !== undefined) {
             this.type = data['type'];
         }
@@ -4262,6 +4687,13 @@ class TrailingStopLossOrderRejectTransaction extends Definition {
 
         if (data['gtdTime'] !== undefined) {
             this.gtdTime = data['gtdTime'];
+        }
+
+        if (data['triggerCondition'] !== undefined) {
+            this.triggerCondition = data['triggerCondition'];
+        }
+        else {
+            this.triggerCondition = "DEFAULT";
         }
 
         if (data['reason'] !== undefined) {
@@ -4322,6 +4754,13 @@ const OrderFillTransaction_Properties = [
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         'primitive',
         'transaction.TransactionID'
+    ),
+    new Property(
+        'requestID',
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        'primitive',
+        'transaction.RequestID'
     ),
     new Property(
         'type',
@@ -4448,6 +4887,10 @@ class OrderFillTransaction extends Definition {
             this.batchID = data['batchID'];
         }
 
+        if (data['requestID'] !== undefined) {
+            this.requestID = data['requestID'];
+        }
+
         if (data['type'] !== undefined) {
             this.type = data['type'];
         }
@@ -4543,6 +4986,13 @@ const OrderCancelTransaction_Properties = [
         'transaction.TransactionID'
     ),
     new Property(
+        'requestID',
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        'primitive',
+        'transaction.RequestID'
+    ),
+    new Property(
         'type',
         "Type",
         "The Type of the Transaction. Always set to \"ORDER_CANCEL\" for an OrderCancelTransaction.",
@@ -4611,6 +5061,10 @@ class OrderCancelTransaction extends Definition {
             this.batchID = data['batchID'];
         }
 
+        if (data['requestID'] !== undefined) {
+            this.requestID = data['requestID'];
+        }
+
         if (data['type'] !== undefined) {
             this.type = data['type'];
         }
@@ -4672,6 +5126,13 @@ const OrderCancelRejectTransaction_Properties = [
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         'primitive',
         'transaction.TransactionID'
+    ),
+    new Property(
+        'requestID',
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        'primitive',
+        'transaction.RequestID'
     ),
     new Property(
         'type',
@@ -4742,6 +5203,10 @@ class OrderCancelRejectTransaction extends Definition {
             this.batchID = data['batchID'];
         }
 
+        if (data['requestID'] !== undefined) {
+            this.requestID = data['requestID'];
+        }
+
         if (data['type'] !== undefined) {
             this.type = data['type'];
         }
@@ -4805,6 +5270,13 @@ const OrderClientExtensionsModifyTransaction_Properties = [
         'transaction.TransactionID'
     ),
     new Property(
+        'requestID',
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        'primitive',
+        'transaction.RequestID'
+    ),
+    new Property(
         'type',
         "Type",
         "The Type of the Transaction. Always set to \"ORDER_CLIENT_EXTENSIONS_MODIFY\" for a OrderClienteExtensionsModifyTransaction.",
@@ -4826,7 +5298,7 @@ const OrderClientExtensionsModifyTransaction_Properties = [
         'transaction.ClientID'
     ),
     new Property(
-        'orderClientExtensionsModify',
+        'clientExtensionsModify',
         "Order Extensions",
         "The new Client Extensions for the Order.",
         'object',
@@ -4873,6 +5345,10 @@ class OrderClientExtensionsModifyTransaction extends Definition {
             this.batchID = data['batchID'];
         }
 
+        if (data['requestID'] !== undefined) {
+            this.requestID = data['requestID'];
+        }
+
         if (data['type'] !== undefined) {
             this.type = data['type'];
         }
@@ -4888,8 +5364,8 @@ class OrderClientExtensionsModifyTransaction extends Definition {
             this.clientOrderID = data['clientOrderID'];
         }
 
-        if (data['orderClientExtensionsModify'] !== undefined) {
-            this.orderClientExtensionsModify = new ClientExtensions(data['orderClientExtensionsModify']);
+        if (data['clientExtensionsModify'] !== undefined) {
+            this.clientExtensionsModify = new ClientExtensions(data['clientExtensionsModify']);
         }
 
         if (data['tradeClientExtensionsModify'] !== undefined) {
@@ -4936,6 +5412,13 @@ const OrderClientExtensionsModifyRejectTransaction_Properties = [
         'transaction.TransactionID'
     ),
     new Property(
+        'requestID',
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        'primitive',
+        'transaction.RequestID'
+    ),
+    new Property(
         'type',
         "Type",
         "The Type of the Transaction. Always set to \"ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT\" for a OrderClientExtensionsModifyRejectTransaction.",
@@ -4957,7 +5440,7 @@ const OrderClientExtensionsModifyRejectTransaction_Properties = [
         'transaction.ClientID'
     ),
     new Property(
-        'orderClientExtensionsModify',
+        'clientExtensionsModify',
         "Order Extensions",
         "The new Client Extensions for the Order.",
         'object',
@@ -5011,6 +5494,10 @@ class OrderClientExtensionsModifyRejectTransaction extends Definition {
             this.batchID = data['batchID'];
         }
 
+        if (data['requestID'] !== undefined) {
+            this.requestID = data['requestID'];
+        }
+
         if (data['type'] !== undefined) {
             this.type = data['type'];
         }
@@ -5026,8 +5513,8 @@ class OrderClientExtensionsModifyRejectTransaction extends Definition {
             this.clientOrderID = data['clientOrderID'];
         }
 
-        if (data['orderClientExtensionsModify'] !== undefined) {
-            this.orderClientExtensionsModify = new ClientExtensions(data['orderClientExtensionsModify']);
+        if (data['clientExtensionsModify'] !== undefined) {
+            this.clientExtensionsModify = new ClientExtensions(data['clientExtensionsModify']);
         }
 
         if (data['tradeClientExtensionsModify'] !== undefined) {
@@ -5076,6 +5563,13 @@ const TradeClientExtensionsModifyTransaction_Properties = [
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         'primitive',
         'transaction.TransactionID'
+    ),
+    new Property(
+        'requestID',
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        'primitive',
+        'transaction.RequestID'
     ),
     new Property(
         'type',
@@ -5139,6 +5633,10 @@ class TradeClientExtensionsModifyTransaction extends Definition {
             this.batchID = data['batchID'];
         }
 
+        if (data['requestID'] !== undefined) {
+            this.requestID = data['requestID'];
+        }
+
         if (data['type'] !== undefined) {
             this.type = data['type'];
         }
@@ -5196,6 +5694,13 @@ const TradeClientExtensionsModifyRejectTransaction_Properties = [
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         'primitive',
         'transaction.TransactionID'
+    ),
+    new Property(
+        'requestID',
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        'primitive',
+        'transaction.RequestID'
     ),
     new Property(
         'type',
@@ -5266,6 +5771,10 @@ class TradeClientExtensionsModifyRejectTransaction extends Definition {
             this.batchID = data['batchID'];
         }
 
+        if (data['requestID'] !== undefined) {
+            this.requestID = data['requestID'];
+        }
+
         if (data['type'] !== undefined) {
             this.type = data['type'];
         }
@@ -5329,6 +5838,13 @@ const MarginCallEnterTransaction_Properties = [
         'transaction.TransactionID'
     ),
     new Property(
+        'requestID',
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        'primitive',
+        'transaction.RequestID'
+    ),
+    new Property(
         'type',
         "Type",
         "The Type of the Transaction. Always set to \"MARGIN_CALL_ENTER\" for an MarginCallEnterTransaction.",
@@ -5367,6 +5883,10 @@ class MarginCallEnterTransaction extends Definition {
 
         if (data['batchID'] !== undefined) {
             this.batchID = data['batchID'];
+        }
+
+        if (data['requestID'] !== undefined) {
+            this.requestID = data['requestID'];
         }
 
         if (data['type'] !== undefined) {
@@ -5416,6 +5936,13 @@ const MarginCallExtendTransaction_Properties = [
         'transaction.TransactionID'
     ),
     new Property(
+        'requestID',
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        'primitive',
+        'transaction.RequestID'
+    ),
+    new Property(
         'type',
         "Type",
         "The Type of the Transaction. Always set to \"MARGIN_CALL_EXTEND\" for an MarginCallExtendTransaction.",
@@ -5461,6 +5988,10 @@ class MarginCallExtendTransaction extends Definition {
 
         if (data['batchID'] !== undefined) {
             this.batchID = data['batchID'];
+        }
+
+        if (data['requestID'] !== undefined) {
+            this.requestID = data['requestID'];
         }
 
         if (data['type'] !== undefined) {
@@ -5514,6 +6045,13 @@ const MarginCallExitTransaction_Properties = [
         'transaction.TransactionID'
     ),
     new Property(
+        'requestID',
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        'primitive',
+        'transaction.RequestID'
+    ),
+    new Property(
         'type',
         "Type",
         "The Type of the Transaction. Always set to \"MARGIN_CALL_EXIT\" for an MarginCallExitTransaction.",
@@ -5552,6 +6090,10 @@ class MarginCallExitTransaction extends Definition {
 
         if (data['batchID'] !== undefined) {
             this.batchID = data['batchID'];
+        }
+
+        if (data['requestID'] !== undefined) {
+            this.requestID = data['requestID'];
         }
 
         if (data['type'] !== undefined) {
@@ -5599,6 +6141,13 @@ const DelayedTradeClosureTransaction_Properties = [
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         'primitive',
         'transaction.TransactionID'
+    ),
+    new Property(
+        'requestID',
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        'primitive',
+        'transaction.RequestID'
     ),
     new Property(
         'type',
@@ -5655,6 +6204,10 @@ class DelayedTradeClosureTransaction extends Definition {
             this.batchID = data['batchID'];
         }
 
+        if (data['requestID'] !== undefined) {
+            this.requestID = data['requestID'];
+        }
+
         if (data['type'] !== undefined) {
             this.type = data['type'];
         }
@@ -5708,6 +6261,13 @@ const DailyFinancingTransaction_Properties = [
         "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
         'primitive',
         'transaction.TransactionID'
+    ),
+    new Property(
+        'requestID',
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        'primitive',
+        'transaction.RequestID'
     ),
     new Property(
         'type',
@@ -5778,6 +6338,10 @@ class DailyFinancingTransaction extends Definition {
             this.batchID = data['batchID'];
         }
 
+        if (data['requestID'] !== undefined) {
+            this.requestID = data['requestID'];
+        }
+
         if (data['type'] !== undefined) {
             this.type = data['type'];
         }
@@ -5841,6 +6405,13 @@ const ResetResettablePLTransaction_Properties = [
         'transaction.TransactionID'
     ),
     new Property(
+        'requestID',
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        'primitive',
+        'transaction.RequestID'
+    ),
+    new Property(
         'type',
         "Type",
         "The Type of the Transaction. Always set to \"RESET_RESETTABLE_PL\" for a ResetResettablePLTransaction.",
@@ -5879,6 +6450,10 @@ class ResetResettablePLTransaction extends Definition {
 
         if (data['batchID'] !== undefined) {
             this.batchID = data['batchID'];
+        }
+
+        if (data['requestID'] !== undefined) {
+            this.requestID = data['requestID'];
         }
 
         if (data['type'] !== undefined) {

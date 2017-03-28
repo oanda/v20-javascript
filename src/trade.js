@@ -76,6 +76,13 @@ const Trade_Properties = [
         'primitives.AccountUnits'
     ),
     new Property(
+        'averageClosePrice',
+        "Average Close Price",
+        "The average closing price of the Trade. Only present if the Trade has been closed or reduced at least once.",
+        'primitive',
+        'pricing.PriceValue'
+    ),
+    new Property(
         'closingTransactionIDs',
         "Closing Transaction IDs",
         "The IDs of the Transactions that have closed portions of this Trade.",
@@ -174,6 +181,10 @@ class Trade extends Definition {
             this.unrealizedPL = data['unrealizedPL'];
         }
 
+        if (data['averageClosePrice'] !== undefined) {
+            this.averageClosePrice = data['averageClosePrice'];
+        }
+
         if (data['closingTransactionIDs'] !== undefined) {
             this.closingTransactionIDs = data['closingTransactionIDs'];
         }
@@ -268,6 +279,13 @@ const TradeSummary_Properties = [
         "The unrealized profit/loss on the open portion of the Trade.",
         'primitive',
         'primitives.AccountUnits'
+    ),
+    new Property(
+        'averageClosePrice',
+        "Average Close Price",
+        "The average closing price of the Trade. Only present if the Trade has been closed or reduced at least once.",
+        'primitive',
+        'pricing.PriceValue'
     ),
     new Property(
         'closingTransactionIDs',
@@ -366,6 +384,10 @@ class TradeSummary extends Definition {
 
         if (data['unrealizedPL'] !== undefined) {
             this.unrealizedPL = data['unrealizedPL'];
+        }
+
+        if (data['averageClosePrice'] !== undefined) {
+            this.averageClosePrice = data['averageClosePrice'];
         }
 
         if (data['closingTransactionIDs'] !== undefined) {
@@ -750,6 +772,14 @@ class EntitySpec {
                         response.body.orderRejectTransaction = new transaction.MarketOrderRejectTransaction(msg['orderRejectTransaction']);
                     }
 
+                    if (msg['lastTransactionID'] !== undefined) {
+                        response.body.lastTransactionID = msg['lastTransactionID'];
+                    }
+
+                    if (msg['relatedTransactionIDs'] !== undefined) {
+                        response.body.relatedTransactionIDs = msg['relatedTransactionIDs'];
+                    }
+
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
                     }
@@ -845,6 +875,10 @@ class EntitySpec {
                         response.body.lastTransactionID = msg['lastTransactionID'];
                     }
 
+                    if (msg['relatedTransactionIDs'] !== undefined) {
+                        response.body.relatedTransactionIDs = msg['relatedTransactionIDs'];
+                    }
+
                     if (msg['errorCode'] !== undefined) {
                         response.body.errorCode = msg['errorCode'];
                     }
@@ -859,6 +893,26 @@ class EntitySpec {
                 }
                 else if (response.statusCode == 404)
                 {
+                    if (msg['tradeClientExtensionsModifyRejectTransaction'] !== undefined) {
+                        response.body.tradeClientExtensionsModifyRejectTransaction = new transaction.TradeClientExtensionsModifyRejectTransaction(msg['tradeClientExtensionsModifyRejectTransaction']);
+                    }
+
+                    if (msg['lastTransactionID'] !== undefined) {
+                        response.body.lastTransactionID = msg['lastTransactionID'];
+                    }
+
+                    if (msg['relatedTransactionIDs'] !== undefined) {
+                        response.body.relatedTransactionIDs = msg['relatedTransactionIDs'];
+                    }
+
+                    if (msg['errorCode'] !== undefined) {
+                        response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
+                    }
+
                 }
                 else if (response.statusCode == 405)
                 {
@@ -1010,6 +1064,10 @@ class EntitySpec {
 
                     if (msg['lastTransactionID'] !== undefined) {
                         response.body.lastTransactionID = msg['lastTransactionID'];
+                    }
+
+                    if (msg['relatedTransactionIDs'] !== undefined) {
+                        response.body.relatedTransactionIDs = msg['relatedTransactionIDs'];
                     }
 
                     if (msg['errorCode'] !== undefined) {

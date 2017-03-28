@@ -568,6 +568,30 @@ class EntitySpec {
                 }
                 else if (response.statusCode == 404)
                 {
+                    if (msg['longOrderRejectTransaction'] !== undefined) {
+                        response.body.longOrderRejectTransaction = new transaction.MarketOrderRejectTransaction(msg['longOrderRejectTransaction']);
+                    }
+
+                    if (msg['shortOrderRejectTransaction'] !== undefined) {
+                        response.body.shortOrderRejectTransaction = new transaction.MarketOrderRejectTransaction(msg['shortOrderRejectTransaction']);
+                    }
+
+                    if (msg['relatedTransactionIDs'] !== undefined) {
+                        response.body.relatedTransactionIDs = msg['relatedTransactionIDs'];
+                    }
+
+                    if (msg['lastTransactionID'] !== undefined) {
+                        response.body.lastTransactionID = msg['lastTransactionID'];
+                    }
+
+                    if (msg['errorCode'] !== undefined) {
+                        response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
+                    }
+
                 }
                 else if (response.statusCode == 405)
                 {
