@@ -489,21 +489,21 @@ class EntitySpec {
 
         let body = {};
 
-        function handleResponse(response) {
-            if (response.contentType.startsWith("application/json"))
-            {
-                let msg = JSON.parse(response.rawBody);
+        function handleResponse(response) {            
+            if (response.contentType.startsWith("application/json") || response.contentType.startsWith("application/octet-stream"))
+            {                
+                let msg = JSON.parse(response.rawBody.toString());
 
                 response.body = {};
 
                 if (response.statusCode == 200)
                 {
-                    if (msg['price'] !== undefined) {
-                        response.body.price = new Price(msg['price']);
+                    if (msg.type !== undefined && msg.type == 'PRICE') {
+                        response.body.price = new Price(msg);
                     }
 
-                    if (msg['heartbeat'] !== undefined) {
-                        response.body.heartbeat = new PricingHeartbeat(msg['heartbeat']);
+                    if (msg.type !== undefined && msg.type == 'HEARTBEAT') {
+                        response.body.heartbeat = new PricingHeartbeat(msg);
                     }
 
                 }

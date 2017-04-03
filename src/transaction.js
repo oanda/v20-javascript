@@ -7683,7 +7683,7 @@ class EntitySpec {
         let body = {};
 
         function handleResponse(response) {
-            if (response.contentType.startsWith("application/json"))
+            if (response.contentType.startsWith("application/json") || response.contentType.startsWith("application/octet-stream"))
             {
                 let msg = JSON.parse(response.rawBody);
 
@@ -7691,12 +7691,12 @@ class EntitySpec {
 
                 if (response.statusCode == 200)
                 {
-                    if (msg['transaction'] !== undefined) {
-                        response.body.transaction = Transaction.create(msg['transaction']);
+                    if (msg.type !== undefined && msg.type != 'HEARTBEAT' && msg.type != 'PRICE') {
+                        response.body.transaction = Transaction.create(msg);
                     }
 
-                    if (msg['heartbeat'] !== undefined) {
-                        response.body.heartbeat = new TransactionHeartbeat(msg['heartbeat']);
+                    if (msg.type !== undefined && msg.type == 'HEARTBEAT') {
+                        response.body.heartbeat = new TransactionHeartbeat(msg);
                     }
 
                 }
