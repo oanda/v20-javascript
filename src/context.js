@@ -70,6 +70,7 @@ class Context {
         };
 
         this.token = "";
+        this.isStream = "";
 
         if (ssl)
         {
@@ -96,11 +97,15 @@ class Context {
         this.headers['Authorization'] = "Bearer " + this.token;
     }
 
+    setIsStream(isStream) {
+        this.isStream = isStream;
+        this.headers['Connection'] = "Keep-Alive";
+    }
+
     request(method, path, body, responseHandler) {
         let headers = JSON.parse(JSON.stringify(this.headers));
 
         let postData = "";
-
         if (Object.keys(body).length > 0)
         {
             postData = JSON.stringify(body);
@@ -120,7 +125,26 @@ class Context {
             response => {
                 let responseBody = '';
 
-                response.on('data', d => responseBody += d);
+                response.on('data', d => {
+                    if(this.isStream && responseHandler)
+                    {
+                        responseBody = d;
+                        responseHandler(
+                            new Response(
+                                method,
+                                path,
+                                response.statusCode,
+                                response.statusMessage,
+                                response.headers['content-type'],
+                                responseBody
+                            )
+                        );
+                    }
+                    else
+                    {
+                        responseBody += d
+                    }
+                });
 
                 response.on('end', () => {
                     if (responseHandler)
@@ -148,6 +172,11 @@ class Context {
 
         req.end();
     }
+
+    // streamTimeout(method, path, body, responseHandler, ontype) {
+    //     console.warn("[WARN]: No heartbeat received from prices stream for 10 seconds. Reconnecting.\n");
+    //     this.request(method, path, body, responseHandler);
+    // };
 }
 
 exports.Context = Context;
