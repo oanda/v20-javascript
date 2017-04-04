@@ -168,6 +168,12 @@ class EntitySpec {
         responseHandler
     )
     {
+        if (!responseHandler)
+        {
+            throw "No responseHandler provided for API call"
+        }
+
+
         let path = '/v3/instruments/{instrument}/candles';
 
         queryParams = queryParams || {};
@@ -208,7 +214,7 @@ class EntitySpec {
 
         let body = {};
 
-        function handleResponse(response) {
+        let handleResponse = (response) => {
             if (response.contentType.startsWith("application/json"))
             {
                 let msg = JSON.parse(response.rawBody);
@@ -257,16 +263,15 @@ class EntitySpec {
                 }
             }
 
-            if (responseHandler)
-            {
-                responseHandler(response);
-            }
-        }
+            responseHandler(response);
+        };
+
 
         this.context.request(
             'GET',
             path,
             body,
+            undefined,
             handleResponse
         );
     }

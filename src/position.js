@@ -143,7 +143,7 @@ class PositionSide extends Definition {
     constructor(data) {
         super();
 
-        this._summaryFormat = "";
+        this._summaryFormat = "{units} @ {averagePrice}, {pl} PL {unrealizedPL} UPL";
 
         this._nameFormat = "";
 
@@ -253,6 +253,12 @@ class EntitySpec {
         responseHandler
     )
     {
+        if (!responseHandler)
+        {
+            throw "No responseHandler provided for API call"
+        }
+
+
         let path = '/v3/accounts/{accountID}/positions';
 
 
@@ -261,7 +267,7 @@ class EntitySpec {
 
         let body = {};
 
-        function handleResponse(response) {
+        let handleResponse = (response) => {
             if (response.contentType.startsWith("application/json"))
             {
                 let msg = JSON.parse(response.rawBody);
@@ -303,16 +309,15 @@ class EntitySpec {
                 }
             }
 
-            if (responseHandler)
-            {
-                responseHandler(response);
-            }
-        }
+            responseHandler(response);
+        };
+
 
         this.context.request(
             'GET',
             path,
             body,
+            undefined,
             handleResponse
         );
     }
@@ -322,6 +327,12 @@ class EntitySpec {
         responseHandler
     )
     {
+        if (!responseHandler)
+        {
+            throw "No responseHandler provided for API call"
+        }
+
+
         let path = '/v3/accounts/{accountID}/openPositions';
 
 
@@ -330,7 +341,7 @@ class EntitySpec {
 
         let body = {};
 
-        function handleResponse(response) {
+        let handleResponse = (response) => {
             if (response.contentType.startsWith("application/json"))
             {
                 let msg = JSON.parse(response.rawBody);
@@ -372,16 +383,15 @@ class EntitySpec {
                 }
             }
 
-            if (responseHandler)
-            {
-                responseHandler(response);
-            }
-        }
+            responseHandler(response);
+        };
+
 
         this.context.request(
             'GET',
             path,
             body,
+            undefined,
             handleResponse
         );
     }
@@ -392,6 +402,12 @@ class EntitySpec {
         responseHandler
     )
     {
+        if (!responseHandler)
+        {
+            throw "No responseHandler provided for API call"
+        }
+
+
         let path = '/v3/accounts/{accountID}/positions/{instrument}';
 
 
@@ -401,7 +417,7 @@ class EntitySpec {
 
         let body = {};
 
-        function handleResponse(response) {
+        let handleResponse = (response) => {
             if (response.contentType.startsWith("application/json"))
             {
                 let msg = JSON.parse(response.rawBody);
@@ -443,16 +459,15 @@ class EntitySpec {
                 }
             }
 
-            if (responseHandler)
-            {
-                responseHandler(response);
-            }
-        }
+            responseHandler(response);
+        };
+
 
         this.context.request(
             'GET',
             path,
             body,
+            undefined,
             handleResponse
         );
     }
@@ -464,6 +479,12 @@ class EntitySpec {
         responseHandler
     )
     {
+        if (!responseHandler)
+        {
+            throw "No responseHandler provided for API call"
+        }
+
+
         let path = '/v3/accounts/{accountID}/positions/{instrument}/close';
 
         bodyParams = bodyParams || {};
@@ -494,7 +515,7 @@ class EntitySpec {
             body['shortClientExtensions'] = bodyParams['shortClientExtensions'];
         }
 
-        function handleResponse(response) {
+        let handleResponse = (response) => {
             if (response.contentType.startsWith("application/json"))
             {
                 let msg = JSON.parse(response.rawBody);
@@ -611,16 +632,15 @@ class EntitySpec {
                 }
             }
 
-            if (responseHandler)
-            {
-                responseHandler(response);
-            }
-        }
+            responseHandler(response);
+        };
+
 
         this.context.request(
             'PUT',
             path,
             body,
+            undefined,
             handleResponse
         );
     }

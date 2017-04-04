@@ -66,7 +66,7 @@ class Context {
 
         this.headers = {
             "Content-Type": "application/json",
-            "OANDA-Agent" : `v20-javascript/3.0.15 (${application})`
+            "OANDA-Agent" : `v20-javascript/3.0.16 (${application})`
         };
 
         this.token = "";
@@ -96,7 +96,7 @@ class Context {
         this.headers['Authorization'] = "Bearer " + this.token;
     }
 
-    request(method, path, body, responseHandler) {
+    request(method, path, body, streamChunkHandler, responseHandler) {
         let headers = JSON.parse(JSON.stringify(this.headers));
 
         let postData = "";
@@ -120,7 +120,23 @@ class Context {
             response => {
                 let responseBody = '';
 
-                response.on('data', d => responseBody += d);
+                response.on('data', d => {
+                    responseBody += d;
+
+                    if (streamChunkHandler)
+                    {
+                        let chunks = responseBody.split("\n");
+
+                        chunks.forEach(chunk => {
+                            if (chunk.length > 0)
+                            {
+                                streamChunkHandler(chunk);
+                            }
+
+                            responseBody = chunk;
+                        });
+                    }
+                });
 
                 response.on('end', () => {
                     if (responseHandler)
@@ -137,7 +153,6 @@ class Context {
                         );
                     }
                 });
-
             }
         );
 

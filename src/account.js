@@ -1141,6 +1141,12 @@ class EntitySpec {
         responseHandler
     )
     {
+        if (!responseHandler)
+        {
+            throw "No responseHandler provided for API call"
+        }
+
+
         let path = '/v3/accounts';
 
 
@@ -1148,7 +1154,7 @@ class EntitySpec {
 
         let body = {};
 
-        function handleResponse(response) {
+        let handleResponse = (response) => {
             if (response.contentType.startsWith("application/json"))
             {
                 let msg = JSON.parse(response.rawBody);
@@ -1183,16 +1189,15 @@ class EntitySpec {
                 }
             }
 
-            if (responseHandler)
-            {
-                responseHandler(response);
-            }
-        }
+            responseHandler(response);
+        };
+
 
         this.context.request(
             'GET',
             path,
             body,
+            undefined,
             handleResponse
         );
     }
@@ -1202,6 +1207,12 @@ class EntitySpec {
         responseHandler
     )
     {
+        if (!responseHandler)
+        {
+            throw "No responseHandler provided for API call"
+        }
+
+
         let path = '/v3/accounts/{accountID}';
 
 
@@ -1210,7 +1221,7 @@ class EntitySpec {
 
         let body = {};
 
-        function handleResponse(response) {
+        let handleResponse = (response) => {
             if (response.contentType.startsWith("application/json"))
             {
                 let msg = JSON.parse(response.rawBody);
@@ -1252,16 +1263,15 @@ class EntitySpec {
                 }
             }
 
-            if (responseHandler)
-            {
-                responseHandler(response);
-            }
-        }
+            responseHandler(response);
+        };
+
 
         this.context.request(
             'GET',
             path,
             body,
+            undefined,
             handleResponse
         );
     }
@@ -1271,6 +1281,12 @@ class EntitySpec {
         responseHandler
     )
     {
+        if (!responseHandler)
+        {
+            throw "No responseHandler provided for API call"
+        }
+
+
         let path = '/v3/accounts/{accountID}/summary';
 
 
@@ -1279,7 +1295,7 @@ class EntitySpec {
 
         let body = {};
 
-        function handleResponse(response) {
+        let handleResponse = (response) => {
             if (response.contentType.startsWith("application/json"))
             {
                 let msg = JSON.parse(response.rawBody);
@@ -1321,16 +1337,15 @@ class EntitySpec {
                 }
             }
 
-            if (responseHandler)
-            {
-                responseHandler(response);
-            }
-        }
+            responseHandler(response);
+        };
+
 
         this.context.request(
             'GET',
             path,
             body,
+            undefined,
             handleResponse
         );
     }
@@ -1341,6 +1356,12 @@ class EntitySpec {
         responseHandler
     )
     {
+        if (!responseHandler)
+        {
+            throw "No responseHandler provided for API call"
+        }
+
+
         let path = '/v3/accounts/{accountID}/instruments';
 
         queryParams = queryParams || {};
@@ -1354,7 +1375,7 @@ class EntitySpec {
 
         let body = {};
 
-        function handleResponse(response) {
+        let handleResponse = (response) => {
             if (response.contentType.startsWith("application/json"))
             {
                 let msg = JSON.parse(response.rawBody);
@@ -1396,16 +1417,15 @@ class EntitySpec {
                 }
             }
 
-            if (responseHandler)
-            {
-                responseHandler(response);
-            }
-        }
+            responseHandler(response);
+        };
+
 
         this.context.request(
             'GET',
             path,
             body,
+            undefined,
             handleResponse
         );
     }
@@ -1416,6 +1436,12 @@ class EntitySpec {
         responseHandler
     )
     {
+        if (!responseHandler)
+        {
+            throw "No responseHandler provided for API call"
+        }
+
+
         let path = '/v3/accounts/{accountID}/configuration';
 
         bodyParams = bodyParams || {};
@@ -1435,7 +1461,7 @@ class EntitySpec {
             body['marginRate'] = bodyParams['marginRate'];
         }
 
-        function handleResponse(response) {
+        let handleResponse = (response) => {
             if (response.contentType.startsWith("application/json"))
             {
                 let msg = JSON.parse(response.rawBody);
@@ -1515,16 +1541,15 @@ class EntitySpec {
                 }
             }
 
-            if (responseHandler)
-            {
-                responseHandler(response);
-            }
-        }
+            responseHandler(response);
+        };
+
 
         this.context.request(
             'PATCH',
             path,
             body,
+            undefined,
             handleResponse
         );
     }
@@ -1535,6 +1560,12 @@ class EntitySpec {
         responseHandler
     )
     {
+        if (!responseHandler)
+        {
+            throw "No responseHandler provided for API call"
+        }
+
+
         let path = '/v3/accounts/{accountID}/changes';
 
         queryParams = queryParams || {};
@@ -1548,7 +1579,7 @@ class EntitySpec {
 
         let body = {};
 
-        function handleResponse(response) {
+        let handleResponse = (response) => {
             if (response.contentType.startsWith("application/json"))
             {
                 let msg = JSON.parse(response.rawBody);
@@ -1597,16 +1628,15 @@ class EntitySpec {
                 }
             }
 
-            if (responseHandler)
-            {
-                responseHandler(response);
-            }
-        }
+            responseHandler(response);
+        };
+
 
         this.context.request(
             'GET',
             path,
             body,
+            undefined,
             handleResponse
         );
     }

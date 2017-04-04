@@ -7323,6 +7323,12 @@ class EntitySpec {
         responseHandler
     )
     {
+        if (!responseHandler)
+        {
+            throw "No responseHandler provided for API call"
+        }
+
+
         let path = '/v3/accounts/{accountID}/transactions';
 
         queryParams = queryParams || {};
@@ -7345,7 +7351,7 @@ class EntitySpec {
 
         let body = {};
 
-        function handleResponse(response) {
+        let handleResponse = (response) => {
             if (response.contentType.startsWith("application/json"))
             {
                 let msg = JSON.parse(response.rawBody);
@@ -7416,16 +7422,15 @@ class EntitySpec {
                 }
             }
 
-            if (responseHandler)
-            {
-                responseHandler(response);
-            }
-        }
+            responseHandler(response);
+        };
+
 
         this.context.request(
             'GET',
             path,
             body,
+            undefined,
             handleResponse
         );
     }
@@ -7436,6 +7441,12 @@ class EntitySpec {
         responseHandler
     )
     {
+        if (!responseHandler)
+        {
+            throw "No responseHandler provided for API call"
+        }
+
+
         let path = '/v3/accounts/{accountID}/transactions/{transactionID}';
 
 
@@ -7445,7 +7456,7 @@ class EntitySpec {
 
         let body = {};
 
-        function handleResponse(response) {
+        let handleResponse = (response) => {
             if (response.contentType.startsWith("application/json"))
             {
                 let msg = JSON.parse(response.rawBody);
@@ -7487,16 +7498,15 @@ class EntitySpec {
                 }
             }
 
-            if (responseHandler)
-            {
-                responseHandler(response);
-            }
-        }
+            responseHandler(response);
+        };
+
 
         this.context.request(
             'GET',
             path,
             body,
+            undefined,
             handleResponse
         );
     }
@@ -7507,6 +7517,12 @@ class EntitySpec {
         responseHandler
     )
     {
+        if (!responseHandler)
+        {
+            throw "No responseHandler provided for API call"
+        }
+
+
         let path = '/v3/accounts/{accountID}/transactions/idrange';
 
         queryParams = queryParams || {};
@@ -7526,7 +7542,7 @@ class EntitySpec {
 
         let body = {};
 
-        function handleResponse(response) {
+        let handleResponse = (response) => {
             if (response.contentType.startsWith("application/json"))
             {
                 let msg = JSON.parse(response.rawBody);
@@ -7574,16 +7590,15 @@ class EntitySpec {
                 }
             }
 
-            if (responseHandler)
-            {
-                responseHandler(response);
-            }
-        }
+            responseHandler(response);
+        };
+
 
         this.context.request(
             'GET',
             path,
             body,
+            undefined,
             handleResponse
         );
     }
@@ -7594,6 +7609,12 @@ class EntitySpec {
         responseHandler
     )
     {
+        if (!responseHandler)
+        {
+            throw "No responseHandler provided for API call"
+        }
+
+
         let path = '/v3/accounts/{accountID}/transactions/sinceid';
 
         queryParams = queryParams || {};
@@ -7607,7 +7628,7 @@ class EntitySpec {
 
         let body = {};
 
-        function handleResponse(response) {
+        let handleResponse = (response) => {
             if (response.contentType.startsWith("application/json"))
             {
                 let msg = JSON.parse(response.rawBody);
@@ -7655,25 +7676,35 @@ class EntitySpec {
                 }
             }
 
-            if (responseHandler)
-            {
-                responseHandler(response);
-            }
-        }
+            responseHandler(response);
+        };
+
 
         this.context.request(
             'GET',
             path,
             body,
+            undefined,
             handleResponse
         );
     }
 
     stream(
         accountID,
+        streamChunkHandler,
         responseHandler
     )
     {
+        if (!responseHandler)
+        {
+            throw "No responseHandler provided for API call"
+        }
+
+        if (!streamChunkHandler)
+        {
+            throw "No streamChunkHandler provided for streaming API call"
+        }
+
         let path = '/v3/accounts/{accountID}/transactions/stream';
 
 
@@ -7682,7 +7713,7 @@ class EntitySpec {
 
         let body = {};
 
-        function handleResponse(response) {
+        let handleResponse = (response) => {
             if (response.contentType.startsWith("application/json"))
             {
                 let msg = JSON.parse(response.rawBody);
@@ -7727,9 +7758,22 @@ class EntitySpec {
                 }
             }
 
-            if (responseHandler)
-            {
-                responseHandler(response);
+            responseHandler(response);
+        };
+
+        function generateStreamParser(streamChunkHandler)
+        {
+            return (chunk) => {
+                let msg = JSON.parse(chunk);
+
+                if (msg.type == "HEARTBEAT")
+                {
+                    streamChunkHandler(new TransactionHeartbeat(msg));
+                }
+                else if (msg.type)
+                {
+                    streamChunkHandler(Transaction.create(msg));
+                }
             }
         }
 
@@ -7737,6 +7781,7 @@ class EntitySpec {
             'GET',
             path,
             body,
+            generateStreamParser(streamChunkHandler),
             handleResponse
         );
     }

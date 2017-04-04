@@ -393,6 +393,12 @@ class EntitySpec {
         responseHandler
     )
     {
+        if (!responseHandler)
+        {
+            throw "No responseHandler provided for API call"
+        }
+
+
         let path = '/v3/accounts/{accountID}/pricing';
 
         queryParams = queryParams || {};
@@ -412,7 +418,7 @@ class EntitySpec {
 
         let body = {};
 
-        function handleResponse(response) {
+        let handleResponse = (response) => {
             if (response.contentType.startsWith("application/json"))
             {
                 let msg = JSON.parse(response.rawBody);
@@ -453,16 +459,15 @@ class EntitySpec {
                 }
             }
 
-            if (responseHandler)
-            {
-                responseHandler(response);
-            }
-        }
+            responseHandler(response);
+        };
+
 
         this.context.request(
             'GET',
             path,
             body,
+            undefined,
             handleResponse
         );
     }
@@ -470,9 +475,20 @@ class EntitySpec {
     stream(
         accountID,
         queryParams,
+        streamChunkHandler,
         responseHandler
     )
     {
+        if (!responseHandler)
+        {
+            throw "No responseHandler provided for API call"
+        }
+
+        if (!streamChunkHandler)
+        {
+            throw "No streamChunkHandler provided for streaming API call"
+        }
+
         let path = '/v3/accounts/{accountID}/pricing/stream';
 
         queryParams = queryParams || {};
@@ -489,7 +505,7 @@ class EntitySpec {
 
         let body = {};
 
-        function handleResponse(response) {
+        let handleResponse = (response) => {
             if (response.contentType.startsWith("application/json"))
             {
                 let msg = JSON.parse(response.rawBody);
@@ -534,9 +550,22 @@ class EntitySpec {
                 }
             }
 
-            if (responseHandler)
-            {
-                responseHandler(response);
+            responseHandler(response);
+        };
+
+        function generateStreamParser(streamChunkHandler)
+        {
+            return (chunk) => {
+                let msg = JSON.parse(chunk);
+
+                if (msg.type == "HEARTBEAT")
+                {
+                    streamChunkHandler(new PricingHeartbeat(msg));
+                }
+                else if (msg.type == "PRICE")
+                {
+                    streamChunkHandler(new Price(msg));
+                }
             }
         }
 
@@ -544,6 +573,7 @@ class EntitySpec {
             'GET',
             path,
             body,
+            generateStreamParser(streamChunkHandler),
             handleResponse
         );
     }
