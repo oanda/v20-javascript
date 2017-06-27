@@ -40,6 +40,13 @@ const Position_Properties = [
         'primitives.AccountUnits'
     ),
     new Property(
+        'commission',
+        "Commission",
+        "The total amount of commission paid for this instrument over the lifetime of the Account. Represented in the Account's home currency.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
         'long',
         "Long Side",
         "The details of the long side of the Position.",
@@ -81,6 +88,10 @@ class Position extends Definition {
 
         if (data['resettablePL'] !== undefined) {
             this.resettablePL = data['resettablePL'];
+        }
+
+        if (data['commission'] !== undefined) {
+            this.commission = data['commission'];
         }
 
         if (data['long'] !== undefined) {

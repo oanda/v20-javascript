@@ -79,6 +79,13 @@ const Account_Properties = [
         'primitives.DateTime'
     ),
     new Property(
+        'commission',
+        "Commission",
+        "The total amount of commission paid over the lifetime of the Account. Represented in the Account's home currency.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
         'marginRate',
         "Margin Rate",
         "Client-provided margin rate override for the Account. The effective margin rate of the Account is the lesser of this value and the OANDA margin rate for the Account's division. This value is only provided if a margin rate override exists for the Account.",
@@ -301,6 +308,10 @@ class Account extends Definition {
 
         if (data['resettabledPLTime'] !== undefined) {
             this.resettabledPLTime = data['resettabledPLTime'];
+        }
+
+        if (data['commission'] !== undefined) {
+            this.commission = data['commission'];
         }
 
         if (data['marginRate'] !== undefined) {
@@ -716,6 +727,13 @@ const AccountSummary_Properties = [
         'primitives.DateTime'
     ),
     new Property(
+        'commission',
+        "Commission",
+        "The total amount of commission paid over the lifetime of the Account. Represented in the Account's home currency.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
         'marginRate',
         "Margin Rate",
         "Client-provided margin rate override for the Account. The effective margin rate of the Account is the lesser of this value and the OANDA margin rate for the Account's division. This value is only provided if a margin rate override exists for the Account.",
@@ -917,6 +935,10 @@ class AccountSummary extends Definition {
 
         if (data['resettabledPLTime'] !== undefined) {
             this.resettabledPLTime = data['resettabledPLTime'];
+        }
+
+        if (data['commission'] !== undefined) {
+            this.commission = data['commission'];
         }
 
         if (data['marginRate'] !== undefined) {

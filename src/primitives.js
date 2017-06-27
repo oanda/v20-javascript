@@ -94,6 +94,13 @@ const Instrument_Properties = [
         'primitive',
         'primitives.DecimalNumber'
     ),
+    new Property(
+        'commission',
+        'commission',
+        "The commission structure for this instrument.",
+        'object',
+        'primitives.InstrumentCommission'
+    ),
 ];
 
 class Instrument extends Definition {
@@ -156,6 +163,72 @@ class Instrument extends Definition {
             this.marginRate = data['marginRate'];
         }
 
+        if (data['commission'] !== undefined) {
+            this.commission = new InstrumentCommission(data['commission']);
+        }
+
+    }
+}
+
+const InstrumentCommission_Properties = [
+    new Property(
+        'instrument',
+        'instrument',
+        "The name of the instrument",
+        'primitive',
+        'primitives.InstrumentName'
+    ),
+    new Property(
+        'commission',
+        'commission',
+        "The commission amount (in the Account's home currency) charged per unitsTraded of the instrument",
+        'primitive',
+        'primitives.DecimalNumber'
+    ),
+    new Property(
+        'unitsTraded',
+        'unitsTraded',
+        "The number of units traded that the commission amount is based on.",
+        'primitive',
+        'primitives.DecimalNumber'
+    ),
+    new Property(
+        'minimumCommission',
+        'minimumCommission',
+        "The minimum commission amount (in the Account's home currency) that is charged when an Order is filled for this instrument.",
+        'primitive',
+        'primitives.DecimalNumber'
+    ),
+];
+
+class InstrumentCommission extends Definition {
+    constructor(data) {
+        super();
+
+        this._summaryFormat = "";
+
+        this._nameFormat = "";
+
+        this._properties = InstrumentCommission_Properties;
+
+        data = data || {};
+
+        if (data['instrument'] !== undefined) {
+            this.instrument = data['instrument'];
+        }
+
+        if (data['commission'] !== undefined) {
+            this.commission = data['commission'];
+        }
+
+        if (data['unitsTraded'] !== undefined) {
+            this.unitsTraded = data['unitsTraded'];
+        }
+
+        if (data['minimumCommission'] !== undefined) {
+            this.minimumCommission = data['minimumCommission'];
+        }
+
     }
 }
 
@@ -163,6 +236,7 @@ class EntitySpec {
     constructor(context) {
         this.context = context;
         this.Instrument = Instrument;
+        this.InstrumentCommission = InstrumentCommission;
     }
 
 
@@ -170,5 +244,6 @@ class EntitySpec {
 }
 
 exports.Instrument = Instrument;
+exports.InstrumentCommission = InstrumentCommission;
 
 exports.EntitySpec = EntitySpec;

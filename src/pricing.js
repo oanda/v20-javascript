@@ -6,6 +6,7 @@ var Definition = require('./base').Definition;
 var Property = require('./base').Property;
 var Field = require('./base').Field;
 
+var order = require('./order');
 
 
 
@@ -85,7 +86,7 @@ const Price_Properties = [
         "Units Available",
         "Representation of how many units of an Instrument are available to be traded by an Order depending on its postionFill option.",
         'object',
-        'pricing.UnitsAvailable'
+        'order.UnitsAvailable'
     ),
 ];
 
@@ -145,7 +146,7 @@ class Price extends Definition {
         }
 
         if (data['unitsAvailable'] !== undefined) {
-            this.unitsAvailable = new UnitsAvailable(data['unitsAvailable']);
+            this.unitsAvailable = new order.UnitsAvailable(data['unitsAvailable']);
         }
 
     }
@@ -191,108 +192,6 @@ class PriceBucket extends Definition {
     }
 }
 
-const UnitsAvailableDetails_Properties = [
-    new Property(
-        'long',
-        "Long",
-        "The units available for long Orders.",
-        'primitive',
-        'primitives.DecimalNumber'
-    ),
-    new Property(
-        'short',
-        "Short",
-        "The units available for short Orders.",
-        'primitive',
-        'primitives.DecimalNumber'
-    ),
-];
-
-class UnitsAvailableDetails extends Definition {
-    constructor(data) {
-        super();
-
-        this._summaryFormat = "";
-
-        this._nameFormat = "";
-
-        this._properties = UnitsAvailableDetails_Properties;
-
-        data = data || {};
-
-        if (data['long'] !== undefined) {
-            this.long = data['long'];
-        }
-
-        if (data['short'] !== undefined) {
-            this.short = data['short'];
-        }
-
-    }
-}
-
-const UnitsAvailable_Properties = [
-    new Property(
-        'default',
-        "Default",
-        "The number of units that are available to be traded using an Order with a positionFill option of \"DEFAULT\". For an Account with hedging enabled, this value will be the same as the \"OPEN_ONLY\" value. For an Account without hedging enabled, this value will be the same as the \"REDUCE_FIRST\" value.",
-        'object',
-        'pricing.UnitsAvailableDetails'
-    ),
-    new Property(
-        'reduceFirst',
-        "Reduce First",
-        "The number of units that may are available to be traded with an Order with a positionFill option of \"REDUCE_FIRST\".",
-        'object',
-        'pricing.UnitsAvailableDetails'
-    ),
-    new Property(
-        'reduceOnly',
-        "Reduce Only",
-        "The number of units that may are available to be traded with an Order with a positionFill option of \"REDUCE_ONLY\".",
-        'object',
-        'pricing.UnitsAvailableDetails'
-    ),
-    new Property(
-        'openOnly',
-        "Open Only",
-        "The number of units that may are available to be traded with an Order with a positionFill option of \"OPEN_ONLY\".",
-        'object',
-        'pricing.UnitsAvailableDetails'
-    ),
-];
-
-class UnitsAvailable extends Definition {
-    constructor(data) {
-        super();
-
-        this._summaryFormat = "";
-
-        this._nameFormat = "";
-
-        this._properties = UnitsAvailable_Properties;
-
-        data = data || {};
-
-        if (data['default'] !== undefined) {
-            this.default = new UnitsAvailableDetails(data['default']);
-        }
-
-        if (data['reduceFirst'] !== undefined) {
-            this.reduceFirst = new UnitsAvailableDetails(data['reduceFirst']);
-        }
-
-        if (data['reduceOnly'] !== undefined) {
-            this.reduceOnly = new UnitsAvailableDetails(data['reduceOnly']);
-        }
-
-        if (data['openOnly'] !== undefined) {
-            this.openOnly = new UnitsAvailableDetails(data['openOnly']);
-        }
-
-    }
-}
-
 const QuoteHomeConversionFactors_Properties = [
     new Property(
         'positiveUnits',
@@ -328,6 +227,79 @@ class QuoteHomeConversionFactors extends Definition {
 
         if (data['negativeUnits'] !== undefined) {
             this.negativeUnits = data['negativeUnits'];
+        }
+
+    }
+}
+
+const ClientPrice_Properties = [
+    new Property(
+        'bids',
+        "Bids",
+        "The list of prices and liquidity available on the Instrument's bid side. It is possible for this list to be empty if there is no bid liquidity currently available for the Instrument in the Account.",
+        'array_object',
+        'PriceBucket'
+    ),
+    new Property(
+        'asks',
+        "Asks",
+        "The list of prices and liquidity available on the Instrument's ask side. It is possible for this list to be empty if there is no ask liquidity currently available for the Instrument in the Account.",
+        'array_object',
+        'PriceBucket'
+    ),
+    new Property(
+        'closeoutBid',
+        "Closeout Bid",
+        "The closeout bid Price. This Price is used when a bid is required to closeout a Position (margin closeout or manual) yet there is no bid liquidity. The closeout bid is never used to open a new position.",
+        'primitive',
+        'pricing.PriceValue'
+    ),
+    new Property(
+        'closeoutAsk',
+        "Closeout Ask",
+        "The closeout ask Price. This Price is used when a ask is required to closeout a Position (margin closeout or manual) yet there is no ask liquidity. The closeout ask is never used to open a new position.",
+        'primitive',
+        'pricing.PriceValue'
+    ),
+    new Property(
+        'timestamp',
+        "Timestamp",
+        "The date/time when the Price was created.",
+        'primitive',
+        'primitives.DateTime'
+    ),
+];
+
+class ClientPrice extends Definition {
+    constructor(data) {
+        super();
+
+        this._summaryFormat = "";
+
+        this._nameFormat = "";
+
+        this._properties = ClientPrice_Properties;
+
+        data = data || {};
+
+        if (data['bids'] !== undefined) {
+            this.bids = data['bids'].map(x => new PriceBucket(x));
+        }
+
+        if (data['asks'] !== undefined) {
+            this.asks = data['asks'].map(x => new PriceBucket(x));
+        }
+
+        if (data['closeoutBid'] !== undefined) {
+            this.closeoutBid = data['closeoutBid'];
+        }
+
+        if (data['closeoutAsk'] !== undefined) {
+            this.closeoutAsk = data['closeoutAsk'];
+        }
+
+        if (data['timestamp'] !== undefined) {
+            this.timestamp = data['timestamp'];
         }
 
     }
@@ -381,9 +353,8 @@ class EntitySpec {
         this.context = context;
         this.Price = Price;
         this.PriceBucket = PriceBucket;
-        this.UnitsAvailableDetails = UnitsAvailableDetails;
-        this.UnitsAvailable = UnitsAvailable;
         this.QuoteHomeConversionFactors = QuoteHomeConversionFactors;
+        this.ClientPrice = ClientPrice;
         this.PricingHeartbeat = PricingHeartbeat;
     }
 
@@ -584,9 +555,8 @@ class EntitySpec {
 
 exports.Price = Price;
 exports.PriceBucket = PriceBucket;
-exports.UnitsAvailableDetails = UnitsAvailableDetails;
-exports.UnitsAvailable = UnitsAvailable;
 exports.QuoteHomeConversionFactors = QuoteHomeConversionFactors;
+exports.ClientPrice = ClientPrice;
 exports.PricingHeartbeat = PricingHeartbeat;
 
 exports.EntitySpec = EntitySpec;

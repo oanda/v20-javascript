@@ -6,6 +6,7 @@ var Definition = require('./base').Definition;
 var Property = require('./base').Property;
 var Field = require('./base').Field;
 
+var pricing = require('./pricing');
 
 
 
@@ -97,6 +98,74 @@ class Transaction extends Definition {
         {
             return new Transaction(transaction);
         }
+        else if (transaction["type"] == "CLIENT_CONFIGURE")
+        {
+            return new ClientConfigureTransaction(transaction);
+        }
+        else if (transaction["type"] == "CLIENT_CONFIGURE_REJECT")
+        {
+            return new ClientConfigureRejectTransaction(transaction);
+        }
+        else if (transaction["type"] == "ORDER_FILL")
+        {
+            return new OrderFillTransaction(transaction);
+        }
+        else if (transaction["type"] == "ORDER_CANCEL")
+        {
+            return new OrderCancelTransaction(transaction);
+        }
+        else if (transaction["type"] == "ORDER_CANCEL_REJECT")
+        {
+            return new OrderCancelRejectTransaction(transaction);
+        }
+        else if (transaction["type"] == "ORDER_CLIENT_EXTENSIONS_MODIFY")
+        {
+            return new OrderClientExtensionsModifyTransaction(transaction);
+        }
+        else if (transaction["type"] == "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT")
+        {
+            return new OrderClientExtensionsModifyRejectTransaction(transaction);
+        }
+        else if (transaction["type"] == "MARKET_ORDER")
+        {
+            return new MarketOrderTransaction(transaction);
+        }
+        else if (transaction["type"] == "MARKET_ORDER_REJECT")
+        {
+            return new MarketOrderRejectTransaction(transaction);
+        }
+        else if (transaction["type"] == "TRADE_CLIENT_EXTENSIONS_MODIFY")
+        {
+            return new TradeClientExtensionsModifyTransaction(transaction);
+        }
+        else if (transaction["type"] == "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT")
+        {
+            return new TradeClientExtensionsModifyRejectTransaction(transaction);
+        }
+        else if (transaction["type"] == "TAKE_PROFIT_ORDER")
+        {
+            return new TakeProfitOrderTransaction(transaction);
+        }
+        else if (transaction["type"] == "STOP_LOSS_ORDER")
+        {
+            return new StopLossOrderTransaction(transaction);
+        }
+        else if (transaction["type"] == "TRAILING_STOP_LOSS_ORDER")
+        {
+            return new TrailingStopLossOrderTransaction(transaction);
+        }
+        else if (transaction["type"] == "TAKE_PROFIT_ORDER_REJECT")
+        {
+            return new TakeProfitOrderRejectTransaction(transaction);
+        }
+        else if (transaction["type"] == "STOP_LOSS_ORDER_REJECT")
+        {
+            return new StopLossOrderRejectTransaction(transaction);
+        }
+        else if (transaction["type"] == "TRAILING_STOP_LOSS_ORDER_REJECT")
+        {
+            return new TrailingStopLossOrderRejectTransaction(transaction);
+        }
         else if (transaction["type"] == "CREATE")
         {
             return new CreateTransaction(transaction);
@@ -109,14 +178,6 @@ class Transaction extends Definition {
         {
             return new ReopenTransaction(transaction);
         }
-        else if (transaction["type"] == "CLIENT_CONFIGURE")
-        {
-            return new ClientConfigureTransaction(transaction);
-        }
-        else if (transaction["type"] == "CLIENT_CONFIGURE_REJECT")
-        {
-            return new ClientConfigureRejectTransaction(transaction);
-        }
         else if (transaction["type"] == "TRANSFER_FUNDS")
         {
             return new TransferFundsTransaction(transaction);
@@ -124,14 +185,6 @@ class Transaction extends Definition {
         else if (transaction["type"] == "TRANSFER_FUNDS_REJECT")
         {
             return new TransferFundsRejectTransaction(transaction);
-        }
-        else if (transaction["type"] == "MARKET_ORDER")
-        {
-            return new MarketOrderTransaction(transaction);
-        }
-        else if (transaction["type"] == "MARKET_ORDER_REJECT")
-        {
-            return new MarketOrderRejectTransaction(transaction);
         }
         else if (transaction["type"] == "LIMIT_ORDER")
         {
@@ -156,58 +209,6 @@ class Transaction extends Definition {
         else if (transaction["type"] == "MARKET_IF_TOUCHED_ORDER_REJECT")
         {
             return new MarketIfTouchedOrderRejectTransaction(transaction);
-        }
-        else if (transaction["type"] == "TAKE_PROFIT_ORDER")
-        {
-            return new TakeProfitOrderTransaction(transaction);
-        }
-        else if (transaction["type"] == "TAKE_PROFIT_ORDER_REJECT")
-        {
-            return new TakeProfitOrderRejectTransaction(transaction);
-        }
-        else if (transaction["type"] == "STOP_LOSS_ORDER")
-        {
-            return new StopLossOrderTransaction(transaction);
-        }
-        else if (transaction["type"] == "STOP_LOSS_ORDER_REJECT")
-        {
-            return new StopLossOrderRejectTransaction(transaction);
-        }
-        else if (transaction["type"] == "TRAILING_STOP_LOSS_ORDER")
-        {
-            return new TrailingStopLossOrderTransaction(transaction);
-        }
-        else if (transaction["type"] == "TRAILING_STOP_LOSS_ORDER_REJECT")
-        {
-            return new TrailingStopLossOrderRejectTransaction(transaction);
-        }
-        else if (transaction["type"] == "ORDER_FILL")
-        {
-            return new OrderFillTransaction(transaction);
-        }
-        else if (transaction["type"] == "ORDER_CANCEL")
-        {
-            return new OrderCancelTransaction(transaction);
-        }
-        else if (transaction["type"] == "ORDER_CANCEL_REJECT")
-        {
-            return new OrderCancelRejectTransaction(transaction);
-        }
-        else if (transaction["type"] == "ORDER_CLIENT_EXTENSIONS_MODIFY")
-        {
-            return new OrderClientExtensionsModifyTransaction(transaction);
-        }
-        else if (transaction["type"] == "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT")
-        {
-            return new OrderClientExtensionsModifyRejectTransaction(transaction);
-        }
-        else if (transaction["type"] == "TRADE_CLIENT_EXTENSIONS_MODIFY")
-        {
-            return new TradeClientExtensionsModifyTransaction(transaction);
-        }
-        else if (transaction["type"] == "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT")
-        {
-            return new TradeClientExtensionsModifyRejectTransaction(transaction);
         }
         else if (transaction["type"] == "MARGIN_CALL_ENTER")
         {
@@ -4805,6 +4806,13 @@ const OrderFillTransaction_Properties = [
         'pricing.PriceValue'
     ),
     new Property(
+        'fullPrice',
+        "Price",
+        "The price in effect for the account at the time of the Order fill.",
+        'object',
+        'pricing.ClientPrice'
+    ),
+    new Property(
         'reason',
         "Fill Reason",
         "The reason that an Order was filled",
@@ -4822,6 +4830,13 @@ const OrderFillTransaction_Properties = [
         'financing',
         "Financing",
         "The financing paid or collected when the Order was filled.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
+        'commission',
+        "Commission",
+        "The commission charged in the Account's home currency as a result of filling the Order. The commission is always represented as a positive quantity of the Account's home currency, however it reduces the balance in the Account.",
         'primitive',
         'primitives.AccountUnits'
     ),
@@ -4918,6 +4933,10 @@ class OrderFillTransaction extends Definition {
             this.price = data['price'];
         }
 
+        if (data['fullPrice'] !== undefined) {
+            this.fullPrice = new pricing.ClientPrice(data['fullPrice']);
+        }
+
         if (data['reason'] !== undefined) {
             this.reason = data['reason'];
         }
@@ -4928,6 +4947,10 @@ class OrderFillTransaction extends Definition {
 
         if (data['financing'] !== undefined) {
             this.financing = data['financing'];
+        }
+
+        if (data['commission'] !== undefined) {
+            this.commission = data['commission'];
         }
 
         if (data['accountBalance'] !== undefined) {
@@ -7158,7 +7181,7 @@ class OpenTradeFinancing extends Definition {
 
 const PositionFinancing_Properties = [
     new Property(
-        'instrumentID',
+        'instrument',
         "Instrument",
         "The instrument of the Position that financing is being paid/collected for.",
         'primitive',
@@ -7192,8 +7215,8 @@ class PositionFinancing extends Definition {
 
         data = data || {};
 
-        if (data['instrumentID'] !== undefined) {
-            this.instrumentID = data['instrumentID'];
+        if (data['instrument'] !== undefined) {
+            this.instrument = data['instrument'];
         }
 
         if (data['financing'] !== undefined) {

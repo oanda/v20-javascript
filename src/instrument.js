@@ -155,11 +155,263 @@ class CandlestickData extends Definition {
     }
 }
 
+const OrderBook_Properties = [
+    new Property(
+        'instrument',
+        'instrument',
+        "The order book's instrument",
+        'primitive',
+        'primitives.InstrumentName'
+    ),
+    new Property(
+        'time',
+        'time',
+        "The time when the order book snapshot was created.",
+        'primitive',
+        'primitives.DateTime'
+    ),
+    new Property(
+        'price',
+        'price',
+        "The price (midpoint) for the order book's instrument at the time of the order book snapshot",
+        'primitive',
+        'pricing.PriceValue'
+    ),
+    new Property(
+        'bucketWidth',
+        'bucketWidth',
+        "The price width for each bucket. Each bucket covers the price range from the bucket's price to the bucket's price + bucketWidth.",
+        'primitive',
+        'pricing.PriceValue'
+    ),
+    new Property(
+        'buckets',
+        'buckets',
+        "The partitioned order book, divided into buckets using a default bucket width. These buckets are only provided for price ranges which actually contain order or position data.",
+        'array_object',
+        'OrderBookBucket'
+    ),
+];
+
+class OrderBook extends Definition {
+    constructor(data) {
+        super();
+
+        this._summaryFormat = "";
+
+        this._nameFormat = "";
+
+        this._properties = OrderBook_Properties;
+
+        data = data || {};
+
+        if (data['instrument'] !== undefined) {
+            this.instrument = data['instrument'];
+        }
+
+        if (data['time'] !== undefined) {
+            this.time = data['time'];
+        }
+
+        if (data['price'] !== undefined) {
+            this.price = data['price'];
+        }
+
+        if (data['bucketWidth'] !== undefined) {
+            this.bucketWidth = data['bucketWidth'];
+        }
+
+        if (data['buckets'] !== undefined) {
+            this.buckets = data['buckets'].map(x => new OrderBookBucket(x));
+        }
+
+    }
+}
+
+const OrderBookBucket_Properties = [
+    new Property(
+        'price',
+        'price',
+        "The lowest price (inclusive) covered by the bucket. The bucket covers the price range from the price to price + the order book's bucketWidth.",
+        'primitive',
+        'pricing.PriceValue'
+    ),
+    new Property(
+        'longCountPercent',
+        'longCountPercent',
+        "The percentage of the total number of orders represented by the long orders found in this bucket.",
+        'primitive',
+        'primitives.DecimalNumber'
+    ),
+    new Property(
+        'shortCountPercent',
+        'shortCountPercent',
+        "The percentage of the total number of orders represented by the short orders found in this bucket.",
+        'primitive',
+        'primitives.DecimalNumber'
+    ),
+];
+
+class OrderBookBucket extends Definition {
+    constructor(data) {
+        super();
+
+        this._summaryFormat = "";
+
+        this._nameFormat = "";
+
+        this._properties = OrderBookBucket_Properties;
+
+        data = data || {};
+
+        if (data['price'] !== undefined) {
+            this.price = data['price'];
+        }
+
+        if (data['longCountPercent'] !== undefined) {
+            this.longCountPercent = data['longCountPercent'];
+        }
+
+        if (data['shortCountPercent'] !== undefined) {
+            this.shortCountPercent = data['shortCountPercent'];
+        }
+
+    }
+}
+
+const PositionBook_Properties = [
+    new Property(
+        'instrument',
+        'instrument',
+        "The position book's instrument",
+        'primitive',
+        'primitives.InstrumentName'
+    ),
+    new Property(
+        'time',
+        'time',
+        "The time when the position book snapshot was created",
+        'primitive',
+        'primitives.DateTime'
+    ),
+    new Property(
+        'price',
+        'price',
+        "The price (midpoint) for the position book's instrument at the time of the position book snapshot",
+        'primitive',
+        'pricing.PriceValue'
+    ),
+    new Property(
+        'bucketWidth',
+        'bucketWidth',
+        "The price width for each bucket. Each bucket covers the price range from the bucket's price to the bucket's price + bucketWidth.",
+        'primitive',
+        'pricing.PriceValue'
+    ),
+    new Property(
+        'buckets',
+        'buckets',
+        "The partitioned position book, divided into buckets using a default bucket width. These buckets are only provided for price ranges which actually contain order or position data.",
+        'array_object',
+        'PositionBookBucket'
+    ),
+];
+
+class PositionBook extends Definition {
+    constructor(data) {
+        super();
+
+        this._summaryFormat = "";
+
+        this._nameFormat = "";
+
+        this._properties = PositionBook_Properties;
+
+        data = data || {};
+
+        if (data['instrument'] !== undefined) {
+            this.instrument = data['instrument'];
+        }
+
+        if (data['time'] !== undefined) {
+            this.time = data['time'];
+        }
+
+        if (data['price'] !== undefined) {
+            this.price = data['price'];
+        }
+
+        if (data['bucketWidth'] !== undefined) {
+            this.bucketWidth = data['bucketWidth'];
+        }
+
+        if (data['buckets'] !== undefined) {
+            this.buckets = data['buckets'].map(x => new PositionBookBucket(x));
+        }
+
+    }
+}
+
+const PositionBookBucket_Properties = [
+    new Property(
+        'price',
+        'price',
+        "The lowest price (inclusive) covered by the bucket. The bucket covers the price range from the price to price + the position book's bucketWidth.",
+        'primitive',
+        'pricing.PriceValue'
+    ),
+    new Property(
+        'longCountPercent',
+        'longCountPercent',
+        "The percentage of the total number of positions represented by the long positions found in this bucket.",
+        'primitive',
+        'primitives.DecimalNumber'
+    ),
+    new Property(
+        'shortCountPercent',
+        'shortCountPercent',
+        "The percentage of the total number of positions represented by the short positions found in this bucket.",
+        'primitive',
+        'primitives.DecimalNumber'
+    ),
+];
+
+class PositionBookBucket extends Definition {
+    constructor(data) {
+        super();
+
+        this._summaryFormat = "";
+
+        this._nameFormat = "";
+
+        this._properties = PositionBookBucket_Properties;
+
+        data = data || {};
+
+        if (data['price'] !== undefined) {
+            this.price = data['price'];
+        }
+
+        if (data['longCountPercent'] !== undefined) {
+            this.longCountPercent = data['longCountPercent'];
+        }
+
+        if (data['shortCountPercent'] !== undefined) {
+            this.shortCountPercent = data['shortCountPercent'];
+        }
+
+    }
+}
+
 class EntitySpec {
     constructor(context) {
         this.context = context;
         this.Candlestick = Candlestick;
         this.CandlestickData = CandlestickData;
+        this.OrderBook = OrderBook;
+        this.OrderBookBucket = OrderBookBucket;
+        this.PositionBook = PositionBook;
+        this.PositionBookBucket = PositionBookBucket;
     }
 
     candles(
@@ -282,5 +534,9 @@ class EntitySpec {
 
 exports.Candlestick = Candlestick;
 exports.CandlestickData = CandlestickData;
+exports.OrderBook = OrderBook;
+exports.OrderBookBucket = OrderBookBucket;
+exports.PositionBook = PositionBook;
+exports.PositionBookBucket = PositionBookBucket;
 
 exports.EntitySpec = EntitySpec;

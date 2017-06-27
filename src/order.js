@@ -3276,6 +3276,108 @@ class TrailingStopLossOrderRequest extends Definition {
     }
 }
 
+const UnitsAvailableDetails_Properties = [
+    new Property(
+        'long',
+        "Long",
+        "The units available for long Orders.",
+        'primitive',
+        'primitives.DecimalNumber'
+    ),
+    new Property(
+        'short',
+        "Short",
+        "The units available for short Orders.",
+        'primitive',
+        'primitives.DecimalNumber'
+    ),
+];
+
+class UnitsAvailableDetails extends Definition {
+    constructor(data) {
+        super();
+
+        this._summaryFormat = "";
+
+        this._nameFormat = "";
+
+        this._properties = UnitsAvailableDetails_Properties;
+
+        data = data || {};
+
+        if (data['long'] !== undefined) {
+            this.long = data['long'];
+        }
+
+        if (data['short'] !== undefined) {
+            this.short = data['short'];
+        }
+
+    }
+}
+
+const UnitsAvailable_Properties = [
+    new Property(
+        'default',
+        "Default",
+        "The number of units that are available to be traded using an Order with a positionFill option of \"DEFAULT\". For an Account with hedging enabled, this value will be the same as the \"OPEN_ONLY\" value. For an Account without hedging enabled, this value will be the same as the \"REDUCE_FIRST\" value.",
+        'object',
+        'order.UnitsAvailableDetails'
+    ),
+    new Property(
+        'reduceFirst',
+        "Reduce First",
+        "The number of units that may are available to be traded with an Order with a positionFill option of \"REDUCE_FIRST\".",
+        'object',
+        'order.UnitsAvailableDetails'
+    ),
+    new Property(
+        'reduceOnly',
+        "Reduce Only",
+        "The number of units that may are available to be traded with an Order with a positionFill option of \"REDUCE_ONLY\".",
+        'object',
+        'order.UnitsAvailableDetails'
+    ),
+    new Property(
+        'openOnly',
+        "Open Only",
+        "The number of units that may are available to be traded with an Order with a positionFill option of \"OPEN_ONLY\".",
+        'object',
+        'order.UnitsAvailableDetails'
+    ),
+];
+
+class UnitsAvailable extends Definition {
+    constructor(data) {
+        super();
+
+        this._summaryFormat = "";
+
+        this._nameFormat = "";
+
+        this._properties = UnitsAvailable_Properties;
+
+        data = data || {};
+
+        if (data['default'] !== undefined) {
+            this.default = new UnitsAvailableDetails(data['default']);
+        }
+
+        if (data['reduceFirst'] !== undefined) {
+            this.reduceFirst = new UnitsAvailableDetails(data['reduceFirst']);
+        }
+
+        if (data['reduceOnly'] !== undefined) {
+            this.reduceOnly = new UnitsAvailableDetails(data['reduceOnly']);
+        }
+
+        if (data['openOnly'] !== undefined) {
+            this.openOnly = new UnitsAvailableDetails(data['openOnly']);
+        }
+
+    }
+}
+
 class EntitySpec {
     constructor(context) {
         this.context = context;
@@ -3297,6 +3399,8 @@ class EntitySpec {
         this.TakeProfitOrderRequest = TakeProfitOrderRequest;
         this.StopLossOrderRequest = StopLossOrderRequest;
         this.TrailingStopLossOrderRequest = TrailingStopLossOrderRequest;
+        this.UnitsAvailableDetails = UnitsAvailableDetails;
+        this.UnitsAvailable = UnitsAvailable;
     }
 
     create(
@@ -4217,5 +4321,7 @@ exports.MarketIfTouchedOrderRequest = MarketIfTouchedOrderRequest;
 exports.TakeProfitOrderRequest = TakeProfitOrderRequest;
 exports.StopLossOrderRequest = StopLossOrderRequest;
 exports.TrailingStopLossOrderRequest = TrailingStopLossOrderRequest;
+exports.UnitsAvailableDetails = UnitsAvailableDetails;
+exports.UnitsAvailable = UnitsAvailable;
 
 exports.EntitySpec = EntitySpec;
