@@ -1,7 +1,7 @@
 {
     "name": "@oanda/v20",
     "description": "OANDA v20 bindings for Javascript",
-    "version": "3.0.18-16",
+    "version": "3.0.22-0",
     "author": "OANDA Corporation",
     "license": "MIT",
     "homepage": "http://developer.oanda.com/rest-live-v20/introduction"

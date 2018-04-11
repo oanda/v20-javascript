@@ -77,7 +77,7 @@ const Price_Properties = [
     new Property(
         'quoteHomeConversionFactors',
         "Quote Home Conversions",
-        "The factors used to convert quantities of this price's Instrument's quote currency into a quantity of the Account's home currency.",
+        "The factors used to convert quantities of this price's Instrument's quote currency into a quantity of the Account's home currency. When the includeHomeConversions is present in the pricing request (regardless of its value), this field will not be present.",
         'object',
         'pricing.QuoteHomeConversionFactors'
     ),
@@ -232,6 +232,68 @@ class QuoteHomeConversionFactors extends Definition {
     }
 }
 
+const HomeConversions_Properties = [
+    new Property(
+        'currency',
+        'currency',
+        "The currency to be converted into the home currency.",
+        'primitive',
+        'primitives.Currency'
+    ),
+    new Property(
+        'accountGain',
+        "Account Gain",
+        "The factor used to convert any gains for an Account in the specified currency into the Account's home currency. This would include positive realized P/L and positive financing amounts. Conversion is performed by multiplying the positive P/L by the conversion factor.",
+        'primitive',
+        'primitives.DecimalNumber'
+    ),
+    new Property(
+        'accountLoss',
+        "Account Loss The factor used to convert any losses for an Account in the specified currency into the Account's home currency. This would include negative realized P/L and negative financing amounts. Conversion is performed by multiplying the positive P/L by the conversion factor.",
+        "The string representation of a decimal number.",
+        'primitive',
+        'primitives.DecimalNumber'
+    ),
+    new Property(
+        'positionValue',
+        "Position Value",
+        "The factor used to convert a Position or Trade Value in the specified currency into the Account's home currency. Conversion is performed by multiplying the Position or Trade Value by the conversion factor.",
+        'primitive',
+        'primitives.DecimalNumber'
+    ),
+];
+
+class HomeConversions extends Definition {
+    constructor(data) {
+        super();
+
+        this._summaryFormat = "";
+
+        this._nameFormat = "";
+
+        this._properties = HomeConversions_Properties;
+
+        data = data || {};
+
+        if (data['currency'] !== undefined) {
+            this.currency = data['currency'];
+        }
+
+        if (data['accountGain'] !== undefined) {
+            this.accountGain = data['accountGain'];
+        }
+
+        if (data['accountLoss'] !== undefined) {
+            this.accountLoss = data['accountLoss'];
+        }
+
+        if (data['positionValue'] !== undefined) {
+            this.positionValue = data['positionValue'];
+        }
+
+    }
+}
+
 const ClientPrice_Properties = [
     new Property(
         'bids',
@@ -354,6 +416,7 @@ class EntitySpec {
         this.Price = Price;
         this.PriceBucket = PriceBucket;
         this.QuoteHomeConversionFactors = QuoteHomeConversionFactors;
+        this.HomeConversions = HomeConversions;
         this.ClientPrice = ClientPrice;
         this.PricingHeartbeat = PricingHeartbeat;
     }
@@ -386,6 +449,9 @@ class EntitySpec {
         if (typeof queryParams['includeUnitsAvailable'] !== 'undefined') {
             path = path + "includeUnitsAvailable=" + queryParams['includeUnitsAvailable'] + "&";
         }
+        if (typeof queryParams['includeHomeConversions'] !== 'undefined') {
+            path = path + "includeHomeConversions=" + queryParams['includeHomeConversions'] + "&";
+        }
 
         let body = {};
 
@@ -400,6 +466,14 @@ class EntitySpec {
                 {
                     if (msg['prices'] !== undefined) {
                         response.body.prices = msg['prices'].map(x => new Price(x));
+                    }
+
+                    if (msg['homeConversions'] !== undefined) {
+                        response.body.homeConversions = msg['homeConversions'].map(x => new HomeConversions(x));
+                    }
+
+                    if (msg['time'] !== undefined) {
+                        response.body.time = msg['time'];
                     }
 
                 }
@@ -556,6 +630,7 @@ class EntitySpec {
 exports.Price = Price;
 exports.PriceBucket = PriceBucket;
 exports.QuoteHomeConversionFactors = QuoteHomeConversionFactors;
+exports.HomeConversions = HomeConversions;
 exports.ClientPrice = ClientPrice;
 exports.PricingHeartbeat = PricingHeartbeat;
 

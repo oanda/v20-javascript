@@ -39,7 +39,7 @@ const Account_Properties = [
     new Property(
         'balance',
         "Balance",
-        "The current balance of the Account. Represented in the Account's home currency.",
+        "The current balance of the Account.",
         'primitive',
         'primitives.AccountUnits'
     ),
@@ -58,30 +58,51 @@ const Account_Properties = [
         'primitives.DateTime'
     ),
     new Property(
+        'guaranteedStopLossOrderMode',
+        "Guaranteed Stop Loss Order Mode",
+        "The current guaranteed Stop Loss Order mode of the Account.",
+        'primitive',
+        'account.GuaranteedStopLossOrderMode'
+    ),
+    new Property(
         'pl',
         "Profit/Loss",
-        "The total profit/loss realized over the lifetime of the Account. Represented in the Account's home currency.",
+        "The total profit/loss realized over the lifetime of the Account.",
         'primitive',
         'primitives.AccountUnits'
     ),
     new Property(
         'resettablePL',
         "Resettable Profit/Loss",
-        "The total realized profit/loss for the Account since it was last reset by the client. Represented in the Account's home currency.",
+        "The total realized profit/loss for the Account since it was last reset by the client.",
         'primitive',
         'primitives.AccountUnits'
     ),
     new Property(
-        'resettabledPLTime',
+        'resettablePLTime',
         "Profit/Loss Reset Time",
         "The date/time that the Account's resettablePL was last reset.",
         'primitive',
         'primitives.DateTime'
     ),
     new Property(
+        'financing',
+        "Financing",
+        "The total amount of financing paid/collected over the lifetime of the Account.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
         'commission',
         "Commission",
-        "The total amount of commission paid over the lifetime of the Account. Represented in the Account's home currency.",
+        "The total amount of commission paid over the lifetime of the Account.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
+        'guaranteedExecutionFees',
+        "Guaranteed Execution Fees",
+        "The total amount of fees charged over the lifetime of the Account for the execution of guaranteed Stop Loss Orders.",
         'primitive',
         'primitives.AccountUnits'
     ),
@@ -144,28 +165,28 @@ const Account_Properties = [
     new Property(
         'unrealizedPL',
         "Unrealized Profit/Loss",
-        "The total unrealized profit/loss for all Trades currently open in the Account. Represented in the Account's home currency.",
+        "The total unrealized profit/loss for all Trades currently open in the Account.",
         'primitive',
         'primitives.AccountUnits'
     ),
     new Property(
         'NAV',
         "Net Asset Value",
-        "The net asset value of the Account. Equal to Account balance + unrealizedPL. Represented in the Account's home currency.",
+        "The net asset value of the Account. Equal to Account balance + unrealizedPL.",
         'primitive',
         'primitives.AccountUnits'
     ),
     new Property(
         'marginUsed',
         "Margin Used",
-        "Margin currently used for the Account. Represented in the Account's home currency.",
+        "Margin currently used for the Account.",
         'primitive',
         'primitives.AccountUnits'
     ),
     new Property(
         'marginAvailable',
         "Margin Available",
-        "Margin available for Account. Represented in the Account's home currency.",
+        "Margin available for Account currency.",
         'primitive',
         'primitives.AccountUnits'
     ),
@@ -298,6 +319,10 @@ class Account extends Definition {
             this.createdTime = data['createdTime'];
         }
 
+        if (data['guaranteedStopLossOrderMode'] !== undefined) {
+            this.guaranteedStopLossOrderMode = data['guaranteedStopLossOrderMode'];
+        }
+
         if (data['pl'] !== undefined) {
             this.pl = data['pl'];
         }
@@ -306,12 +331,20 @@ class Account extends Definition {
             this.resettablePL = data['resettablePL'];
         }
 
-        if (data['resettabledPLTime'] !== undefined) {
-            this.resettabledPLTime = data['resettabledPLTime'];
+        if (data['resettablePLTime'] !== undefined) {
+            this.resettablePLTime = data['resettablePLTime'];
+        }
+
+        if (data['financing'] !== undefined) {
+            this.financing = data['financing'];
         }
 
         if (data['commission'] !== undefined) {
             this.commission = data['commission'];
+        }
+
+        if (data['guaranteedExecutionFees'] !== undefined) {
+            this.guaranteedExecutionFees = data['guaranteedExecutionFees'];
         }
 
         if (data['marginRate'] !== undefined) {
@@ -421,28 +454,28 @@ const AccountChangesState_Properties = [
     new Property(
         'unrealizedPL',
         "Unrealized Profit/Loss",
-        "The total unrealized profit/loss for all Trades currently open in the Account. Represented in the Account's home currency.",
+        "The total unrealized profit/loss for all Trades currently open in the Account.",
         'primitive',
         'primitives.AccountUnits'
     ),
     new Property(
         'NAV',
         "Net Asset Value",
-        "The net asset value of the Account. Equal to Account balance + unrealizedPL. Represented in the Account's home currency.",
+        "The net asset value of the Account. Equal to Account balance + unrealizedPL.",
         'primitive',
         'primitives.AccountUnits'
     ),
     new Property(
         'marginUsed',
         "Margin Used",
-        "Margin currently used for the Account. Represented in the Account's home currency.",
+        "Margin currently used for the Account.",
         'primitive',
         'primitives.AccountUnits'
     ),
     new Property(
         'marginAvailable',
         "Margin Available",
-        "Margin available for Account. Represented in the Account's home currency.",
+        "Margin available for Account currency.",
         'primitive',
         'primitives.AccountUnits'
     ),
@@ -687,7 +720,7 @@ const AccountSummary_Properties = [
     new Property(
         'balance',
         "Balance",
-        "The current balance of the Account. Represented in the Account's home currency.",
+        "The current balance of the Account.",
         'primitive',
         'primitives.AccountUnits'
     ),
@@ -706,30 +739,51 @@ const AccountSummary_Properties = [
         'primitives.DateTime'
     ),
     new Property(
+        'guaranteedStopLossOrderMode',
+        "Guaranteed Stop Loss Order Mode",
+        "The current guaranteed Stop Loss Order mode of the Account.",
+        'primitive',
+        'account.GuaranteedStopLossOrderMode'
+    ),
+    new Property(
         'pl',
         "Profit/Loss",
-        "The total profit/loss realized over the lifetime of the Account. Represented in the Account's home currency.",
+        "The total profit/loss realized over the lifetime of the Account.",
         'primitive',
         'primitives.AccountUnits'
     ),
     new Property(
         'resettablePL',
         "Resettable Profit/Loss",
-        "The total realized profit/loss for the Account since it was last reset by the client. Represented in the Account's home currency.",
+        "The total realized profit/loss for the Account since it was last reset by the client.",
         'primitive',
         'primitives.AccountUnits'
     ),
     new Property(
-        'resettabledPLTime',
+        'resettablePLTime',
         "Profit/Loss Reset Time",
         "The date/time that the Account's resettablePL was last reset.",
         'primitive',
         'primitives.DateTime'
     ),
     new Property(
+        'financing',
+        "Financing",
+        "The total amount of financing paid/collected over the lifetime of the Account.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
         'commission',
         "Commission",
-        "The total amount of commission paid over the lifetime of the Account. Represented in the Account's home currency.",
+        "The total amount of commission paid over the lifetime of the Account.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
+        'guaranteedExecutionFees',
+        "Guaranteed Execution Fees",
+        "The total amount of fees charged over the lifetime of the Account for the execution of guaranteed Stop Loss Orders.",
         'primitive',
         'primitives.AccountUnits'
     ),
@@ -792,28 +846,28 @@ const AccountSummary_Properties = [
     new Property(
         'unrealizedPL',
         "Unrealized Profit/Loss",
-        "The total unrealized profit/loss for all Trades currently open in the Account. Represented in the Account's home currency.",
+        "The total unrealized profit/loss for all Trades currently open in the Account.",
         'primitive',
         'primitives.AccountUnits'
     ),
     new Property(
         'NAV',
         "Net Asset Value",
-        "The net asset value of the Account. Equal to Account balance + unrealizedPL. Represented in the Account's home currency.",
+        "The net asset value of the Account. Equal to Account balance + unrealizedPL.",
         'primitive',
         'primitives.AccountUnits'
     ),
     new Property(
         'marginUsed',
         "Margin Used",
-        "Margin currently used for the Account. Represented in the Account's home currency.",
+        "Margin currently used for the Account.",
         'primitive',
         'primitives.AccountUnits'
     ),
     new Property(
         'marginAvailable',
         "Margin Available",
-        "Margin available for Account. Represented in the Account's home currency.",
+        "Margin available for Account currency.",
         'primitive',
         'primitives.AccountUnits'
     ),
@@ -925,6 +979,10 @@ class AccountSummary extends Definition {
             this.createdTime = data['createdTime'];
         }
 
+        if (data['guaranteedStopLossOrderMode'] !== undefined) {
+            this.guaranteedStopLossOrderMode = data['guaranteedStopLossOrderMode'];
+        }
+
         if (data['pl'] !== undefined) {
             this.pl = data['pl'];
         }
@@ -933,12 +991,20 @@ class AccountSummary extends Definition {
             this.resettablePL = data['resettablePL'];
         }
 
-        if (data['resettabledPLTime'] !== undefined) {
-            this.resettabledPLTime = data['resettabledPLTime'];
+        if (data['resettablePLTime'] !== undefined) {
+            this.resettablePLTime = data['resettablePLTime'];
+        }
+
+        if (data['financing'] !== undefined) {
+            this.financing = data['financing'];
         }
 
         if (data['commission'] !== undefined) {
             this.commission = data['commission'];
+        }
+
+        if (data['guaranteedExecutionFees'] !== undefined) {
+            this.guaranteedExecutionFees = data['guaranteedExecutionFees'];
         }
 
         if (data['marginRate'] !== undefined) {
@@ -1027,6 +1093,167 @@ class AccountSummary extends Definition {
 
         if (data['lastTransactionID'] !== undefined) {
             this.lastTransactionID = data['lastTransactionID'];
+        }
+
+    }
+}
+
+const CalculatedAccountState_Properties = [
+    new Property(
+        'unrealizedPL',
+        "Unrealized Profit/Loss",
+        "The total unrealized profit/loss for all Trades currently open in the Account.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
+        'NAV',
+        "Net Asset Value",
+        "The net asset value of the Account. Equal to Account balance + unrealizedPL.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
+        'marginUsed',
+        "Margin Used",
+        "Margin currently used for the Account.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
+        'marginAvailable',
+        "Margin Available",
+        "Margin available for Account currency.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
+        'positionValue',
+        "Position Value",
+        "The value of the Account's open positions represented in the Account's home currency.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
+        'marginCloseoutUnrealizedPL',
+        "Closeout UPL",
+        "The Account's margin closeout unrealized PL.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
+        'marginCloseoutNAV',
+        "Closeout NAV",
+        "The Account's margin closeout NAV.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
+        'marginCloseoutMarginUsed',
+        "Closeout Margin Used",
+        "The Account's margin closeout margin used.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
+        'marginCloseoutPercent',
+        "Margin Closeout Percentage",
+        "The Account's margin closeout percentage. When this value is 1.0 or above the Account is in a margin closeout situation.",
+        'primitive',
+        'primitives.DecimalNumber'
+    ),
+    new Property(
+        'marginCloseoutPositionValue',
+        "Margin Closeout Position Value",
+        "The value of the Account's open positions as used for margin closeout calculations represented in the Account's home currency.",
+        'primitive',
+        'primitives.DecimalNumber'
+    ),
+    new Property(
+        'withdrawalLimit',
+        "Withdrawal Limit",
+        "The current WithdrawalLimit for the account which will be zero or a positive value indicating how much can be withdrawn from the account.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
+        'marginCallMarginUsed',
+        "Margin Call Margin Used",
+        "The Account's margin call margin used.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
+        'marginCallPercent',
+        "Margin Call Percentage",
+        "The Account's margin call percentage. When this value is 1.0 or above the Account is in a margin call situation.",
+        'primitive',
+        'primitives.DecimalNumber'
+    ),
+];
+
+class CalculatedAccountState extends Definition {
+    constructor(data) {
+        super();
+
+        this._summaryFormat = "";
+
+        this._nameFormat = "";
+
+        this._properties = CalculatedAccountState_Properties;
+
+        data = data || {};
+
+        if (data['unrealizedPL'] !== undefined) {
+            this.unrealizedPL = data['unrealizedPL'];
+        }
+
+        if (data['NAV'] !== undefined) {
+            this.NAV = data['NAV'];
+        }
+
+        if (data['marginUsed'] !== undefined) {
+            this.marginUsed = data['marginUsed'];
+        }
+
+        if (data['marginAvailable'] !== undefined) {
+            this.marginAvailable = data['marginAvailable'];
+        }
+
+        if (data['positionValue'] !== undefined) {
+            this.positionValue = data['positionValue'];
+        }
+
+        if (data['marginCloseoutUnrealizedPL'] !== undefined) {
+            this.marginCloseoutUnrealizedPL = data['marginCloseoutUnrealizedPL'];
+        }
+
+        if (data['marginCloseoutNAV'] !== undefined) {
+            this.marginCloseoutNAV = data['marginCloseoutNAV'];
+        }
+
+        if (data['marginCloseoutMarginUsed'] !== undefined) {
+            this.marginCloseoutMarginUsed = data['marginCloseoutMarginUsed'];
+        }
+
+        if (data['marginCloseoutPercent'] !== undefined) {
+            this.marginCloseoutPercent = data['marginCloseoutPercent'];
+        }
+
+        if (data['marginCloseoutPositionValue'] !== undefined) {
+            this.marginCloseoutPositionValue = data['marginCloseoutPositionValue'];
+        }
+
+        if (data['withdrawalLimit'] !== undefined) {
+            this.withdrawalLimit = data['withdrawalLimit'];
+        }
+
+        if (data['marginCallMarginUsed'] !== undefined) {
+            this.marginCallMarginUsed = data['marginCallMarginUsed'];
+        }
+
+        if (data['marginCallPercent'] !== undefined) {
+            this.marginCallPercent = data['marginCallPercent'];
         }
 
     }
@@ -1156,6 +1383,7 @@ class EntitySpec {
         this.AccountChangesState = AccountChangesState;
         this.AccountProperties = AccountProperties;
         this.AccountSummary = AccountSummary;
+        this.CalculatedAccountState = CalculatedAccountState;
         this.AccountChanges = AccountChanges;
     }
 
@@ -1671,6 +1899,7 @@ exports.Account = Account;
 exports.AccountChangesState = AccountChangesState;
 exports.AccountProperties = AccountProperties;
 exports.AccountSummary = AccountSummary;
+exports.CalculatedAccountState = CalculatedAccountState;
 exports.AccountChanges = AccountChanges;
 
 exports.EntitySpec = EntitySpec;

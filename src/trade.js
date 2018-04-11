@@ -55,6 +55,13 @@ const Trade_Properties = [
         'primitives.DecimalNumber'
     ),
     new Property(
+        'initialMarginRequired',
+        "Initial Margin Required",
+        "The margin required at the time the Trade was created. Note, this is the 'pure' margin required, it is not the 'effective' margin used that factors in the trade risk if a GSLO is attached to the trade.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
         'currentUnits',
         "Current Open Trade Units",
         "The number of units currently open for the Trade. This value is reduced to 0.0 as the Trade is closed.",
@@ -72,6 +79,13 @@ const Trade_Properties = [
         'unrealizedPL',
         "Unrealized Profit/Loss",
         "The unrealized profit/loss on the open portion of the Trade.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
+        'marginUsed',
+        "Margin Used",
+        "Margin currently used by the Trade.",
         'primitive',
         'primitives.AccountUnits'
     ),
@@ -169,6 +183,10 @@ class Trade extends Definition {
             this.initialUnits = data['initialUnits'];
         }
 
+        if (data['initialMarginRequired'] !== undefined) {
+            this.initialMarginRequired = data['initialMarginRequired'];
+        }
+
         if (data['currentUnits'] !== undefined) {
             this.currentUnits = data['currentUnits'];
         }
@@ -179,6 +197,10 @@ class Trade extends Definition {
 
         if (data['unrealizedPL'] !== undefined) {
             this.unrealizedPL = data['unrealizedPL'];
+        }
+
+        if (data['marginUsed'] !== undefined) {
+            this.marginUsed = data['marginUsed'];
         }
 
         if (data['averageClosePrice'] !== undefined) {
@@ -260,6 +282,13 @@ const TradeSummary_Properties = [
         'primitives.DecimalNumber'
     ),
     new Property(
+        'initialMarginRequired',
+        "Initial Margin Required",
+        "The margin required at the time the Trade was created. Note, this is the 'pure' margin required, it is not the 'effective' margin used that factors in the trade risk if a GSLO is attached to the trade.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
         'currentUnits',
         "Current Open Trade Units",
         "The number of units currently open for the Trade. This value is reduced to 0.0 as the Trade is closed.",
@@ -277,6 +306,13 @@ const TradeSummary_Properties = [
         'unrealizedPL',
         "Unrealized Profit/Loss",
         "The unrealized profit/loss on the open portion of the Trade.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
+        'marginUsed',
+        "Margin Used",
+        "Margin currently used by the Trade.",
         'primitive',
         'primitives.AccountUnits'
     ),
@@ -374,6 +410,10 @@ class TradeSummary extends Definition {
             this.initialUnits = data['initialUnits'];
         }
 
+        if (data['initialMarginRequired'] !== undefined) {
+            this.initialMarginRequired = data['initialMarginRequired'];
+        }
+
         if (data['currentUnits'] !== undefined) {
             this.currentUnits = data['currentUnits'];
         }
@@ -384,6 +424,10 @@ class TradeSummary extends Definition {
 
         if (data['unrealizedPL'] !== undefined) {
             this.unrealizedPL = data['unrealizedPL'];
+        }
+
+        if (data['marginUsed'] !== undefined) {
+            this.marginUsed = data['marginUsed'];
         }
 
         if (data['averageClosePrice'] !== undefined) {
@@ -436,6 +480,13 @@ const CalculatedTradeState_Properties = [
         'primitive',
         'primitives.AccountUnits'
     ),
+    new Property(
+        'marginUsed',
+        "Margin Used",
+        "Margin currently used by the Trade.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
 ];
 
 class CalculatedTradeState extends Definition {
@@ -456,6 +507,10 @@ class CalculatedTradeState extends Definition {
 
         if (data['unrealizedPL'] !== undefined) {
             this.unrealizedPL = data['unrealizedPL'];
+        }
+
+        if (data['marginUsed'] !== undefined) {
+            this.marginUsed = data['marginUsed'];
         }
 
     }

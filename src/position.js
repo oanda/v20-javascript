@@ -33,6 +33,13 @@ const Position_Properties = [
         'primitives.AccountUnits'
     ),
     new Property(
+        'marginUsed',
+        "Margin Used",
+        "Margin currently used by the Position.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
         'resettablePL',
         "Resettable Profit/Loss",
         "Profit/loss realized by the Position since the Account's resettablePL was last reset by the client.",
@@ -40,9 +47,23 @@ const Position_Properties = [
         'primitives.AccountUnits'
     ),
     new Property(
+        'financing',
+        "Financing",
+        "The total amount of financing paid/collected for this instrument over the lifetime of the Account.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
         'commission',
         "Commission",
-        "The total amount of commission paid for this instrument over the lifetime of the Account. Represented in the Account's home currency.",
+        "The total amount of commission paid for this instrument over the lifetime of the Account.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
+        'guaranteedExecutionFees',
+        "Guranteed Execution Fee",
+        "The total amount of fees charged over the lifetime of the Account for the execution of guaranteed Stop Loss Orders for this instrument.",
         'primitive',
         'primitives.AccountUnits'
     ),
@@ -86,12 +107,24 @@ class Position extends Definition {
             this.unrealizedPL = data['unrealizedPL'];
         }
 
+        if (data['marginUsed'] !== undefined) {
+            this.marginUsed = data['marginUsed'];
+        }
+
         if (data['resettablePL'] !== undefined) {
             this.resettablePL = data['resettablePL'];
         }
 
+        if (data['financing'] !== undefined) {
+            this.financing = data['financing'];
+        }
+
         if (data['commission'] !== undefined) {
             this.commission = data['commission'];
+        }
+
+        if (data['guaranteedExecutionFees'] !== undefined) {
+            this.guaranteedExecutionFees = data['guaranteedExecutionFees'];
         }
 
         if (data['long'] !== undefined) {
@@ -148,6 +181,20 @@ const PositionSide_Properties = [
         'primitive',
         'primitives.AccountUnits'
     ),
+    new Property(
+        'financing',
+        "Financing",
+        "The total amount of financing paid/collected for this PositionSide over the lifetime of the Account.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
+        'guaranteedExecutionFees',
+        "Guranteed Execution Fees",
+        "The total amount of fees charged over the lifetime of the Account for the execution of guaranteed Stop Loss Orders attached to Trades for this PositionSide.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
 ];
 
 class PositionSide extends Definition {
@@ -186,6 +233,14 @@ class PositionSide extends Definition {
             this.resettablePL = data['resettablePL'];
         }
 
+        if (data['financing'] !== undefined) {
+            this.financing = data['financing'];
+        }
+
+        if (data['guaranteedExecutionFees'] !== undefined) {
+            this.guaranteedExecutionFees = data['guaranteedExecutionFees'];
+        }
+
     }
 }
 
@@ -218,6 +273,13 @@ const CalculatedPositionState_Properties = [
         'primitive',
         'primitives.AccountUnits'
     ),
+    new Property(
+        'marginUsed',
+        "Margin Used",
+        "Margin currently used by the Position.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
 ];
 
 class CalculatedPositionState extends Definition {
@@ -246,6 +308,10 @@ class CalculatedPositionState extends Definition {
 
         if (data['shortUnrealizedPL'] !== undefined) {
             this.shortUnrealizedPL = data['shortUnrealizedPL'];
+        }
+
+        if (data['marginUsed'] !== undefined) {
+            this.marginUsed = data['marginUsed'];
         }
 
     }

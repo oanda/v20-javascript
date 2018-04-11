@@ -172,13 +172,6 @@ class Instrument extends Definition {
 
 const InstrumentCommission_Properties = [
     new Property(
-        'instrument',
-        'instrument',
-        "The name of the instrument",
-        'primitive',
-        'primitives.InstrumentName'
-    ),
-    new Property(
         'commission',
         'commission',
         "The commission amount (in the Account's home currency) charged per unitsTraded of the instrument",
@@ -213,10 +206,6 @@ class InstrumentCommission extends Definition {
 
         data = data || {};
 
-        if (data['instrument'] !== undefined) {
-            this.instrument = data['instrument'];
-        }
-
         if (data['commission'] !== undefined) {
             this.commission = data['commission'];
         }
@@ -232,11 +221,52 @@ class InstrumentCommission extends Definition {
     }
 }
 
+const GuaranteedStopLossOrderLevelRestriction_Properties = [
+    new Property(
+        'volume',
+        'volume',
+        "Applies to Trades with a guaranteed Stop Loss Order attached for the specified Instrument. This is the total allowed Trade volume that can exist within the priceRange based on the trigger prices of the guaranteed Stop Loss Orders.",
+        'primitive',
+        'primitives.DecimalNumber'
+    ),
+    new Property(
+        'priceRange',
+        'priceRange',
+        "The price range the volume applies to. This value is in price units.",
+        'primitive',
+        'primitives.DecimalNumber'
+    ),
+];
+
+class GuaranteedStopLossOrderLevelRestriction extends Definition {
+    constructor(data) {
+        super();
+
+        this._summaryFormat = "";
+
+        this._nameFormat = "";
+
+        this._properties = GuaranteedStopLossOrderLevelRestriction_Properties;
+
+        data = data || {};
+
+        if (data['volume'] !== undefined) {
+            this.volume = data['volume'];
+        }
+
+        if (data['priceRange'] !== undefined) {
+            this.priceRange = data['priceRange'];
+        }
+
+    }
+}
+
 class EntitySpec {
     constructor(context) {
         this.context = context;
         this.Instrument = Instrument;
         this.InstrumentCommission = InstrumentCommission;
+        this.GuaranteedStopLossOrderLevelRestriction = GuaranteedStopLossOrderLevelRestriction;
     }
 
 
@@ -245,5 +275,6 @@ class EntitySpec {
 
 exports.Instrument = Instrument;
 exports.InstrumentCommission = InstrumentCommission;
+exports.GuaranteedStopLossOrderLevelRestriction = GuaranteedStopLossOrderLevelRestriction;
 
 exports.EntitySpec = EntitySpec;

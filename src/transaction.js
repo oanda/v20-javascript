@@ -98,14 +98,6 @@ class Transaction extends Definition {
         {
             return new Transaction(transaction);
         }
-        else if (transaction["type"] == "CLIENT_CONFIGURE")
-        {
-            return new ClientConfigureTransaction(transaction);
-        }
-        else if (transaction["type"] == "CLIENT_CONFIGURE_REJECT")
-        {
-            return new ClientConfigureRejectTransaction(transaction);
-        }
         else if (transaction["type"] == "ORDER_FILL")
         {
             return new OrderFillTransaction(transaction);
@@ -126,46 +118,6 @@ class Transaction extends Definition {
         {
             return new OrderClientExtensionsModifyRejectTransaction(transaction);
         }
-        else if (transaction["type"] == "MARKET_ORDER")
-        {
-            return new MarketOrderTransaction(transaction);
-        }
-        else if (transaction["type"] == "MARKET_ORDER_REJECT")
-        {
-            return new MarketOrderRejectTransaction(transaction);
-        }
-        else if (transaction["type"] == "TRADE_CLIENT_EXTENSIONS_MODIFY")
-        {
-            return new TradeClientExtensionsModifyTransaction(transaction);
-        }
-        else if (transaction["type"] == "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT")
-        {
-            return new TradeClientExtensionsModifyRejectTransaction(transaction);
-        }
-        else if (transaction["type"] == "TAKE_PROFIT_ORDER")
-        {
-            return new TakeProfitOrderTransaction(transaction);
-        }
-        else if (transaction["type"] == "STOP_LOSS_ORDER")
-        {
-            return new StopLossOrderTransaction(transaction);
-        }
-        else if (transaction["type"] == "TRAILING_STOP_LOSS_ORDER")
-        {
-            return new TrailingStopLossOrderTransaction(transaction);
-        }
-        else if (transaction["type"] == "TAKE_PROFIT_ORDER_REJECT")
-        {
-            return new TakeProfitOrderRejectTransaction(transaction);
-        }
-        else if (transaction["type"] == "STOP_LOSS_ORDER_REJECT")
-        {
-            return new StopLossOrderRejectTransaction(transaction);
-        }
-        else if (transaction["type"] == "TRAILING_STOP_LOSS_ORDER_REJECT")
-        {
-            return new TrailingStopLossOrderRejectTransaction(transaction);
-        }
         else if (transaction["type"] == "CREATE")
         {
             return new CreateTransaction(transaction);
@@ -178,6 +130,14 @@ class Transaction extends Definition {
         {
             return new ReopenTransaction(transaction);
         }
+        else if (transaction["type"] == "CLIENT_CONFIGURE")
+        {
+            return new ClientConfigureTransaction(transaction);
+        }
+        else if (transaction["type"] == "CLIENT_CONFIGURE_REJECT")
+        {
+            return new ClientConfigureRejectTransaction(transaction);
+        }
         else if (transaction["type"] == "TRANSFER_FUNDS")
         {
             return new TransferFundsTransaction(transaction);
@@ -185,6 +145,18 @@ class Transaction extends Definition {
         else if (transaction["type"] == "TRANSFER_FUNDS_REJECT")
         {
             return new TransferFundsRejectTransaction(transaction);
+        }
+        else if (transaction["type"] == "MARKET_ORDER")
+        {
+            return new MarketOrderTransaction(transaction);
+        }
+        else if (transaction["type"] == "MARKET_ORDER_REJECT")
+        {
+            return new MarketOrderRejectTransaction(transaction);
+        }
+        else if (transaction["type"] == "FIXED_PRICE_ORDER")
+        {
+            return new FixedPriceOrderTransaction(transaction);
         }
         else if (transaction["type"] == "LIMIT_ORDER")
         {
@@ -209,6 +181,38 @@ class Transaction extends Definition {
         else if (transaction["type"] == "MARKET_IF_TOUCHED_ORDER_REJECT")
         {
             return new MarketIfTouchedOrderRejectTransaction(transaction);
+        }
+        else if (transaction["type"] == "TAKE_PROFIT_ORDER")
+        {
+            return new TakeProfitOrderTransaction(transaction);
+        }
+        else if (transaction["type"] == "TAKE_PROFIT_ORDER_REJECT")
+        {
+            return new TakeProfitOrderRejectTransaction(transaction);
+        }
+        else if (transaction["type"] == "STOP_LOSS_ORDER")
+        {
+            return new StopLossOrderTransaction(transaction);
+        }
+        else if (transaction["type"] == "STOP_LOSS_ORDER_REJECT")
+        {
+            return new StopLossOrderRejectTransaction(transaction);
+        }
+        else if (transaction["type"] == "TRAILING_STOP_LOSS_ORDER")
+        {
+            return new TrailingStopLossOrderTransaction(transaction);
+        }
+        else if (transaction["type"] == "TRAILING_STOP_LOSS_ORDER_REJECT")
+        {
+            return new TrailingStopLossOrderRejectTransaction(transaction);
+        }
+        else if (transaction["type"] == "TRADE_CLIENT_EXTENSIONS_MODIFY")
+        {
+            return new TradeClientExtensionsModifyTransaction(transaction);
+        }
+        else if (transaction["type"] == "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT")
+        {
+            return new TradeClientExtensionsModifyRejectTransaction(transaction);
         }
         else if (transaction["type"] == "MARGIN_CALL_ENTER")
         {
@@ -1694,6 +1698,228 @@ class MarketOrderRejectTransaction extends Definition {
     }
 }
 
+const FixedPriceOrderTransaction_Properties = [
+    new Property(
+        'id',
+        "Transaction ID",
+        "The Transaction's Identifier.",
+        'primitive',
+        'transaction.TransactionID'
+    ),
+    new Property(
+        'time',
+        "Time",
+        "The date/time when the Transaction was created.",
+        'primitive',
+        'primitives.DateTime'
+    ),
+    new Property(
+        'userID',
+        "User ID",
+        "The ID of the user that initiated the creation of the Transaction.",
+        'primitive',
+        'integer'
+    ),
+    new Property(
+        'accountID',
+        "Account ID",
+        "The ID of the Account the Transaction was created for.",
+        'primitive',
+        'account.AccountID'
+    ),
+    new Property(
+        'batchID',
+        "Transaction Batch ID",
+        "The ID of the \"batch\" that the Transaction belongs to. Transactions in the same batch are applied to the Account simultaneously.",
+        'primitive',
+        'transaction.TransactionID'
+    ),
+    new Property(
+        'requestID',
+        "Request ID",
+        "The Request ID of the request which generated the transaction.",
+        'primitive',
+        'transaction.RequestID'
+    ),
+    new Property(
+        'type',
+        "Type",
+        "The Type of the Transaction. Always set to \"FIXED_PRICE_ORDER\" in a FixedPriceOrderTransaction.",
+        'primitive',
+        'transaction.TransactionType'
+    ),
+    new Property(
+        'instrument',
+        "Instrument",
+        "The Fixed Price Order's Instrument.",
+        'primitive',
+        'primitives.InstrumentName'
+    ),
+    new Property(
+        'units',
+        "Amount",
+        "The quantity requested to be filled by the Fixed Price Order. A posititive number of units results in a long Order, and a negative number of units results in a short Order.",
+        'primitive',
+        'primitives.DecimalNumber'
+    ),
+    new Property(
+        'price',
+        "Price",
+        "The price specified for the Fixed Price Order. This price is the exact price that the Fixed Price Order will be filled at.",
+        'primitive',
+        'pricing.PriceValue'
+    ),
+    new Property(
+        'positionFill',
+        "Position Fill",
+        "Specification of how Positions in the Account are modified when the Order is filled.",
+        'primitive',
+        'order.OrderPositionFill'
+    ),
+    new Property(
+        'tradeState',
+        "TradeState",
+        "The state that the trade resulting from the Fixed Price Order should be set to.",
+        'primitive',
+        'string'
+    ),
+    new Property(
+        'reason',
+        "Reason",
+        "The reason that the Fixed Price Order was created",
+        'primitive',
+        'transaction.FixedPriceOrderReason'
+    ),
+    new Property(
+        'clientExtensions',
+        "Client Extensions",
+        "The client extensions for the Fixed Price Order.",
+        'object',
+        'transaction.ClientExtensions'
+    ),
+    new Property(
+        'takeProfitOnFill',
+        "Take Profit On Fill",
+        "The specification of the Take Profit Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
+        'object',
+        'transaction.TakeProfitDetails'
+    ),
+    new Property(
+        'stopLossOnFill',
+        "Stop Loss On Fill",
+        "The specification of the Stop Loss Order that should be created for a Trade opened when the Order is filled (if such a Trade is created).",
+        'object',
+        'transaction.StopLossDetails'
+    ),
+    new Property(
+        'trailingStopLossOnFill',
+        "Trailing Stop Loss On Fill",
+        "The specification of the Trailing Stop Loss Order that should be created for a Trade that is opened when the Order is filled (if such a Trade is created).",
+        'object',
+        'transaction.TrailingStopLossDetails'
+    ),
+    new Property(
+        'tradeClientExtensions',
+        "Trade Client Extensions",
+        "Client Extensions to add to the Trade created when the Order is filled (if such a Trade is created).  Do not set, modify, delete tradeClientExtensions if your account is associated with MT4.",
+        'object',
+        'transaction.ClientExtensions'
+    ),
+];
+
+class FixedPriceOrderTransaction extends Definition {
+    constructor(data) {
+        super();
+
+        this._summaryFormat = "Create Fixed Price Order {id} ({reason}): {units} of {instrument}";
+
+        this._nameFormat = "Transaction {id}";
+
+        this._properties = FixedPriceOrderTransaction_Properties;
+
+        data = data || {};
+
+        if (data['id'] !== undefined) {
+            this.id = data['id'];
+        }
+
+        if (data['time'] !== undefined) {
+            this.time = data['time'];
+        }
+
+        if (data['userID'] !== undefined) {
+            this.userID = data['userID'];
+        }
+
+        if (data['accountID'] !== undefined) {
+            this.accountID = data['accountID'];
+        }
+
+        if (data['batchID'] !== undefined) {
+            this.batchID = data['batchID'];
+        }
+
+        if (data['requestID'] !== undefined) {
+            this.requestID = data['requestID'];
+        }
+
+        if (data['type'] !== undefined) {
+            this.type = data['type'];
+        }
+        else {
+            this.type = "FIXED_PRICE_ORDER";
+        }
+
+        if (data['instrument'] !== undefined) {
+            this.instrument = data['instrument'];
+        }
+
+        if (data['units'] !== undefined) {
+            this.units = data['units'];
+        }
+
+        if (data['price'] !== undefined) {
+            this.price = data['price'];
+        }
+
+        if (data['positionFill'] !== undefined) {
+            this.positionFill = data['positionFill'];
+        }
+        else {
+            this.positionFill = "DEFAULT";
+        }
+
+        if (data['tradeState'] !== undefined) {
+            this.tradeState = data['tradeState'];
+        }
+
+        if (data['reason'] !== undefined) {
+            this.reason = data['reason'];
+        }
+
+        if (data['clientExtensions'] !== undefined) {
+            this.clientExtensions = new ClientExtensions(data['clientExtensions']);
+        }
+
+        if (data['takeProfitOnFill'] !== undefined) {
+            this.takeProfitOnFill = new TakeProfitDetails(data['takeProfitOnFill']);
+        }
+
+        if (data['stopLossOnFill'] !== undefined) {
+            this.stopLossOnFill = new StopLossDetails(data['stopLossOnFill']);
+        }
+
+        if (data['trailingStopLossOnFill'] !== undefined) {
+            this.trailingStopLossOnFill = new TrailingStopLossDetails(data['trailingStopLossOnFill']);
+        }
+
+        if (data['tradeClientExtensions'] !== undefined) {
+            this.tradeClientExtensions = new ClientExtensions(data['tradeClientExtensions']);
+        }
+
+    }
+}
+
 const LimitOrderTransaction_Properties = [
     new Property(
         'id',
@@ -1789,7 +2015,7 @@ const LimitOrderTransaction_Properties = [
     new Property(
         'triggerCondition',
         "Trigger Condition",
-        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
         'primitive',
         'order.OrderTriggerCondition'
     ),
@@ -2061,7 +2287,7 @@ const LimitOrderRejectTransaction_Properties = [
     new Property(
         'triggerCondition',
         "Trigger Condition",
-        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
         'primitive',
         'order.OrderTriggerCondition'
     ),
@@ -2340,7 +2566,7 @@ const StopOrderTransaction_Properties = [
     new Property(
         'triggerCondition',
         "Trigger Condition",
-        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
         'primitive',
         'order.OrderTriggerCondition'
     ),
@@ -2623,7 +2849,7 @@ const StopOrderRejectTransaction_Properties = [
     new Property(
         'triggerCondition',
         "Trigger Condition",
-        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
         'primitive',
         'order.OrderTriggerCondition'
     ),
@@ -2906,7 +3132,7 @@ const MarketIfTouchedOrderTransaction_Properties = [
     new Property(
         'triggerCondition',
         "Trigger Condition",
-        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
         'primitive',
         'order.OrderTriggerCondition'
     ),
@@ -3189,7 +3415,7 @@ const MarketIfTouchedOrderRejectTransaction_Properties = [
     new Property(
         'triggerCondition',
         "Trigger Condition",
-        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
         'primitive',
         'order.OrderTriggerCondition'
     ),
@@ -3458,7 +3684,7 @@ const TakeProfitOrderTransaction_Properties = [
     new Property(
         'triggerCondition',
         "Trigger Condition",
-        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
         'primitive',
         'order.OrderTriggerCondition'
     ),
@@ -3683,7 +3909,7 @@ const TakeProfitOrderRejectTransaction_Properties = [
     new Property(
         'triggerCondition',
         "Trigger Condition",
-        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
         'primitive',
         'order.OrderTriggerCondition'
     ),
@@ -3887,9 +4113,16 @@ const StopLossOrderTransaction_Properties = [
     new Property(
         'price',
         "Price",
-        "The price threshold specified for the StopLoss Order. The associated Trade will be closed by a market price that is equal to or worse than this threshold.",
+        "The price threshold specified for the Stop Loss Order. If the guaranteed flag is false, the associated Trade will be closed by a market price that is equal to or worse than this threshold. If the flag is true the associated Trade will be closed at this price.",
         'primitive',
         'pricing.PriceValue'
+    ),
+    new Property(
+        'distance',
+        "Price Distance",
+        "Specifies the distance (in price units) from the Account's current price to use as the Stop Loss Order price. If the Trade is short the Instrument's bid price is used, and for long Trades the ask is used.",
+        'primitive',
+        'primitives.DecimalNumber'
     ),
     new Property(
         'timeInForce',
@@ -3908,9 +4141,23 @@ const StopLossOrderTransaction_Properties = [
     new Property(
         'triggerCondition',
         "Trigger Condition",
-        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
         'primitive',
         'order.OrderTriggerCondition'
+    ),
+    new Property(
+        'guaranteed',
+        "Guaranteed",
+        "Flag indicating that the Stop Loss Order is guaranteed. The default value depends on the GuaranteedStopLossOrderMode of the account, if it is REQUIRED, the default will be true, for DISABLED or ENABLED the default is false.",
+        'primitive',
+        'boolean'
+    ),
+    new Property(
+        'guaranteedExecutionPremium',
+        "Guaranteed Execution Premium",
+        "The fee that will be charged if the Stop Loss Order is guaranteed and the Order is filled at the guaranteed price. The value is determined at Order creation time. It is in price units and is charged for each unit of the Trade.",
+        'primitive',
+        'primitives.DecimalNumber'
     ),
     new Property(
         'reason',
@@ -4004,6 +4251,10 @@ class StopLossOrderTransaction extends Definition {
             this.price = data['price'];
         }
 
+        if (data['distance'] !== undefined) {
+            this.distance = data['distance'];
+        }
+
         if (data['timeInForce'] !== undefined) {
             this.timeInForce = data['timeInForce'];
         }
@@ -4020,6 +4271,14 @@ class StopLossOrderTransaction extends Definition {
         }
         else {
             this.triggerCondition = "DEFAULT";
+        }
+
+        if (data['guaranteed'] !== undefined) {
+            this.guaranteed = data['guaranteed'];
+        }
+
+        if (data['guaranteedExecutionPremium'] !== undefined) {
+            this.guaranteedExecutionPremium = data['guaranteedExecutionPremium'];
         }
 
         if (data['reason'] !== undefined) {
@@ -4112,9 +4371,16 @@ const StopLossOrderRejectTransaction_Properties = [
     new Property(
         'price',
         "Price",
-        "The price threshold specified for the StopLoss Order. The associated Trade will be closed by a market price that is equal to or worse than this threshold.",
+        "The price threshold specified for the Stop Loss Order. If the guaranteed flag is false, the associated Trade will be closed by a market price that is equal to or worse than this threshold. If the flag is true the associated Trade will be closed at this price.",
         'primitive',
         'pricing.PriceValue'
+    ),
+    new Property(
+        'distance',
+        "Price Distance",
+        "Specifies the distance (in price units) from the Account's current price to use as the Stop Loss Order price. If the Trade is short the Instrument's bid price is used, and for long Trades the ask is used.",
+        'primitive',
+        'primitives.DecimalNumber'
     ),
     new Property(
         'timeInForce',
@@ -4133,9 +4399,16 @@ const StopLossOrderRejectTransaction_Properties = [
     new Property(
         'triggerCondition',
         "Trigger Condition",
-        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
         'primitive',
         'order.OrderTriggerCondition'
+    ),
+    new Property(
+        'guaranteed',
+        "Guaranteed",
+        "Flag indicating that the Stop Loss Order is guaranteed. The default value depends on the GuaranteedStopLossOrderMode of the account, if it is REQUIRED, the default will be true, for DISABLED or ENABLED the default is false.",
+        'primitive',
+        'boolean'
     ),
     new Property(
         'reason',
@@ -4229,6 +4502,10 @@ class StopLossOrderRejectTransaction extends Definition {
             this.price = data['price'];
         }
 
+        if (data['distance'] !== undefined) {
+            this.distance = data['distance'];
+        }
+
         if (data['timeInForce'] !== undefined) {
             this.timeInForce = data['timeInForce'];
         }
@@ -4245,6 +4522,10 @@ class StopLossOrderRejectTransaction extends Definition {
         }
         else {
             this.triggerCondition = "DEFAULT";
+        }
+
+        if (data['guaranteed'] !== undefined) {
+            this.guaranteed = data['guaranteed'];
         }
 
         if (data['reason'] !== undefined) {
@@ -4337,9 +4618,9 @@ const TrailingStopLossOrderTransaction_Properties = [
     new Property(
         'distance',
         "Price Distance",
-        "The price distance specified for the TrailingStopLoss Order.",
+        "The price distance (in price units) specified for the TrailingStopLoss Order.",
         'primitive',
-        'pricing.PriceValue'
+        'primitives.DecimalNumber'
     ),
     new Property(
         'timeInForce',
@@ -4358,7 +4639,7 @@ const TrailingStopLossOrderTransaction_Properties = [
     new Property(
         'triggerCondition',
         "Trigger Condition",
-        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
         'primitive',
         'order.OrderTriggerCondition'
     ),
@@ -4562,9 +4843,9 @@ const TrailingStopLossOrderRejectTransaction_Properties = [
     new Property(
         'distance',
         "Price Distance",
-        "The price distance specified for the TrailingStopLoss Order.",
+        "The price distance (in price units) specified for the TrailingStopLoss Order.",
         'primitive',
-        'pricing.PriceValue'
+        'primitives.DecimalNumber'
     ),
     new Property(
         'timeInForce',
@@ -4583,7 +4864,7 @@ const TrailingStopLossOrderRejectTransaction_Properties = [
     new Property(
         'triggerCondition',
         "Trigger Condition",
-        "Specification of what component of a price should be used for comparison when determining if the Order should be filled.",
+        "Specification of which price component should be used when determining if an Order should be triggered and filled. This allows Orders to be triggered based on the bid, ask, mid, default (ask for buy, bid for sell) or inverse (ask for sell, bid for buy) price depending on the desired behaviour. Orders are always filled using their default price component.\nThis feature is only provided through the REST API. Clients who choose to specify a non-default trigger condition will not see it reflected in any of OANDA's proprietary or partner trading platforms, their transaction history or their account statements. OANDA platforms always assume that an Order's trigger condition is set to the default value when indicating the distance from an Order's trigger price, and will always provide the default trigger condition when creating or modifying an Order.\nA special restriction applies when creating a guaranteed Stop Loss Order. In this case the TriggerCondition value must either be \"DEFAULT\", or the \"natural\" trigger side \"DEFAULT\" results in. So for a Stop Loss Order for a long trade valid values are \"DEFAULT\" and \"BID\", and for short trades \"DEFAULT\" and \"ASK\" are valid.",
         'primitive',
         'order.OrderTriggerCondition'
     ),
@@ -4799,9 +5080,23 @@ const OrderFillTransaction_Properties = [
         'primitives.DecimalNumber'
     ),
     new Property(
+        'gainQuoteHomeConversionFactor',
+        "Gain Quote Home Conversion Factor",
+        "This is the conversion factor in effect for the Account at the time of the OrderFill for converting any gains realized in Instrument quote units into units of the Account's home currency.",
+        'primitive',
+        'primitives.DecimalNumber'
+    ),
+    new Property(
+        'lossQuoteHomeConversionFactor',
+        "Loss Quote Home Conversion Factor",
+        "This is the conversion factor in effect for the Account at the time of the OrderFill for converting any losses realized in Instrument quote units into units of the Account's home currency.",
+        'primitive',
+        'primitives.DecimalNumber'
+    ),
+    new Property(
         'price',
         "Fill Price",
-        "The average market price that the Order was filled at.",
+        "This field is now deprecated and should no longer be used. The individual tradesClosed, tradeReduced and tradeOpened fields contain the exact/official price each unit was filled at.",
         'primitive',
         'pricing.PriceValue'
     ),
@@ -4841,6 +5136,13 @@ const OrderFillTransaction_Properties = [
         'primitives.AccountUnits'
     ),
     new Property(
+        'guaranteedExecutionFee',
+        "Guranteed Execution Fee",
+        "The total guaranteed execution fees charged for all Trades opened, closed or reduced with guaranteed Stop Loss Orders.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
         'accountBalance',
         "Account Balance",
         "The Account's balance after the Order was filled.",
@@ -4867,6 +5169,13 @@ const OrderFillTransaction_Properties = [
         "The Trade that was reduced when the Order was filled (only provided if filling the Order resulted in reducing an open Trade).",
         'object',
         'transaction.TradeReduce'
+    ),
+    new Property(
+        'halfSpreadCost',
+        "Half Spread Cost",
+        "The half spread cost for the OrderFill, which is the sum of the halfSpreadCost values in the tradeOpened, tradesClosed and tradeReduced fields. This can be a positive or negative value and is represented in the home currency of the Account.",
+        'primitive',
+        'primitives.AccountUnits'
     ),
 ];
 
@@ -4929,6 +5238,14 @@ class OrderFillTransaction extends Definition {
             this.units = data['units'];
         }
 
+        if (data['gainQuoteHomeConversionFactor'] !== undefined) {
+            this.gainQuoteHomeConversionFactor = data['gainQuoteHomeConversionFactor'];
+        }
+
+        if (data['lossQuoteHomeConversionFactor'] !== undefined) {
+            this.lossQuoteHomeConversionFactor = data['lossQuoteHomeConversionFactor'];
+        }
+
         if (data['price'] !== undefined) {
             this.price = data['price'];
         }
@@ -4953,6 +5270,10 @@ class OrderFillTransaction extends Definition {
             this.commission = data['commission'];
         }
 
+        if (data['guaranteedExecutionFee'] !== undefined) {
+            this.guaranteedExecutionFee = data['guaranteedExecutionFee'];
+        }
+
         if (data['accountBalance'] !== undefined) {
             this.accountBalance = data['accountBalance'];
         }
@@ -4967,6 +5288,10 @@ class OrderFillTransaction extends Definition {
 
         if (data['tradeReduced'] !== undefined) {
             this.tradeReduced = new TradeReduce(data['tradeReduced']);
+        }
+
+        if (data['halfSpreadCost'] !== undefined) {
+            this.halfSpreadCost = data['halfSpreadCost'];
         }
 
     }
@@ -5179,13 +5504,6 @@ const OrderCancelRejectTransaction_Properties = [
         'order.OrderID'
     ),
     new Property(
-        'reason',
-        "Cancel Reason",
-        "The reason that the Order was to be cancelled.",
-        'primitive',
-        'transaction.OrderCancelReason'
-    ),
-    new Property(
         'rejectReason',
         "Reject Reason",
         "The reason that the Reject Transaction was created",
@@ -5243,10 +5561,6 @@ class OrderCancelRejectTransaction extends Definition {
 
         if (data['clientOrderID'] !== undefined) {
             this.clientOrderID = data['clientOrderID'];
-        }
-
-        if (data['reason'] !== undefined) {
-            this.reason = data['reason'];
         }
 
         if (data['rejectReason'] !== undefined) {
@@ -6544,7 +6858,7 @@ const TakeProfitDetails_Properties = [
     new Property(
         'price',
         "Price",
-        "The price that the Take Profit Order will be triggered at.",
+        "The price that the Take Profit Order will be triggered at. Only one of the price and distance fields may be specified.",
         'primitive',
         'pricing.PriceValue'
     ),
@@ -6609,9 +6923,16 @@ const StopLossDetails_Properties = [
     new Property(
         'price',
         "Price",
-        "The price that the Stop Loss Order will be triggered at.",
+        "The price that the Stop Loss Order will be triggered at. Only one of the price and distance fields may be specified.",
         'primitive',
         'pricing.PriceValue'
+    ),
+    new Property(
+        'distance',
+        "Price Distance",
+        "Specifies the distance (in price units) from the Trade's open price to use as the Stop Loss Order price. Only one of the distance and price fields may be specified.",
+        'primitive',
+        'primitives.DecimalNumber'
     ),
     new Property(
         'timeInForce',
@@ -6634,6 +6955,13 @@ const StopLossDetails_Properties = [
         'object',
         'transaction.ClientExtensions'
     ),
+    new Property(
+        'guaranteed',
+        "Guaranteed",
+        "Flag indicating that the price for the Stop Loss Order is guaranteed. The default value depends on the GuaranteedStopLossOrderMode of the account, if it is REQUIRED, the default will be true, for DISABLED or ENABLED the default is false.",
+        'primitive',
+        'boolean'
+    ),
 ];
 
 class StopLossDetails extends Definition {
@@ -6652,6 +6980,10 @@ class StopLossDetails extends Definition {
             this.price = data['price'];
         }
 
+        if (data['distance'] !== undefined) {
+            this.distance = data['distance'];
+        }
+
         if (data['timeInForce'] !== undefined) {
             this.timeInForce = data['timeInForce'];
         }
@@ -6667,6 +6999,10 @@ class StopLossDetails extends Definition {
             this.clientExtensions = new ClientExtensions(data['clientExtensions']);
         }
 
+        if (data['guaranteed'] !== undefined) {
+            this.guaranteed = data['guaranteed'];
+        }
+
     }
 }
 
@@ -6676,7 +7012,7 @@ const TrailingStopLossDetails_Properties = [
         "Trailing Price Distance",
         "The distance (in price units) from the Trade's fill price that the Trailing Stop Loss Order will be triggered at.",
         'primitive',
-        'pricing.PriceValue'
+        'primitives.DecimalNumber'
     ),
     new Property(
         'timeInForce',
@@ -6751,11 +7087,39 @@ const TradeOpen_Properties = [
         'primitives.DecimalNumber'
     ),
     new Property(
+        'price',
+        "Units Opened Price",
+        "The average price that the units were opened at.",
+        'primitive',
+        'pricing.PriceValue'
+    ),
+    new Property(
+        'guaranteedExecutionFee',
+        "Guranteed Execution Fee",
+        "This is the fee charged for opening the trade if it has a guaranteed Stop Loss Order attached to it.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
         'clientExtensions',
         "Client Extensions",
         "The client extensions for the newly opened Trade",
         'object',
         'transaction.ClientExtensions'
+    ),
+    new Property(
+        'halfSpreadCost',
+        "Half Spread Cost",
+        "The half spread cost for the trade open. This can be a positive or negative value and is represented in the home currency of the Account.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
+        'initialMarginRequired',
+        "Initial Margin Required",
+        "The margin required at the time the Trade was created. Note, this is the 'pure' margin required, it is not the 'effective' margin used that factors in the trade risk if a GSLO is attached to the trade.",
+        'primitive',
+        'primitives.AccountUnits'
     ),
 ];
 
@@ -6779,8 +7143,24 @@ class TradeOpen extends Definition {
             this.units = data['units'];
         }
 
+        if (data['price'] !== undefined) {
+            this.price = data['price'];
+        }
+
+        if (data['guaranteedExecutionFee'] !== undefined) {
+            this.guaranteedExecutionFee = data['guaranteedExecutionFee'];
+        }
+
         if (data['clientExtensions'] !== undefined) {
             this.clientExtensions = new ClientExtensions(data['clientExtensions']);
+        }
+
+        if (data['halfSpreadCost'] !== undefined) {
+            this.halfSpreadCost = data['halfSpreadCost'];
+        }
+
+        if (data['initialMarginRequired'] !== undefined) {
+            this.initialMarginRequired = data['initialMarginRequired'];
         }
 
     }
@@ -6802,6 +7182,13 @@ const TradeReduce_Properties = [
         'primitives.DecimalNumber'
     ),
     new Property(
+        'price',
+        "Units Closed Price",
+        "The average price that the units were closed at. This price may be clamped for guaranteed Stop Loss Orders.",
+        'primitive',
+        'pricing.PriceValue'
+    ),
+    new Property(
         'realizedPL',
         "Profit/Loss",
         "The PL realized when reducing the Trade",
@@ -6812,6 +7199,20 @@ const TradeReduce_Properties = [
         'financing',
         "Financing",
         "The financing paid/collected when reducing the Trade",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
+        'guaranteedExecutionFee',
+        "Guranteed Execution Fee",
+        "This is the fee that is charged for closing the Trade if it has a guaranteed Stop Loss Order attached to it.",
+        'primitive',
+        'primitives.AccountUnits'
+    ),
+    new Property(
+        'halfSpreadCost',
+        "Half Spread Cost",
+        "The half spread cost for the trade reduce/close. This can be a positive or negative value and is represented in the home currency of the Account.",
         'primitive',
         'primitives.AccountUnits'
     ),
@@ -6837,12 +7238,24 @@ class TradeReduce extends Definition {
             this.units = data['units'];
         }
 
+        if (data['price'] !== undefined) {
+            this.price = data['price'];
+        }
+
         if (data['realizedPL'] !== undefined) {
             this.realizedPL = data['realizedPL'];
         }
 
         if (data['financing'] !== undefined) {
             this.financing = data['financing'];
+        }
+
+        if (data['guaranteedExecutionFee'] !== undefined) {
+            this.guaranteedExecutionFee = data['guaranteedExecutionFee'];
+        }
+
+        if (data['halfSpreadCost'] !== undefined) {
+            this.halfSpreadCost = data['halfSpreadCost'];
         }
 
     }
@@ -7014,46 +7427,6 @@ class MarketOrderPositionCloseout extends Definition {
 
         if (data['units'] !== undefined) {
             this.units = data['units'];
-        }
-
-    }
-}
-
-const VWAPReceipt_Properties = [
-    new Property(
-        'units',
-        "Fill Amount",
-        "The number of units filled",
-        'primitive',
-        'primitives.DecimalNumber'
-    ),
-    new Property(
-        'price',
-        "Fill Price",
-        "The price at which the units were filled",
-        'primitive',
-        'pricing.PriceValue'
-    ),
-];
-
-class VWAPReceipt extends Definition {
-    constructor(data) {
-        super();
-
-        this._summaryFormat = "";
-
-        this._nameFormat = "";
-
-        this._properties = VWAPReceipt_Properties;
-
-        data = data || {};
-
-        if (data['units'] !== undefined) {
-            this.units = data['units'];
-        }
-
-        if (data['price'] !== undefined) {
-            this.price = data['price'];
         }
 
     }
@@ -7297,6 +7670,7 @@ class EntitySpec {
         this.TransferFundsRejectTransaction = TransferFundsRejectTransaction;
         this.MarketOrderTransaction = MarketOrderTransaction;
         this.MarketOrderRejectTransaction = MarketOrderRejectTransaction;
+        this.FixedPriceOrderTransaction = FixedPriceOrderTransaction;
         this.LimitOrderTransaction = LimitOrderTransaction;
         this.LimitOrderRejectTransaction = LimitOrderRejectTransaction;
         this.StopOrderTransaction = StopOrderTransaction;
@@ -7332,7 +7706,6 @@ class EntitySpec {
         this.MarketOrderMarginCloseout = MarketOrderMarginCloseout;
         this.MarketOrderDelayedTradeClose = MarketOrderDelayedTradeClose;
         this.MarketOrderPositionCloseout = MarketOrderPositionCloseout;
-        this.VWAPReceipt = VWAPReceipt;
         this.LiquidityRegenerationSchedule = LiquidityRegenerationSchedule;
         this.LiquidityRegenerationScheduleStep = LiquidityRegenerationScheduleStep;
         this.OpenTradeFinancing = OpenTradeFinancing;
@@ -7823,6 +8196,7 @@ exports.TransferFundsTransaction = TransferFundsTransaction;
 exports.TransferFundsRejectTransaction = TransferFundsRejectTransaction;
 exports.MarketOrderTransaction = MarketOrderTransaction;
 exports.MarketOrderRejectTransaction = MarketOrderRejectTransaction;
+exports.FixedPriceOrderTransaction = FixedPriceOrderTransaction;
 exports.LimitOrderTransaction = LimitOrderTransaction;
 exports.LimitOrderRejectTransaction = LimitOrderRejectTransaction;
 exports.StopOrderTransaction = StopOrderTransaction;
@@ -7858,7 +8232,6 @@ exports.MarketOrderTradeClose = MarketOrderTradeClose;
 exports.MarketOrderMarginCloseout = MarketOrderMarginCloseout;
 exports.MarketOrderDelayedTradeClose = MarketOrderDelayedTradeClose;
 exports.MarketOrderPositionCloseout = MarketOrderPositionCloseout;
-exports.VWAPReceipt = VWAPReceipt;
 exports.LiquidityRegenerationSchedule = LiquidityRegenerationSchedule;
 exports.LiquidityRegenerationScheduleStep = LiquidityRegenerationScheduleStep;
 exports.OpenTradeFinancing = OpenTradeFinancing;
