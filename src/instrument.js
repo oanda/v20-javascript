@@ -6,6 +6,7 @@ var Definition = require('./base').Definition;
 var Property = require('./base').Property;
 var Field = require('./base').Field;
 
+var pricing_common = require('./pricing_common');
 
 
 
@@ -99,28 +100,28 @@ const CandlestickData_Properties = [
         'o',
         "The first (open) price in the time-range represented by the candlestick.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'h',
         'h',
         "The highest price in the time-range represented by the candlestick.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'l',
         'l',
         "The lowest price in the time-range represented by the candlestick.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'c',
         'c',
         "The last (closing) price in the time-range represented by the candlestick.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
 ];
 
@@ -175,14 +176,14 @@ const OrderBook_Properties = [
         'price',
         "The price (midpoint) for the order book's instrument at the time of the order book snapshot",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'bucketWidth',
         'bucketWidth',
         "The price width for each bucket. Each bucket covers the price range from the bucket's price to the bucket's price + bucketWidth.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'buckets',
@@ -234,7 +235,7 @@ const OrderBookBucket_Properties = [
         'price',
         "The lowest price (inclusive) covered by the bucket. The bucket covers the price range from the price to price + the order book's bucketWidth.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'longCountPercent',
@@ -299,14 +300,14 @@ const PositionBook_Properties = [
         'price',
         "The price (midpoint) for the position book's instrument at the time of the position book snapshot",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'bucketWidth',
         'bucketWidth',
         "The price width for each bucket. Each bucket covers the price range from the bucket's price to the bucket's price + bucketWidth.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'buckets',
@@ -358,7 +359,7 @@ const PositionBookBucket_Properties = [
         'price',
         "The lowest price (inclusive) covered by the bucket. The bucket covers the price range from the price to price + the position book's bucketWidth.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'longCountPercent',
@@ -485,6 +486,325 @@ class EntitySpec {
 
                     if (msg['candles'] !== undefined) {
                         response.body.candles = msg['candles'].map(x => new Candlestick(x));
+                    }
+
+                }
+                else if (response.statusCode == 400)
+                {
+                }
+                else if (response.statusCode == 401)
+                {
+                }
+                else if (response.statusCode == 404)
+                {
+                }
+                else if (response.statusCode == 405)
+                {
+                }
+                //
+                // Assume standard error response with errorCode and errorMessage
+                //
+                else
+                {
+                    if (msg['errorCode'] !== undefined) {
+                        response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
+                    }
+                }
+            }
+
+            responseHandler(response);
+        };
+
+
+        this.context.request(
+            'GET',
+            path,
+            body,
+            undefined,
+            handleResponse
+        );
+    }
+
+    price(
+        instrument,
+        queryParams,
+        responseHandler
+    )
+    {
+        if (!responseHandler)
+        {
+            throw "No responseHandler provided for API call"
+        }
+
+
+        let path = '/v3/instruments/{instrument}/price';
+
+        queryParams = queryParams || {};
+
+        path = path.replace('{' + 'instrument' + '}', instrument);
+
+        path = path + "?";
+        if (typeof queryParams['time'] !== 'undefined') {
+            path = path + "time=" + queryParams['time'] + "&";
+        }
+
+        let body = {};
+
+        let handleResponse = (response) => {
+            if (response.contentType.startsWith("application/json"))
+            {
+                let msg = JSON.parse(response.rawBody);
+
+                response.body = {};
+
+                if (response.statusCode == 200)
+                {
+                    if (msg['price'] !== undefined) {
+                        response.body.price = new pricing_common.Price(msg['price']);
+                    }
+
+                }
+                else if (response.statusCode == 400)
+                {
+                }
+                else if (response.statusCode == 401)
+                {
+                }
+                else if (response.statusCode == 404)
+                {
+                }
+                else if (response.statusCode == 405)
+                {
+                }
+                //
+                // Assume standard error response with errorCode and errorMessage
+                //
+                else
+                {
+                    if (msg['errorCode'] !== undefined) {
+                        response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
+                    }
+                }
+            }
+
+            responseHandler(response);
+        };
+
+
+        this.context.request(
+            'GET',
+            path,
+            body,
+            undefined,
+            handleResponse
+        );
+    }
+
+    prices(
+        instrument,
+        queryParams,
+        responseHandler
+    )
+    {
+        if (!responseHandler)
+        {
+            throw "No responseHandler provided for API call"
+        }
+
+
+        let path = '/v3/instruments/{instrument}/price/range';
+
+        queryParams = queryParams || {};
+
+        path = path.replace('{' + 'instrument' + '}', instrument);
+
+        path = path + "?";
+        if (typeof queryParams['from'] !== 'undefined') {
+            path = path + "from=" + queryParams['from'] + "&";
+        }
+        if (typeof queryParams['to'] !== 'undefined') {
+            path = path + "to=" + queryParams['to'] + "&";
+        }
+
+        let body = {};
+
+        let handleResponse = (response) => {
+            if (response.contentType.startsWith("application/json"))
+            {
+                let msg = JSON.parse(response.rawBody);
+
+                response.body = {};
+
+                if (response.statusCode == 200)
+                {
+                    if (msg['prices'] !== undefined) {
+                        response.body.prices = msg['prices'].map(x => new pricing_common.Price(x));
+                    }
+
+                }
+                else if (response.statusCode == 400)
+                {
+                }
+                else if (response.statusCode == 401)
+                {
+                }
+                else if (response.statusCode == 404)
+                {
+                }
+                else if (response.statusCode == 405)
+                {
+                }
+                //
+                // Assume standard error response with errorCode and errorMessage
+                //
+                else
+                {
+                    if (msg['errorCode'] !== undefined) {
+                        response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
+                    }
+                }
+            }
+
+            responseHandler(response);
+        };
+
+
+        this.context.request(
+            'GET',
+            path,
+            body,
+            undefined,
+            handleResponse
+        );
+    }
+
+    orderBook(
+        instrument,
+        queryParams,
+        responseHandler
+    )
+    {
+        if (!responseHandler)
+        {
+            throw "No responseHandler provided for API call"
+        }
+
+
+        let path = '/v3/instruments/{instrument}/orderBook';
+
+        queryParams = queryParams || {};
+
+        path = path.replace('{' + 'instrument' + '}', instrument);
+
+        path = path + "?";
+        if (typeof queryParams['time'] !== 'undefined') {
+            path = path + "time=" + queryParams['time'] + "&";
+        }
+
+        let body = {};
+
+        let handleResponse = (response) => {
+            if (response.contentType.startsWith("application/json"))
+            {
+                let msg = JSON.parse(response.rawBody);
+
+                response.body = {};
+
+                if (response.statusCode == 200)
+                {
+                    if (msg['orderBook'] !== undefined) {
+                        response.body.orderBook = new OrderBook(msg['orderBook']);
+                    }
+
+                }
+                else if (response.statusCode == 400)
+                {
+                }
+                else if (response.statusCode == 401)
+                {
+                }
+                else if (response.statusCode == 404)
+                {
+                }
+                else if (response.statusCode == 405)
+                {
+                }
+                //
+                // Assume standard error response with errorCode and errorMessage
+                //
+                else
+                {
+                    if (msg['errorCode'] !== undefined) {
+                        response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
+                    }
+                }
+            }
+
+            responseHandler(response);
+        };
+
+
+        this.context.request(
+            'GET',
+            path,
+            body,
+            undefined,
+            handleResponse
+        );
+    }
+
+    positionBook(
+        instrument,
+        queryParams,
+        responseHandler
+    )
+    {
+        if (!responseHandler)
+        {
+            throw "No responseHandler provided for API call"
+        }
+
+
+        let path = '/v3/instruments/{instrument}/positionBook';
+
+        queryParams = queryParams || {};
+
+        path = path.replace('{' + 'instrument' + '}', instrument);
+
+        path = path + "?";
+        if (typeof queryParams['time'] !== 'undefined') {
+            path = path + "time=" + queryParams['time'] + "&";
+        }
+
+        let body = {};
+
+        let handleResponse = (response) => {
+            if (response.contentType.startsWith("application/json"))
+            {
+                let msg = JSON.parse(response.rawBody);
+
+                response.body = {};
+
+                if (response.statusCode == 200)
+                {
+                    if (msg['positionBook'] !== undefined) {
+                        response.body.positionBook = new PositionBook(msg['positionBook']);
                     }
 
                 }

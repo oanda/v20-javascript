@@ -6,11 +6,13 @@ var Definition = require('./base').Definition;
 var Property = require('./base').Property;
 var Field = require('./base').Field;
 
+var pricing_common = require('./pricing_common');
 var order = require('./order');
+var instrument = require('./instrument');
 
 
 
-const Price_Properties = [
+const ClientPrice_Properties = [
     new Property(
         'type',
         "Type",
@@ -65,14 +67,14 @@ const Price_Properties = [
         "Closeout Bid",
         "The closeout bid Price. This Price is used when a bid is required to closeout a Position (margin closeout or manual) yet there is no bid liquidity. The closeout bid is never used to open a new position.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'closeoutAsk',
         "Closeout Ask",
         "The closeout ask Price. This Price is used when a ask is required to closeout a Position (margin closeout or manual) yet there is no ask liquidity. The closeout ask is never used to open a new position.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'quoteHomeConversionFactors',
@@ -90,7 +92,7 @@ const Price_Properties = [
     ),
 ];
 
-class Price extends Definition {
+class ClientPrice extends Definition {
     constructor(data) {
         super();
 
@@ -98,7 +100,7 @@ class Price extends Definition {
 
         this._nameFormat = "";
 
-        this._properties = Price_Properties;
+        this._properties = ClientPrice_Properties;
 
         data = data || {};
 
@@ -126,11 +128,11 @@ class Price extends Definition {
         }
 
         if (data['bids'] !== undefined) {
-            this.bids = data['bids'].map(x => new PriceBucket(x));
+            this.bids = data['bids'].map(x => new pricing_common.PriceBucket(x));
         }
 
         if (data['asks'] !== undefined) {
-            this.asks = data['asks'].map(x => new PriceBucket(x));
+            this.asks = data['asks'].map(x => new pricing_common.PriceBucket(x));
         }
 
         if (data['closeoutBid'] !== undefined) {
@@ -147,46 +149,6 @@ class Price extends Definition {
 
         if (data['unitsAvailable'] !== undefined) {
             this.unitsAvailable = new order.UnitsAvailable(data['unitsAvailable']);
-        }
-
-    }
-}
-
-const PriceBucket_Properties = [
-    new Property(
-        'price',
-        "Price",
-        "The Price offered by the PriceBucket",
-        'primitive',
-        'pricing.PriceValue'
-    ),
-    new Property(
-        'liquidity',
-        "Liquidity",
-        "The amount of liquidity offered by the PriceBucket",
-        'primitive',
-        'integer'
-    ),
-];
-
-class PriceBucket extends Definition {
-    constructor(data) {
-        super();
-
-        this._summaryFormat = "";
-
-        this._nameFormat = "";
-
-        this._properties = PriceBucket_Properties;
-
-        data = data || {};
-
-        if (data['price'] !== undefined) {
-            this.price = data['price'];
-        }
-
-        if (data['liquidity'] !== undefined) {
-            this.liquidity = data['liquidity'];
         }
 
     }
@@ -294,79 +256,6 @@ class HomeConversions extends Definition {
     }
 }
 
-const ClientPrice_Properties = [
-    new Property(
-        'bids',
-        "Bids",
-        "The list of prices and liquidity available on the Instrument's bid side. It is possible for this list to be empty if there is no bid liquidity currently available for the Instrument in the Account.",
-        'array_object',
-        'PriceBucket'
-    ),
-    new Property(
-        'asks',
-        "Asks",
-        "The list of prices and liquidity available on the Instrument's ask side. It is possible for this list to be empty if there is no ask liquidity currently available for the Instrument in the Account.",
-        'array_object',
-        'PriceBucket'
-    ),
-    new Property(
-        'closeoutBid',
-        "Closeout Bid",
-        "The closeout bid Price. This Price is used when a bid is required to closeout a Position (margin closeout or manual) yet there is no bid liquidity. The closeout bid is never used to open a new position.",
-        'primitive',
-        'pricing.PriceValue'
-    ),
-    new Property(
-        'closeoutAsk',
-        "Closeout Ask",
-        "The closeout ask Price. This Price is used when a ask is required to closeout a Position (margin closeout or manual) yet there is no ask liquidity. The closeout ask is never used to open a new position.",
-        'primitive',
-        'pricing.PriceValue'
-    ),
-    new Property(
-        'timestamp',
-        "Timestamp",
-        "The date/time when the Price was created.",
-        'primitive',
-        'primitives.DateTime'
-    ),
-];
-
-class ClientPrice extends Definition {
-    constructor(data) {
-        super();
-
-        this._summaryFormat = "";
-
-        this._nameFormat = "";
-
-        this._properties = ClientPrice_Properties;
-
-        data = data || {};
-
-        if (data['bids'] !== undefined) {
-            this.bids = data['bids'].map(x => new PriceBucket(x));
-        }
-
-        if (data['asks'] !== undefined) {
-            this.asks = data['asks'].map(x => new PriceBucket(x));
-        }
-
-        if (data['closeoutBid'] !== undefined) {
-            this.closeoutBid = data['closeoutBid'];
-        }
-
-        if (data['closeoutAsk'] !== undefined) {
-            this.closeoutAsk = data['closeoutAsk'];
-        }
-
-        if (data['timestamp'] !== undefined) {
-            this.timestamp = data['timestamp'];
-        }
-
-    }
-}
-
 const PricingHeartbeat_Properties = [
     new Property(
         'type',
@@ -413,12 +302,169 @@ class PricingHeartbeat extends Definition {
 class EntitySpec {
     constructor(context) {
         this.context = context;
-        this.Price = Price;
-        this.PriceBucket = PriceBucket;
+        this.ClientPrice = ClientPrice;
         this.QuoteHomeConversionFactors = QuoteHomeConversionFactors;
         this.HomeConversions = HomeConversions;
-        this.ClientPrice = ClientPrice;
         this.PricingHeartbeat = PricingHeartbeat;
+    }
+
+    basePrices(
+        queryParams,
+        responseHandler
+    )
+    {
+        if (!responseHandler)
+        {
+            throw "No responseHandler provided for API call"
+        }
+
+
+        let path = '/v3/pricing';
+
+        queryParams = queryParams || {};
+
+
+        path = path + "?";
+        if (typeof queryParams['time'] !== 'undefined') {
+            path = path + "time=" + queryParams['time'] + "&";
+        }
+
+        let body = {};
+
+        let handleResponse = (response) => {
+            if (response.contentType.startsWith("application/json"))
+            {
+                let msg = JSON.parse(response.rawBody);
+
+                response.body = {};
+
+                if (response.statusCode == 200)
+                {
+                    if (msg['prices'] !== undefined) {
+                        response.body.prices = msg['prices'].map(x => new pricing_common.Price(x));
+                    }
+
+                }
+                else if (response.statusCode == 400)
+                {
+                }
+                else if (response.statusCode == 401)
+                {
+                }
+                else if (response.statusCode == 404)
+                {
+                }
+                else if (response.statusCode == 405)
+                {
+                }
+                //
+                // Assume standard error response with errorCode and errorMessage
+                //
+                else
+                {
+                    if (msg['errorCode'] !== undefined) {
+                        response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
+                    }
+                }
+            }
+
+            responseHandler(response);
+        };
+
+
+        this.context.request(
+            'GET',
+            path,
+            body,
+            undefined,
+            handleResponse
+        );
+    }
+
+    getPriceRange(
+        instrument,
+        queryParams,
+        responseHandler
+    )
+    {
+        if (!responseHandler)
+        {
+            throw "No responseHandler provided for API call"
+        }
+
+
+        let path = '/v3/pricing/range';
+
+        queryParams = queryParams || {};
+
+        path = path.replace('{' + 'instrument' + '}', instrument);
+
+        path = path + "?";
+        if (typeof queryParams['from'] !== 'undefined') {
+            path = path + "from=" + queryParams['from'] + "&";
+        }
+        if (typeof queryParams['to'] !== 'undefined') {
+            path = path + "to=" + queryParams['to'] + "&";
+        }
+
+        let body = {};
+
+        let handleResponse = (response) => {
+            if (response.contentType.startsWith("application/json"))
+            {
+                let msg = JSON.parse(response.rawBody);
+
+                response.body = {};
+
+                if (response.statusCode == 200)
+                {
+                    if (msg['prices'] !== undefined) {
+                        response.body.prices = msg['prices'].map(x => new pricing_common.Price(x));
+                    }
+
+                }
+                else if (response.statusCode == 400)
+                {
+                }
+                else if (response.statusCode == 401)
+                {
+                }
+                else if (response.statusCode == 404)
+                {
+                }
+                else if (response.statusCode == 405)
+                {
+                }
+                //
+                // Assume standard error response with errorCode and errorMessage
+                //
+                else
+                {
+                    if (msg['errorCode'] !== undefined) {
+                        response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
+                    }
+                }
+            }
+
+            responseHandler(response);
+        };
+
+
+        this.context.request(
+            'GET',
+            path,
+            body,
+            undefined,
+            handleResponse
+        );
     }
 
     get(
@@ -465,7 +511,7 @@ class EntitySpec {
                 if (response.statusCode == 200)
                 {
                     if (msg['prices'] !== undefined) {
-                        response.body.prices = msg['prices'].map(x => new Price(x));
+                        response.body.prices = msg['prices'].map(x => new ClientPrice(x));
                     }
 
                     if (msg['homeConversions'] !== undefined) {
@@ -560,7 +606,7 @@ class EntitySpec {
                 if (response.statusCode == 200)
                 {
                     if (msg['price'] !== undefined) {
-                        response.body.price = new Price(msg['price']);
+                        response.body.price = new ClientPrice(msg['price']);
                     }
 
                     if (msg['heartbeat'] !== undefined) {
@@ -623,15 +669,130 @@ class EntitySpec {
         );
     }
 
+    candles(
+        instrument,
+        queryParams,
+        responseHandler
+    )
+    {
+        if (!responseHandler)
+        {
+            throw "No responseHandler provided for API call"
+        }
+
+
+        let path = '/v3/accounts/{accountID}/instruments/{instrument}/candles';
+
+        queryParams = queryParams || {};
+
+        path = path.replace('{' + 'instrument' + '}', instrument);
+
+        path = path + "?";
+        if (typeof queryParams['price'] !== 'undefined') {
+            path = path + "price=" + queryParams['price'] + "&";
+        }
+        if (typeof queryParams['granularity'] !== 'undefined') {
+            path = path + "granularity=" + queryParams['granularity'] + "&";
+        }
+        if (typeof queryParams['count'] !== 'undefined') {
+            path = path + "count=" + queryParams['count'] + "&";
+        }
+        if (typeof queryParams['from'] !== 'undefined') {
+            path = path + "from=" + queryParams['from'] + "&";
+        }
+        if (typeof queryParams['to'] !== 'undefined') {
+            path = path + "to=" + queryParams['to'] + "&";
+        }
+        if (typeof queryParams['smooth'] !== 'undefined') {
+            path = path + "smooth=" + queryParams['smooth'] + "&";
+        }
+        if (typeof queryParams['includeFirst'] !== 'undefined') {
+            path = path + "includeFirst=" + queryParams['includeFirst'] + "&";
+        }
+        if (typeof queryParams['dailyAlignment'] !== 'undefined') {
+            path = path + "dailyAlignment=" + queryParams['dailyAlignment'] + "&";
+        }
+        if (typeof queryParams['alignmentTimezone'] !== 'undefined') {
+            path = path + "alignmentTimezone=" + queryParams['alignmentTimezone'] + "&";
+        }
+        if (typeof queryParams['weeklyAlignment'] !== 'undefined') {
+            path = path + "weeklyAlignment=" + queryParams['weeklyAlignment'] + "&";
+        }
+        if (typeof queryParams['units'] !== 'undefined') {
+            path = path + "units=" + queryParams['units'] + "&";
+        }
+
+        let body = {};
+
+        let handleResponse = (response) => {
+            if (response.contentType.startsWith("application/json"))
+            {
+                let msg = JSON.parse(response.rawBody);
+
+                response.body = {};
+
+                if (response.statusCode == 200)
+                {
+                    if (msg['instrument'] !== undefined) {
+                        response.body.instrument = msg['instrument'];
+                    }
+
+                    if (msg['granularity'] !== undefined) {
+                        response.body.granularity = msg['granularity'];
+                    }
+
+                    if (msg['candles'] !== undefined) {
+                        response.body.candles = msg['candles'].map(x => new instrument.Candlestick(x));
+                    }
+
+                }
+                else if (response.statusCode == 400)
+                {
+                }
+                else if (response.statusCode == 401)
+                {
+                }
+                else if (response.statusCode == 404)
+                {
+                }
+                else if (response.statusCode == 405)
+                {
+                }
+                //
+                // Assume standard error response with errorCode and errorMessage
+                //
+                else
+                {
+                    if (msg['errorCode'] !== undefined) {
+                        response.body.errorCode = msg['errorCode'];
+                    }
+
+                    if (msg['errorMessage'] !== undefined) {
+                        response.body.errorMessage = msg['errorMessage'];
+                    }
+                }
+            }
+
+            responseHandler(response);
+        };
+
+
+        this.context.request(
+            'GET',
+            path,
+            body,
+            undefined,
+            handleResponse
+        );
+    }
+
 
 
 }
 
-exports.Price = Price;
-exports.PriceBucket = PriceBucket;
+exports.ClientPrice = ClientPrice;
 exports.QuoteHomeConversionFactors = QuoteHomeConversionFactors;
 exports.HomeConversions = HomeConversions;
-exports.ClientPrice = ClientPrice;
 exports.PricingHeartbeat = PricingHeartbeat;
 
 exports.EntitySpec = EntitySpec;

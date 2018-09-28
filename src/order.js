@@ -64,14 +64,14 @@ const DynamicOrderState_Properties = [
         "Trailing Stop Value",
         "The Order's calculated trailing stop value.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'triggerDistance',
         "Trigger Distance",
         "The distance between the Trailing Stop Loss Order's trailingStopValue and the current Market Price. This represents the distance (in price units) of the Order from a triggering price. If the distance could not be determined, this value will not be set.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'isTriggerDistanceExact',
@@ -179,6 +179,18 @@ class Order extends Definition {
         {
             return new Order(order);
         }
+        else if (order["type"] == "TAKE_PROFIT")
+        {
+            return new TakeProfitOrder(order);
+        }
+        else if (order["type"] == "STOP_LOSS")
+        {
+            return new StopLossOrder(order);
+        }
+        else if (order["type"] == "TRAILING_STOP_LOSS")
+        {
+            return new TrailingStopLossOrder(order);
+        }
         else if (order["type"] == "MARKET")
         {
             return new MarketOrder(order);
@@ -198,18 +210,6 @@ class Order extends Definition {
         else if (order["type"] == "MARKET_IF_TOUCHED")
         {
             return new MarketIfTouchedOrder(order);
-        }
-        else if (order["type"] == "TAKE_PROFIT")
-        {
-            return new TakeProfitOrder(order);
-        }
-        else if (order["type"] == "STOP_LOSS")
-        {
-            return new StopLossOrder(order);
-        }
-        else if (order["type"] == "TRAILING_STOP_LOSS")
-        {
-            return new TrailingStopLossOrder(order);
         }
 
         return new Order(order);
@@ -278,7 +278,7 @@ const MarketOrder_Properties = [
         "Price Bound",
         "The worst price that the client is willing to have the Market Order filled at.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'positionFill',
@@ -584,7 +584,7 @@ const FixedPriceOrder_Properties = [
         "Price",
         "The price specified for the Fixed Price Order. This price is the exact price that the Fixed Price Order will be filled at.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'positionFill',
@@ -839,7 +839,7 @@ const LimitOrder_Properties = [
         "Price",
         "The price threshold specified for the Limit Order. The Limit Order will only be filled by a market price that is equal to or better than this price.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'timeInForce',
@@ -1144,14 +1144,14 @@ const StopOrder_Properties = [
         "Price",
         "The price threshold specified for the Stop Order. The Stop Order will only be filled by a market price that is equal to or worse than this price.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'priceBound',
         "Price Bound",
         "The worst market price that may be used to fill this Stop Order. If the market gaps and crosses through both the price and the priceBound, the Stop Order will be cancelled instead of being filled.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'timeInForce',
@@ -1460,14 +1460,14 @@ const MarketIfTouchedOrder_Properties = [
         "Price",
         "The price threshold specified for the MarketIfTouched Order. The MarketIfTouched Order will only be filled by a market price that crosses this price from the direction of the market price at the time when the Order was created (the initialMarketPrice). Depending on the value of the Order's price and initialMarketPrice, the MarketIfTouchedOrder will behave like a Limit or a Stop Order.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'priceBound',
         "Price Value",
         "The worst market price that may be used to fill this MarketIfTouched Order.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'timeInForce',
@@ -1502,7 +1502,7 @@ const MarketIfTouchedOrder_Properties = [
         "Initial Market Price",
         "The Market price at the time when the MarketIfTouched Order was created.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'takeProfitOnFill',
@@ -1787,7 +1787,7 @@ const TakeProfitOrder_Properties = [
         "Price",
         "The price threshold specified for the TakeProfit Order. The associated Trade will be closed by a market price that is equal to or better than this threshold.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'timeInForce',
@@ -2041,7 +2041,7 @@ const StopLossOrder_Properties = [
         "Price",
         "The price threshold specified for the Stop Loss Order. If the guaranteed flag is false, the associated Trade will be closed by a market price that is equal to or worse than this threshold. If the flag is true the associated Trade will be closed at this price.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'distance',
@@ -2342,7 +2342,7 @@ const TrailingStopLossOrder_Properties = [
         "Trailing Stop Loss Value",
         "The trigger price for the Trailing Stop Loss Order. The trailing stop value will trail (follow) the market price by the TSL order's configured \"distance\" as the market price moves in the winning direction. If the market price moves to a level that is equal to or worse than the trailing stop value, the order will be filled and the Trade will be closed.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'fillingTransactionID',
@@ -2569,7 +2569,7 @@ const MarketOrderRequest_Properties = [
         "Price Bound",
         "The worst price that the client is willing to have the Market Order filled at.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'positionFill',
@@ -2710,7 +2710,7 @@ const LimitOrderRequest_Properties = [
         "Price",
         "The price threshold specified for the Limit Order. The Limit Order will only be filled by a market price that is equal to or better than this price.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'timeInForce',
@@ -2883,14 +2883,14 @@ const StopOrderRequest_Properties = [
         "Price",
         "The price threshold specified for the Stop Order. The Stop Order will only be filled by a market price that is equal to or worse than this price.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'priceBound',
         "Price Bound",
         "The worst market price that may be used to fill this Stop Order. If the market gaps and crosses through both the price and the priceBound, the Stop Order will be cancelled instead of being filled.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'timeInForce',
@@ -3067,14 +3067,14 @@ const MarketIfTouchedOrderRequest_Properties = [
         "Price",
         "The price threshold specified for the MarketIfTouched Order. The MarketIfTouched Order will only be filled by a market price that crosses this price from the direction of the market price at the time when the Order was created (the initialMarketPrice). Depending on the value of the Order's price and initialMarketPrice, the MarketIfTouchedOrder will behave like a Limit or a Stop Order.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'priceBound',
         "Price Value",
         "The worst market price that may be used to fill this MarketIfTouched Order.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'timeInForce',
@@ -3251,7 +3251,7 @@ const TakeProfitOrderRequest_Properties = [
         "Price",
         "The price threshold specified for the TakeProfit Order. The associated Trade will be closed by a market price that is equal to or better than this threshold.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'timeInForce',
@@ -3366,7 +3366,7 @@ const StopLossOrderRequest_Properties = [
         "Price",
         "The price threshold specified for the Stop Loss Order. If the guaranteed flag is false, the associated Trade will be closed by a market price that is equal to or worse than this threshold. If the flag is true the associated Trade will be closed at this price.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'distance',

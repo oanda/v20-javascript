@@ -31,7 +31,7 @@ const Trade_Properties = [
         "Fill Price",
         "The execution price of the Trade.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'openTime',
@@ -94,7 +94,7 @@ const Trade_Properties = [
         "Average Close Price",
         "The average closing price of the Trade. Only present if the Trade has been closed or reduced at least once.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'closingTransactionIDs',
@@ -258,7 +258,7 @@ const TradeSummary_Properties = [
         "Fill Price",
         "The execution price of the Trade.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'openTime',
@@ -321,7 +321,7 @@ const TradeSummary_Properties = [
         "Average Close Price",
         "The average closing price of the Trade. Only present if the Trade has been closed or reduced at least once.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'closingTransactionIDs',

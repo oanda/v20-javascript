@@ -98,6 +98,10 @@ class Transaction extends Definition {
         {
             return new Transaction(transaction);
         }
+        else if (transaction["type"] == "MARKET_ORDER")
+        {
+            return new MarketOrderTransaction(transaction);
+        }
         else if (transaction["type"] == "ORDER_FILL")
         {
             return new OrderFillTransaction(transaction);
@@ -106,17 +110,53 @@ class Transaction extends Definition {
         {
             return new OrderCancelTransaction(transaction);
         }
+        else if (transaction["type"] == "MARKET_ORDER_REJECT")
+        {
+            return new MarketOrderRejectTransaction(transaction);
+        }
+        else if (transaction["type"] == "TRADE_CLIENT_EXTENSIONS_MODIFY")
+        {
+            return new TradeClientExtensionsModifyTransaction(transaction);
+        }
+        else if (transaction["type"] == "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT")
+        {
+            return new TradeClientExtensionsModifyRejectTransaction(transaction);
+        }
+        else if (transaction["type"] == "TAKE_PROFIT_ORDER")
+        {
+            return new TakeProfitOrderTransaction(transaction);
+        }
+        else if (transaction["type"] == "STOP_LOSS_ORDER")
+        {
+            return new StopLossOrderTransaction(transaction);
+        }
+        else if (transaction["type"] == "TRAILING_STOP_LOSS_ORDER")
+        {
+            return new TrailingStopLossOrderTransaction(transaction);
+        }
         else if (transaction["type"] == "ORDER_CANCEL_REJECT")
         {
             return new OrderCancelRejectTransaction(transaction);
         }
-        else if (transaction["type"] == "ORDER_CLIENT_EXTENSIONS_MODIFY")
+        else if (transaction["type"] == "TAKE_PROFIT_ORDER_REJECT")
         {
-            return new OrderClientExtensionsModifyTransaction(transaction);
+            return new TakeProfitOrderRejectTransaction(transaction);
         }
-        else if (transaction["type"] == "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT")
+        else if (transaction["type"] == "STOP_LOSS_ORDER_REJECT")
         {
-            return new OrderClientExtensionsModifyRejectTransaction(transaction);
+            return new StopLossOrderRejectTransaction(transaction);
+        }
+        else if (transaction["type"] == "TRAILING_STOP_LOSS_ORDER_REJECT")
+        {
+            return new TrailingStopLossOrderRejectTransaction(transaction);
+        }
+        else if (transaction["type"] == "CLIENT_CONFIGURE")
+        {
+            return new ClientConfigureTransaction(transaction);
+        }
+        else if (transaction["type"] == "CLIENT_CONFIGURE_REJECT")
+        {
+            return new ClientConfigureRejectTransaction(transaction);
         }
         else if (transaction["type"] == "CREATE")
         {
@@ -130,14 +170,6 @@ class Transaction extends Definition {
         {
             return new ReopenTransaction(transaction);
         }
-        else if (transaction["type"] == "CLIENT_CONFIGURE")
-        {
-            return new ClientConfigureTransaction(transaction);
-        }
-        else if (transaction["type"] == "CLIENT_CONFIGURE_REJECT")
-        {
-            return new ClientConfigureRejectTransaction(transaction);
-        }
         else if (transaction["type"] == "TRANSFER_FUNDS")
         {
             return new TransferFundsTransaction(transaction);
@@ -145,14 +177,6 @@ class Transaction extends Definition {
         else if (transaction["type"] == "TRANSFER_FUNDS_REJECT")
         {
             return new TransferFundsRejectTransaction(transaction);
-        }
-        else if (transaction["type"] == "MARKET_ORDER")
-        {
-            return new MarketOrderTransaction(transaction);
-        }
-        else if (transaction["type"] == "MARKET_ORDER_REJECT")
-        {
-            return new MarketOrderRejectTransaction(transaction);
         }
         else if (transaction["type"] == "FIXED_PRICE_ORDER")
         {
@@ -182,37 +206,13 @@ class Transaction extends Definition {
         {
             return new MarketIfTouchedOrderRejectTransaction(transaction);
         }
-        else if (transaction["type"] == "TAKE_PROFIT_ORDER")
+        else if (transaction["type"] == "ORDER_CLIENT_EXTENSIONS_MODIFY")
         {
-            return new TakeProfitOrderTransaction(transaction);
+            return new OrderClientExtensionsModifyTransaction(transaction);
         }
-        else if (transaction["type"] == "TAKE_PROFIT_ORDER_REJECT")
+        else if (transaction["type"] == "ORDER_CLIENT_EXTENSIONS_MODIFY_REJECT")
         {
-            return new TakeProfitOrderRejectTransaction(transaction);
-        }
-        else if (transaction["type"] == "STOP_LOSS_ORDER")
-        {
-            return new StopLossOrderTransaction(transaction);
-        }
-        else if (transaction["type"] == "STOP_LOSS_ORDER_REJECT")
-        {
-            return new StopLossOrderRejectTransaction(transaction);
-        }
-        else if (transaction["type"] == "TRAILING_STOP_LOSS_ORDER")
-        {
-            return new TrailingStopLossOrderTransaction(transaction);
-        }
-        else if (transaction["type"] == "TRAILING_STOP_LOSS_ORDER_REJECT")
-        {
-            return new TrailingStopLossOrderRejectTransaction(transaction);
-        }
-        else if (transaction["type"] == "TRADE_CLIENT_EXTENSIONS_MODIFY")
-        {
-            return new TradeClientExtensionsModifyTransaction(transaction);
-        }
-        else if (transaction["type"] == "TRADE_CLIENT_EXTENSIONS_MODIFY_REJECT")
-        {
-            return new TradeClientExtensionsModifyRejectTransaction(transaction);
+            return new OrderClientExtensionsModifyRejectTransaction(transaction);
         }
         else if (transaction["type"] == "MARGIN_CALL_ENTER")
         {
@@ -1203,7 +1203,7 @@ const MarketOrderTransaction_Properties = [
         "Price Bound",
         "The worst price that the client is willing to have the Market Order filled at.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'positionFill',
@@ -1483,7 +1483,7 @@ const MarketOrderRejectTransaction_Properties = [
         "Price Bound",
         "The worst price that the client is willing to have the Market Order filled at.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'positionFill',
@@ -1767,7 +1767,7 @@ const FixedPriceOrderTransaction_Properties = [
         "Price",
         "The price specified for the Fixed Price Order. This price is the exact price that the Fixed Price Order will be filled at.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'positionFill',
@@ -1989,7 +1989,7 @@ const LimitOrderTransaction_Properties = [
         "Price",
         "The price threshold specified for the Limit Order. The Limit Order will only be filled by a market price that is equal to or better than this price.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'timeInForce',
@@ -2261,7 +2261,7 @@ const LimitOrderRejectTransaction_Properties = [
         "Price",
         "The price threshold specified for the Limit Order. The Limit Order will only be filled by a market price that is equal to or better than this price.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'timeInForce',
@@ -2533,14 +2533,14 @@ const StopOrderTransaction_Properties = [
         "Price",
         "The price threshold specified for the Stop Order. The Stop Order will only be filled by a market price that is equal to or worse than this price.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'priceBound',
         "Price Bound",
         "The worst market price that may be used to fill this Stop Order. If the market gaps and crosses through both the price and the priceBound, the Stop Order will be cancelled instead of being filled.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'timeInForce',
@@ -2816,14 +2816,14 @@ const StopOrderRejectTransaction_Properties = [
         "Price",
         "The price threshold specified for the Stop Order. The Stop Order will only be filled by a market price that is equal to or worse than this price.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'priceBound',
         "Price Bound",
         "The worst market price that may be used to fill this Stop Order. If the market gaps and crosses through both the price and the priceBound, the Stop Order will be cancelled instead of being filled.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'timeInForce',
@@ -3099,14 +3099,14 @@ const MarketIfTouchedOrderTransaction_Properties = [
         "Price",
         "The price threshold specified for the MarketIfTouched Order. The MarketIfTouched Order will only be filled by a market price that crosses this price from the direction of the market price at the time when the Order was created (the initialMarketPrice). Depending on the value of the Order's price and initialMarketPrice, the MarketIfTouchedOrder will behave like a Limit or a Stop Order.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'priceBound',
         "Price Value",
         "The worst market price that may be used to fill this MarketIfTouched Order.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'timeInForce',
@@ -3382,14 +3382,14 @@ const MarketIfTouchedOrderRejectTransaction_Properties = [
         "Price",
         "The price threshold specified for the MarketIfTouched Order. The MarketIfTouched Order will only be filled by a market price that crosses this price from the direction of the market price at the time when the Order was created (the initialMarketPrice). Depending on the value of the Order's price and initialMarketPrice, the MarketIfTouchedOrder will behave like a Limit or a Stop Order.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'priceBound',
         "Price Value",
         "The worst market price that may be used to fill this MarketIfTouched Order.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'timeInForce',
@@ -3665,7 +3665,7 @@ const TakeProfitOrderTransaction_Properties = [
         "Price",
         "The price threshold specified for the TakeProfit Order. The associated Trade will be closed by a market price that is equal to or better than this threshold.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'timeInForce',
@@ -3890,7 +3890,7 @@ const TakeProfitOrderRejectTransaction_Properties = [
         "Price",
         "The price threshold specified for the TakeProfit Order. The associated Trade will be closed by a market price that is equal to or better than this threshold.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'timeInForce',
@@ -4115,7 +4115,7 @@ const StopLossOrderTransaction_Properties = [
         "Price",
         "The price threshold specified for the Stop Loss Order. If the guaranteed flag is false, the associated Trade will be closed by a market price that is equal to or worse than this threshold. If the flag is true the associated Trade will be closed at this price.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'distance',
@@ -4373,7 +4373,7 @@ const StopLossOrderRejectTransaction_Properties = [
         "Price",
         "The price threshold specified for the Stop Loss Order. If the guaranteed flag is false, the associated Trade will be closed by a market price that is equal to or worse than this threshold. If the flag is true the associated Trade will be closed at this price.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'distance',
@@ -5075,7 +5075,7 @@ const OrderFillTransaction_Properties = [
     new Property(
         'units',
         "Fill Units",
-        "The number of units filled by the Order.",
+        "The number of units filled by the OrderFill.",
         'primitive',
         'primitives.DecimalNumber'
     ),
@@ -5098,7 +5098,14 @@ const OrderFillTransaction_Properties = [
         "Fill Price",
         "This field is now deprecated and should no longer be used. The individual tradesClosed, tradeReduced and tradeOpened fields contain the exact/official price each unit was filled at.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
+    ),
+    new Property(
+        'fullVWAP',
+        "Full VWAP",
+        "The price that all of the units of the OrderFill should have been filled at, in the absence of guaranteed price execution. This factors in the Account's current ClientPrice, used liquidity and the units of the OrderFill only. If no Trades were closed with their price clamped for guaranteed stop loss enforcement, then this value will match the price fields of each Trade opened, closed, and reduced, and they will all be the exact same.",
+        'primitive',
+        'pricing_common.PriceValue'
     ),
     new Property(
         'fullPrice',
@@ -5248,6 +5255,10 @@ class OrderFillTransaction extends Definition {
 
         if (data['price'] !== undefined) {
             this.price = data['price'];
+        }
+
+        if (data['fullVWAP'] !== undefined) {
+            this.fullVWAP = data['fullVWAP'];
         }
 
         if (data['fullPrice'] !== undefined) {
@@ -6860,7 +6871,7 @@ const TakeProfitDetails_Properties = [
         "Price",
         "The price that the Take Profit Order will be triggered at. Only one of the price and distance fields may be specified.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'timeInForce',
@@ -6925,7 +6936,7 @@ const StopLossDetails_Properties = [
         "Price",
         "The price that the Stop Loss Order will be triggered at. Only one of the price and distance fields may be specified.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'distance',
@@ -7091,7 +7102,7 @@ const TradeOpen_Properties = [
         "Units Opened Price",
         "The average price that the units were opened at.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'guaranteedExecutionFee',
@@ -7186,7 +7197,7 @@ const TradeReduce_Properties = [
         "Units Closed Price",
         "The average price that the units were closed at. This price may be clamped for guaranteed Stop Loss Orders.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'realizedPL',

@@ -151,7 +151,7 @@ const PositionSide_Properties = [
         "Average Price",
         "Volume-weighted average of the underlying Trade open prices for the Position.",
         'primitive',
-        'pricing.PriceValue'
+        'pricing_common.PriceValue'
     ),
     new Property(
         'tradeIDs',

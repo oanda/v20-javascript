@@ -163,6 +163,13 @@ const Account_Properties = [
         'boolean'
     ),
     new Property(
+        'lastOrderFillTimestamp',
+        "Last Order Fill timestamp.",
+        "The date/time of the last order that was filled for this account.",
+        'primitive',
+        'primitives.DateTime'
+    ),
+    new Property(
         'unrealizedPL',
         "Unrealized Profit/Loss",
         "The total unrealized profit/loss for all Trades currently open in the Account.",
@@ -377,6 +384,10 @@ class Account extends Definition {
 
         if (data['hedgingEnabled'] !== undefined) {
             this.hedgingEnabled = data['hedgingEnabled'];
+        }
+
+        if (data['lastOrderFillTimestamp'] !== undefined) {
+            this.lastOrderFillTimestamp = data['lastOrderFillTimestamp'];
         }
 
         if (data['unrealizedPL'] !== undefined) {
@@ -844,6 +855,13 @@ const AccountSummary_Properties = [
         'boolean'
     ),
     new Property(
+        'lastOrderFillTimestamp',
+        "Last Order Fill timestamp.",
+        "The date/time of the last order that was filled for this account.",
+        'primitive',
+        'primitives.DateTime'
+    ),
+    new Property(
         'unrealizedPL',
         "Unrealized Profit/Loss",
         "The total unrealized profit/loss for all Trades currently open in the Account.",
@@ -1037,6 +1055,10 @@ class AccountSummary extends Definition {
 
         if (data['hedgingEnabled'] !== undefined) {
             this.hedgingEnabled = data['hedgingEnabled'];
+        }
+
+        if (data['lastOrderFillTimestamp'] !== undefined) {
+            this.lastOrderFillTimestamp = data['lastOrderFillTimestamp'];
         }
 
         if (data['unrealizedPL'] !== undefined) {

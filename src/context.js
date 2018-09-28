@@ -2,16 +2,17 @@
 
 "use strict";
 
-var account = require("./account");
-var order = require("./order");
-var position = require("./position");
-var user = require("./user");
-var transaction = require("./transaction");
-var pricing = require("./pricing");
-var primitives = require("./primitives");
-var site = require("./site");
-var trade = require("./trade");
 var instrument = require("./instrument");
+var position = require("./position");
+var trade = require("./trade");
+var site = require("./site");
+var primitives = require("./primitives");
+var account = require("./account");
+var transaction = require("./transaction");
+var user = require("./user");
+var pricing = require("./pricing");
+var order = require("./order");
+var pricing_common = require("./pricing_common");
 
 
 class Response {
@@ -67,7 +68,7 @@ class Context {
 
         this.headers = {
             "Content-Type": "application/json",
-            "OANDA-Agent" : `v20-javascript/3.0.22 (${application})`
+            "OANDA-Agent" : `v20-javascript/3.0.25 (${application})`
         };
 
         this.token = "";
@@ -81,16 +82,17 @@ class Context {
             this.http = require('http');
         }
 
-        this.account = new account.EntitySpec(this);
-        this.order = new order.EntitySpec(this);
-        this.position = new position.EntitySpec(this);
-        this.user = new user.EntitySpec(this);
-        this.transaction = new transaction.EntitySpec(this);
-        this.pricing = new pricing.EntitySpec(this);
-        this.primitives = new primitives.EntitySpec(this);
-        this.site = new site.EntitySpec(this);
-        this.trade = new trade.EntitySpec(this);
         this.instrument = new instrument.EntitySpec(this);
+        this.position = new position.EntitySpec(this);
+        this.trade = new trade.EntitySpec(this);
+        this.site = new site.EntitySpec(this);
+        this.primitives = new primitives.EntitySpec(this);
+        this.account = new account.EntitySpec(this);
+        this.transaction = new transaction.EntitySpec(this);
+        this.user = new user.EntitySpec(this);
+        this.pricing = new pricing.EntitySpec(this);
+        this.order = new order.EntitySpec(this);
+        this.pricing_common = new pricing_common.EntitySpec(this);
     }
 
     setToken(token) {
