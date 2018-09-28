@@ -2,17 +2,17 @@
 
 "use strict";
 
-var instrument = require("./instrument");
+var account = require("./account");
+var user = require("./user");
 var position = require("./position");
+var pricing = require("./pricing");
+var transaction = require("./transaction");
+var primitives = require("./primitives");
 var trade = require("./trade");
 var site = require("./site");
-var primitives = require("./primitives");
-var account = require("./account");
-var transaction = require("./transaction");
-var user = require("./user");
-var pricing = require("./pricing");
-var order = require("./order");
 var pricing_common = require("./pricing_common");
+var order = require("./order");
+var instrument = require("./instrument");
 
 
 class Response {
@@ -82,17 +82,17 @@ class Context {
             this.http = require('http');
         }
 
-        this.instrument = new instrument.EntitySpec(this);
+        this.account = new account.EntitySpec(this);
+        this.user = new user.EntitySpec(this);
         this.position = new position.EntitySpec(this);
+        this.pricing = new pricing.EntitySpec(this);
+        this.transaction = new transaction.EntitySpec(this);
+        this.primitives = new primitives.EntitySpec(this);
         this.trade = new trade.EntitySpec(this);
         this.site = new site.EntitySpec(this);
-        this.primitives = new primitives.EntitySpec(this);
-        this.account = new account.EntitySpec(this);
-        this.transaction = new transaction.EntitySpec(this);
-        this.user = new user.EntitySpec(this);
-        this.pricing = new pricing.EntitySpec(this);
-        this.order = new order.EntitySpec(this);
         this.pricing_common = new pricing_common.EntitySpec(this);
+        this.order = new order.EntitySpec(this);
+        this.instrument = new instrument.EntitySpec(this);
     }
 
     setToken(token) {
