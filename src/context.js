@@ -100,7 +100,7 @@ class Context {
         this.headers['Authorization'] = "Bearer " + this.token;
     }
 
-    request(method, path, body, streamChunkHandler, responseHandler) {
+    request(method, path, body, streamChunkHandler, responseHandler, errorHandler) {
         let headers = JSON.parse(JSON.stringify(this.headers));
 
         let postData = "";
@@ -164,7 +164,11 @@ class Context {
         {
             req.write(postData);
         }
-
+        if(errorHandler){
+            req.on('error', (error) => {
+                errorHandler(error);
+            })
+        }
         req.end();
     }
 }
