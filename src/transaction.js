@@ -8099,7 +8099,8 @@ class EntitySpec {
     stream(
         accountID,
         streamChunkHandler,
-        responseHandler
+        responseHandler,
+        errorHandler
     )
     {
         if (!responseHandler)
@@ -8189,7 +8190,8 @@ class EntitySpec {
             path,
             body,
             generateStreamParser(streamChunkHandler),
-            handleResponse
+            handleResponse,
+            errorHandler
         );
     }
 

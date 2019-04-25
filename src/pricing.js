@@ -7,6 +7,7 @@ var Property = require('./base').Property;
 var Field = require('./base').Field;
 
 var pricing_common = require('./pricing_common');
+var Price = pricing_common.Price;
 var order = require('./order');
 var instrument = require('./instrument');
 
@@ -567,7 +568,8 @@ class EntitySpec {
         accountID,
         queryParams,
         streamChunkHandler,
-        responseHandler
+        responseHandler,
+        errorHandler
     )
     {
         if (!responseHandler)
@@ -665,7 +667,8 @@ class EntitySpec {
             path,
             body,
             generateStreamParser(streamChunkHandler),
-            handleResponse
+            handleResponse,
+            errorHandler
         );
     }
 
