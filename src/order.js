@@ -4654,7 +4654,7 @@ class EntitySpec {
     {
         this.create(
             accountID,
-            { order: new this.StopLossOrder(orderSpec) },
+            { order: new this.TrailingStopLossOrder(orderSpec) },
             responseCallback
         );
     }
@@ -4664,7 +4664,7 @@ class EntitySpec {
         this.replace(
             accountID,
             orderID,
-            { order: new this.StopLossOrder(orderSpec) },
+            { order: new this.TrailingStopLossOrder(orderSpec) },
             responseCallback
         );
     }
