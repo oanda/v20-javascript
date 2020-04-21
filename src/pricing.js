@@ -655,7 +655,7 @@ class EntitySpec {
                 }
                 else if (msg.type == "PRICE")
                 {
-                    streamChunkHandler(new Price(msg));
+                    streamChunkHandler(new ClientPrice(msg));
                 }
             }
         }
