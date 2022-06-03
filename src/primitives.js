@@ -167,6 +167,10 @@ class Instrument extends Definition {
             this.commission = new InstrumentCommission(data['commission']);
         }
 
+        if (data['financing'] !== undefined) {
+            this.financing = new InstrumentFinancing(data['financing']);
+        }
+
     }
 }
 
@@ -258,6 +262,45 @@ class GuaranteedStopLossOrderLevelRestriction extends Definition {
             this.priceRange = data['priceRange'];
         }
 
+    }
+}
+
+const InstrumentFinancing_Properties = [
+    new Property(
+        'longRate',
+        'longRate',
+        "The financing rate to be used for a long position for the instrument. The value is in decimal rather than percentage points, i.e. 5% is represented as 0.05.",
+        'primitive',
+        'primitives.DecimalNumber'
+    ),
+    new Property(
+        'shortRate',
+        'shortRate',
+        "The financing rate to be used for a short position for the instrument. The value is in decimal rather than percentage points, i.e. 5% is represented as 0.05.",
+        'primitive',
+        'primitives.DecimalNumber'
+    ),
+];
+
+class InstrumentFinancing extends Definition {
+    constructor(data) {
+        super();
+
+        this._summaryFormat = "";
+
+        this._nameFormat = "";
+
+        this._properties = InstrumentFinancing_Properties;
+
+        data = data || {};
+
+        if (data['longRate'] !== undefined) {
+            this.longRate = data['longRate'];
+        }
+
+        if (data['shortRate'] !== undefined) {
+            this.shortRate = data['shortRate'];
+        }
     }
 }
 
